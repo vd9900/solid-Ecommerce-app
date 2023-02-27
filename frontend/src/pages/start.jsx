@@ -31,7 +31,10 @@ const Starter = () => {
       <div className=" md:w-11/12 lg:w-9/12   md:h-4/6 md:bg-blue-50 shadow-lg    flex flex-col md:flex-row ">
         <div className=" md:w-9/12 md:p-2   relative h-5/6  max-md:bg-blue-50 my-auto  flex md:gap-2">
           <div className=" w-5/6 max-md:h-5/6  max-md:my-auto  flex flex-col mx-auto">
-            <Carousel autoSlide={true}>
+            <Carousel
+              autoSlide={true}
+              style={["md:4/6 w-full mx-auto max-md:my-auto"]}
+            >
               {posts.map(({ id, img }) => {
                 return (
                   <img src={img} alt="" className="object-cover" key={id} />

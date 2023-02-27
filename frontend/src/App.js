@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
+import Mycart from "./pages/Mycart";
+import SeeAll from "./pages/SeeAll";
+import SingleProduct from "./pages/SingleProduct.jsx";
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/myCart" element={<Mycart />} />
+        <Route path="/all" element={<SeeAll />} />
+        <Route path="/one" element={<SingleProduct />} />
       </Routes>
     </Router>
   );

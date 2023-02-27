@@ -15,7 +15,7 @@ const Profile = () => {
         <p>logo</p>
       </NewCom> */}
       <Navbar />
-      <div className=" sm:w-11/12 md:w-10/12 lg:w-9/12 sm:h-5/6 mx-auto flex justify-center sm:items-center">
+      <div className="pt-16 sm:w-11/12 md:w-10/12 lg:w-9/12 sm:h-5/6 mx-auto flex justify-center sm:items-center">
         <div className="w-full md:10/12 lg:w-11/12 xl:w-10/12   sm:h-5/6 flex max-sm:flex-col shadow-md bg-white/80 py-4 rounded-md">
           <div className="sm:w-4/12 px-4 flex flex-col  items-center justify-evenly">
             <div className="flex flex-col gap-5">

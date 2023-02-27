@@ -66,9 +66,10 @@ const SignUp = () => {
               </div>
             </div>
           </div>
-          <Link to={"/home"}>
+          <Link to={"/home "}>
             <button className="flex items-center justify-center gap-1 font-sans bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 cursor-pointer rounded-md text-white hover:bg-black w-full py-2  font-bold border-black">
-              Next <HiOutlineChevronDoubleRight />
+              Next
+              <HiOutlineChevronDoubleRight />
             </button>
           </Link>
         </div>

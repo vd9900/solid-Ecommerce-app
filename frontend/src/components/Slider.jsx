@@ -5,6 +5,9 @@ const Carousel = ({
   children: slides,
   autoSlide = false,
   autoSlideInterval = 3500,
+  hideTools = false,
+  style = [],
+  dotColor = "bg-black"
 }) => {
   const [curr, setCurr] = useState(0);
 
@@ -19,14 +22,22 @@ const Carousel = ({
     return () => clearInterval(slideInterval);
   }, []);
   return (
-    <div className="mx-auto max-md:my-auto  w-full md:w-4/6 overflow-hidden flex items-center justify-center ">
+    <div
+      className={`${[
+        ...style,
+      ]} overflow-hidden flex items-center justify-center w-full`}
+    >
       <div
-        className="flex transition-transform ease-out duration-500"
+        className="flex transition-transform ease-out duration-500 w-full "
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
-        {slides}{console.log(slides)}
+        {slides}
       </div>
-      <div className="hidden absolute bottom-2/4 md:flex  w-full justify-between p-4">
+      <div
+        className={`${
+          hideTools ? "hidden" : "hidden md:flex"
+        }  absolute bottom-2/4   w-full justify-between p-4`}
+      >
         <button
           onClick={prev}
           className="p-1 rounded-full shadow  text-gray-800 hover:scale-95"
@@ -41,12 +52,16 @@ const Carousel = ({
         </button>
       </div>
 
-      <div className="absolute bottom-3 md:-bottom-5 right-0 left-0">
+      <div
+        className={`${
+          hideTools ? "hidden" : ""
+        } absolute bottom-3 md:-bottom-5 right-0 left-0`}
+      >
         <div className="flex items-center justify-center gap-2">
           {slides.map((_, i) => (
             <div
               className={`
-              transition-all w-1 h-1 z-30 bg-black rounded-full
+              transition-all w-1 h-1 z-30 ${dotColor} rounded-full
               ${curr === i ? "p-1" : "bg-opacity-50"}
             `}
             />
