@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "../styles/custom/animation.css";
+
+import logo from "../assets/imgs/logo.png";
 
 import { BiHomeSmile, BiMenu } from "react-icons/bi";
 import { MdContactSupport, MdLogout } from "react-icons/md";
@@ -9,20 +13,32 @@ import { CgProfile } from "react-icons/cg";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearchQuerySubmit = (e) => {
+    e.preventDefault();
+    navigate(`/products/?s=${searchQuery?searchQuery:"all"}`);
+  };
+
   return (
-    <div className="fixed z-20 w-screen  flex bg-gray-800 sm:p-2 py-2">
+    <div className="fixed z-20 w-screen h-14 flex bg-gray-800 sm:p-2 py-2">
       {toggle && (
         <div className="slide-right z-50 top-0 -left-28 py-3 pl-3 text-white bg-gray-700 absolute w-8/12 h-screen">
-          <div className="flex items-center justify-end px-2">
+          <div className="border-b flex items-center justify-between p-2 ">
+            <div className="w-36">
+              <img src={logo} alt="" />
+            </div>
             <AiFillCloseCircle
               onClick={() => setToggle(!toggle)}
-              fontSize={32}
+              fontSize={34}
+              className="cursor-pointer"
             />
           </div>
-          <div className="flex flex-col gap-5 pl-4">
+          <div className="py-4 flex flex-col gap-5 pl-4">
             <Link to={"/home"}>
-              <span className="border-b-4 flex items-center text-justify p-2 gap-1">
+              <span className="font-bold text-white/80 text-lg flex items-center text-justify p-2 gap-1">
                 <BiHomeSmile fontSize={24} /> Home page
               </span>
             </Link>
@@ -54,7 +70,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      <div className="w-full md:w-11/12 lg:w-9/12 xl:w-8/12 md:mx-auto flex   px-5 justify-center md:px-6 gap-3 ">
+      <div className="w-full md:w-11/12 lg:w-9/12 xl:w-8/12 md:mx-auto flex   px-5 justify-center md:px-6 gap-6 ">
         <div className=" flex items-center justify-center sm:hidden">
           <BiMenu
             fontSize={35}
@@ -62,15 +78,31 @@ const Navbar = () => {
             className="text-white"
           />
         </div>
-        <div className="w-full  flex items-center justify-between bg-white px-3 py-2  shadow-xl ">
-          <input
-            type="text"
-            placeholder="search..."
-            className="outline-none bg-transparent w-full "
-          />
-          <span>
-            <BsSearch fontSize={22} className="text-gray-700" />
-          </span>
+        <div className="hidden sm:flex items-center  w-64">
+          <img src={logo} alt="" />
+        </div>
+        <div className="w-full  flex items-center justify-between   sm:px-3 py-2  shadow-xl ">
+          <form
+            action=""
+            className="flex items-center justify-between w-full gap-3"
+            onSubmit={handleSearchQuerySubmit}
+          >
+            <input
+              type="text"
+              placeholder="search..."
+              className="outline-none bg-transparent w-full rounded-md bg-white py-2  px-3"
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+            />
+            <button
+              type="submit"
+              className="hidden md:flex items-center px-3 py-2 gap-1 rounded-md text-white border-2 border-orange-600"
+            >
+              <p className="hidden md:block">Search</p>
+              <BsSearch fontSize={22} className="sm:hidden" />
+            </button>
+          </form>
         </div>
         <div className="hidden sm:flex items-center px-2 gap-5 text-white">
           <span>

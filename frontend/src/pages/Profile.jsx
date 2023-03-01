@@ -9,7 +9,7 @@ const NewCom = ({ children }) => {
 
 const Profile = () => {
   return (
-    <div className="w-screen h-screen bg-gray-50">
+    <div className="max-w-screen h-screen bg-gray-50">
       {/* <NewCom>
         <p>home</p>
         <p>logo</p>

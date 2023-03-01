@@ -71,8 +71,8 @@ const SingleProduct = () => {
             </Carousel>
           </div>
           <div className="px-3 py-6 relative">
-            <p className="font-semibold text-2xl">{product.name}</p>
-            <p className="text-sm">{product.description}</p>
+            <p className="font-semibold text-2xl">{product?.name}</p>
+            <p className="text-sm">{product?.description}</p>
             <div className="py-1 flex items-center">
               <AiFillStar className="text-green-600" fontSize={20} />
               <AiFillStar className="text-green-600" fontSize={20} />
@@ -86,7 +86,7 @@ const SingleProduct = () => {
             <div className="py-2 flex items-center gap-3">
               <p className="font-serif text-lg text-red-600">18% off</p>
               <span className="text-gray-500 text-lg line-through">₹899</span>
-              <span className="font-semibold text-2xl">{product.price}</span>
+              <span className="font-semibold text-2xl">{product?.price}</span>
             </div>
             <div className="hidden absolute md:flex w-full  bottom left-0  z-10">
               <button className="grow py-3  text-white font-medium text-xl bg-black/95 ">

@@ -9,8 +9,8 @@ const connectDB = require("./config/database");
 
 connectDB();
 
-app.listen(5000, () => {
-  console.log(`Server running on http://localhost:${process.env.PORT}`);
+app.listen(5000, (e) => {
+  console.log(`Server running on http://localhost:${e,process.env.PORT}`);
 });
 
 //unhandled Promise Rejection
