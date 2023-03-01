@@ -9,8 +9,8 @@ const SeeAll = () => {
     <div className="max-w-screen ">
       <Navbar></Navbar>
       <div className="pt-14 bg-gray-100 h-auto ">
-        <div className="px-5 py-3 flex gap-3  w-full">
-          <aside className="fixed left-2 sm:w-52 lg:w-2/12 sm:pr-2 h-full ">
+        <div className="sm:px-5 sm:py-3 flex gap-3  w-full">
+          <aside className="hidden sm:block  fixed left-2 md:w-3/12 lg:w-3/12 xl:w-1/5 sm:pr-2 h-full ">
             <div className=" bg-white flex flex-col px-2 ">
               <span className="text-xl font-medium px-4 py-3 border-b border-gray-300">
                 Filters
@@ -85,14 +85,18 @@ const SeeAll = () => {
               </div>
             </div>
           </aside>
-          <div className="bg-white sm:w-8/12 md:w-8/12  lg:w-10/12 ml-auto  h-full flex flex-col gap-5">
-            <div className="px-3 flex gap-3 items-center max-lg:text-xs">
+          <div className="bg-white sm:w-8/12 md:w-9/12  lg:w-9/12 xl:11/12  sm:ml-auto  h-full flex flex-col gap-5">
+            <div className="px-3 hidden sm:flex gap-3 items-center max-lg:text-xs">
               <span className="font-medium text-center">Sort By</span>
               <span className="py-1 border-b-4  border-black">All Items</span>
               <span className="py-1">Price-Low to High</span>
               <span className="py-1">Price-High to Low</span>
               <span className="py-1">Newest First</span>
               <span className="py-1">Oldest First</span>
+            </div>
+            <div>
+              <button>Sort</button>
+              <button>Filter</button>
             </div>
             <div className="flex flex-col items-center justify-center">
               <div className=" w-11/12 mx-auto p-3 flex flex-wrap  gap-10 items-center justify-center">

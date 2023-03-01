@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="fixed z-20 w-screen  flex bg-gray-800 sm:p-2 py-2">
       {toggle && (
-        <div className="slide-right z-30 top-0 -left-28 py-3 pl-3 text-white bg-gray-700 absolute w-8/12 h-screen">
+        <div className="slide-right z-50 top-0 -left-28 py-3 pl-3 text-white bg-gray-700 absolute w-8/12 h-screen">
           <div className="flex items-center justify-end px-2">
             <AiFillCloseCircle
               onClick={() => setToggle(!toggle)}
@@ -22,7 +22,7 @@ const Navbar = () => {
           </div>
           <div className="flex flex-col gap-5 pl-4">
             <Link to={"/home"}>
-              <span  className="border-b-4 flex items-center text-justify p-2 gap-1">
+              <span className="border-b-4 flex items-center text-justify p-2 gap-1">
                 <BiHomeSmile fontSize={24} /> Home page
               </span>
             </Link>
@@ -79,7 +79,9 @@ const Navbar = () => {
             </Link>
           </span>
           <span>
-            <BsCart3 fontSize={22} />
+            <Link to={"/myCart"}>
+              <BsCart3 fontSize={22} />
+            </Link>
           </span>
           <Link to={"/profile"} className="text-sm ">
             <span className="hidden md:flex w-28 text-center gap-2 p-1 items-center justify-center ">

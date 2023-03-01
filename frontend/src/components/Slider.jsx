@@ -55,13 +55,13 @@ const Carousel = ({
       <div
         className={`${
           hideTools ? "hidden" : ""
-        } absolute bottom-3 md:-bottom-5 right-0 left-0`}
+        } absolute z-10 bottom-3 md:-bottom-5 right-0 left-0`}
       >
         <div className="flex items-center justify-center gap-2">
           {slides.map((_, i) => (
             <div
               className={`
-              transition-all w-1 h-1 z-30 ${dotColor} rounded-full
+              transition-all w-1 h-1  ${dotColor} rounded-full
               ${curr === i ? "p-1" : "bg-opacity-50"}
             `}
             />

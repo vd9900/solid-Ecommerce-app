@@ -19,7 +19,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/myCart" element={<Mycart />} />
         <Route path="/all" element={<SeeAll />} />
-        <Route path="/one" element={<SingleProduct />} />
+        <Route path="/product/?" element={<SingleProduct />} />
       </Routes>
     </Router>
   );
