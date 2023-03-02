@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 // import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { getProducts } from "../actions/productAction";
+import Loder from "../components/Loder";
 
 const AdsImg = [
   {
@@ -41,69 +42,74 @@ const Home = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-  console.log(loading);
-  console.log(products);
-  
+  // console.log(loading);
+  // console.log(products);
+
   return (
     <div className="max-w-screen ">
       <Navbar />
-      <div className="w-full pt-11 flex flex-col gap-10 sm:gap-16 ">
-        {/* ads slide carousel */}
-        <div className="w-full h-auto py-3 flex flex-col gap-4">
-          <div className="relative">
-            <Carousel autoSlide={true} hideTools={true} style={["w-full "]}>
-              {AdsImg.map(({ id, url }) => {
-                return (
-                  <img
-                    src={url}
-                    alt=""
-                    className="w-full object-cover h-36 sm:h-40 md:h-56 lg:h-72"
-                    key={id}
-                  />
-                );
-              })}
-            </Carousel>
+      {loading ? (
+        <Loder />
+      ) : (
+        <div className="w-full pt-11 flex flex-col gap-10 sm:gap-16 ">
+          {/* ads slide carousel */}
+          <div className="w-full h-auto py-3 flex flex-col gap-4">
+            <div className="relative">
+              <Carousel autoSlide={true} hideTools={true} style={["w-full "]}>
+                {AdsImg.map(({ id, url }) => {
+                  return (
+                    <img
+                      src={url}
+                      alt=""
+                      className="w-full object-cover h-36 sm:h-40 md:h-56 lg:h-72"
+                      key={id}
+                    />
+                  );
+                })}
+              </Carousel>
+            </div>
+            <div className="p-2 sm:hidden ">
+              <SmCat />
+            </div>
+            {/* Discounts component*/}
+            <div className="w-full bg-gray-400 p-2 sm:hidden ">
+              <DiscountComponent />
+            </div>
           </div>
-          <div className="p-2 sm:hidden ">
-            <SmCat />
-          </div>
-          {/* Discounts component*/}
-          <div className="w-full bg-gray-400 p-2 sm:hidden ">
-            <DiscountComponent />
-          </div>
-        </div>
-        {/* Recommended products */}
-        <div className="w-full bg-gray-50  ">
-          <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
-            <p className="font-medium text-lg sm:text-2xl px-2">
-              Special for you
-            </p>
-            <div className="w-full  p-2 gap-3 flex justify-around flex-wrap">
-              <ProductViewMore img="Special" />
-              {/* <Product />
+          {/* Recommended products */}
+          <div className="w-full bg-gray-50  ">
+            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
+              <p className="font-medium text-lg sm:text-2xl px-2">
+                Special for you
+              </p>
+              <div className="w-full  p-2 gap-3 flex justify-around flex-wrap">
+                <ProductViewMore img="Special" />
+                {/* <Product />
               <Product />
               <Product />
               <Product /> */}
+              </div>
+            </div>
+          </div>
+          {/* fetching from server */}
+          <div className="w-full bg-gray-50  ">
+            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
+              <p className="font-medium text-lg sm:text-2xl px-2">
+                all products
+              </p>
+              <div className="w-full  p-2 gap-3 flex justify-around flex-wrap">
+                <ProductViewMore img="Special" />
+                {products &&
+                  products.map((product) => (
+                    <div>
+                      <Product product={product} />
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
-        {/* fetching from server */}
-        <div className="w-full bg-gray-50  ">
-          <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
-            <p className="font-medium text-lg sm:text-2xl px-2">all products</p>
-            <div className="w-full  p-2 gap-3 flex justify-around flex-wrap">
-              <ProductViewMore img="Special" />
-              { products &&
-                products.map((product) =>  
-                <div>
-                  <Product product={product} />
-                </div>
-                  
-                )}
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

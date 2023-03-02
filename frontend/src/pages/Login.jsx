@@ -9,7 +9,7 @@ const Login = () => {
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
       <div className="w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200 h-full sm:h-5/6  flex flex-col justify-around">
         <div className="w-10/12    mx-auto flex flex-col gap-10">
-          <p className="text-3xl font-medium mx-auto">SignIn</p>
+          <p className="text-3xl font-medium text-gray-800 font-serif mx-auto">SignIn</p>
           <div>
             <p className="font-semibold text-gray-600">Email</p>
             <div className="flex items-center gap-2 py-2 border-b-2 focus-within:border-b-2 focus-within:border-black/60 duration-200">

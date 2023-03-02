@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    font-family: "Roboto",sans-serif;
+}
+
 .hover-btn{
     background-color: black;
     transition-duration: 2000s;

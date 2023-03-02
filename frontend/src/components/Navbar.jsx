@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { SearchContext } from "../SearchContext/searchContext";
 import "../styles/custom/animation.css";
 
 import logo from "../assets/imgs/logo.png";
@@ -11,15 +11,19 @@ import { BsBell, BsCart3, BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { AiFillCloseCircle } from "react-icons/ai";
+import Button from "@mui/material/Button";
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
+
+  const dispatch = useContext(SearchContext);
 
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
-    navigate(`/products/?s=${searchQuery?searchQuery:"all"}`);
+    dispatch.searchDispatch({ type: "ADD_SEARCH_QUERY", payload: searchQuery });
+    navigate("/products");
   };
 
   return (
@@ -97,7 +101,7 @@ const Navbar = () => {
             />
             <button
               type="submit"
-              className="hidden md:flex items-center px-3 py-2 gap-1 rounded-md text-white border-2 border-orange-600"
+              className="hidden md:flex items-center px-4 py-1 gap-1 rounded-md text-white border-2 border-orange-600"
             >
               <p className="hidden md:block">Search</p>
               <BsSearch fontSize={22} className="sm:hidden" />
