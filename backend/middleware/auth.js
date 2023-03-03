@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 
 exports.isAuthenticatedUser = async (req, res, next) => {
   const { token } = await req.cookies;
-//   console.log(token);
+  console.log(req.cookies);
   if (!token) {
     res.status(401).json({ error: "Please login first" });
   } else {
@@ -14,13 +14,12 @@ exports.isAuthenticatedUser = async (req, res, next) => {
   }
 };
 
-exports.authorizeRoles = (...roles) =>{
-    return (req,res,next)=>{
-        if(!roles.includes(req.user.role)){
-            res.status(403).json({error:"your not allowed to access this"})
-        }
-        else{
-            next()
-        }
+exports.authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      res.status(403).json({ error: "your not allowed to access this" });
+    } else {
+      next();
     }
-}
+  };
+};

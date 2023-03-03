@@ -4,42 +4,51 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please enter your name"],
-    maxLength: [30, "name cannot exceed 30 characters"],
-    minLength: [2, "not a valid name"],
-  },
-  email: {
-    type: String,
-    required: [true, "Please enter a valid email"],
-    validator: [validator.isEmail, "please Enter a valid Email"],
-    unique: [true, "email already exist"],
-  },
-  password: {
-    type: String,
-    required: [true, "enter the password"],
-    minLength: [8, "enter the password"],
-    select: false,
-  },
-  avatar: {
-    public_id: {
+const userSchema = new mongoose.Schema(
+  {
+    // fullname: {
+    //   type: String,
+    //   required: [true, "Please enter your name"],
+    //   maxLength: [30, "name cannot exceed 30 characters"],
+    //   minLength: [2, "not a valid name"],
+    // },
+    username: {
       type: String,
-      required: true,
+      required: [true, "Please enter your username"],
+      maxLength: [30, "name cannot exceed 30 characters"],
+      minLength: [2, "not a valid name"],
     },
-    url: {
+    email: {
       type: String,
-      required: true,
+      required: [true, "Please enter a valid email"],
+      validator: [validator.isEmail, "please Enter a valid Email"],
+      unique: [true, "email already exist"],
     },
+    password: {
+      type: String,
+      required: [true, "enter the password"],
+      minLength: [8, "enter the password"],
+      select: false,
+    },
+    avatar: {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+    },
+    role: {
+      type: String,
+      default: "user",
+    },
+    resetPasswordToken: "",
+    resetPasswordExpire: Date,
   },
-  role: {
-    type: String,
-    default: "user",
-  },
-  resetPasswordToken: "",
-  resetPasswordExpire: Date,
-});
+  { timestamps: true }
+);
 
 // adding bcrypt
 

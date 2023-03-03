@@ -7,10 +7,11 @@ const sendEmail = require("../utils/sendEmail.js");
 // Register
 
 exports.registerUser = async (req, res, next) => {
+  // console.log(req.body);
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     const newUser = await user.create({
-      name,
+      username,
       email,
       password,
       avatar: {
@@ -18,10 +19,11 @@ exports.registerUser = async (req, res, next) => {
         url: "profile_png",
       },
     });
+    console.log(newUser);
     sendToken(res, newUser, 201);
   } catch (error) {
-    res.json(error);
-    console.log(error);
+    res.status(500).json({ sucess: false, error: error.message });
+    // console.log(error.message);
   }
 };
 

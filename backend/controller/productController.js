@@ -5,9 +5,23 @@ const ApiFeatures = require("../utils/apifeatures/apifeatures");
 // GET
 
 exports.getAllProducts = async (req, res) => {
-  const ApiFeature = new ApiFeatures(Product.find(), req.query.keyword);
-  const products = await Product.find();
-  res.status(200).json({ products });
+  try {
+    const numberOfPageToShow = 6;
+    const productCount = await Product.countDocuments();
+    const apiFeature = new ApiFeatures(Product.find(), req.query)
+      .search()
+      .filter();
+
+    // let filteredProduct = await apiFeature.query;
+    // let filte  redProductLength = filteredProduct.length;
+
+    apiFeature.pagination(numberOfPageToShow);
+    const products = await apiFeature.query;
+    // console.log(products.length);
+    res.status(200).json({ products, numberOfPageToShow });
+  } catch (error) {
+    res.status(404).json({ message: error });
+  }
 };
 
 exports.getProductDetails = catchAsyncError(async (req, res, next) => {
