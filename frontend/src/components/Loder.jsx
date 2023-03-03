@@ -3,7 +3,7 @@ import React from 'react'
 
 const Loder = () => {
   return (
-    <div className='max-w-screen h-screen flex items-center justify-center bg-white'>
+    <div className='w-full h-screen flex items-center justify-center '>
         <CircularProgress />
     </div>
   )

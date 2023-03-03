@@ -7,7 +7,7 @@ const Carousel = ({
   autoSlideInterval = 3500,
   hideTools = false,
   style = [],
-  dotColor = "bg-black"
+  dotColor = "bg-black",
 }) => {
   const [curr, setCurr] = useState(0);
 
@@ -40,13 +40,13 @@ const Carousel = ({
       >
         <button
           onClick={prev}
-          className="p-1 rounded-full shadow  text-gray-800 hover:scale-95"
+          className="p-1 rounded-full shadow  text-gray-800 "
         >
           <TfiArrowCircleLeft size={25} />
         </button>
         <button
           onClick={next}
-          className="p-1 rounded-full shadow  text-gray-800 hover:scale-95"
+          className="p-1 rounded-full shadow  text-gray-800 "
         >
           <TfiArrowCircleRight size={25} />
         </button>
@@ -60,6 +60,7 @@ const Carousel = ({
         <div className="flex items-center justify-center gap-2">
           {slides.map((_, i) => (
             <div
+              key={i}
               className={`
               transition-all w-1 h-1  ${dotColor} rounded-full
               ${curr === i ? "p-1" : "bg-opacity-50"}

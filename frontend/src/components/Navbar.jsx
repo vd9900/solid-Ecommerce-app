@@ -1,6 +1,8 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import { SearchContext } from "../SearchContext/searchContext";
+import { useSelector, useDispatch } from "react-redux";
+
 import "../styles/custom/animation.css";
 
 import logo from "../assets/imgs/logo.png";
@@ -12,6 +14,7 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { AiFillCloseCircle } from "react-icons/ai";
 import Button from "@mui/material/Button";
+import { logoutUser } from "../actions/userAction";
 
 const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
@@ -19,11 +22,18 @@ const Navbar = ({ onSearch }) => {
 
   const dispatch = useContext(SearchContext);
 
+  const dispatchLogout = useDispatch();
+
+  const { isAuth } = useSelector((state) => state.userInfo);
+
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
     dispatch.searchDispatch({ type: "ADD_SEARCH_QUERY", payload: searchQuery });
     navigate("/products");
+  };
+  const handleLogout = () => {
+    dispatchLogout(logoutUser());
   };
 
   return (
@@ -66,7 +76,7 @@ const Navbar = ({ onSearch }) => {
                 <MdContactSupport fontSize={24} /> Contact Us
               </span>
             </Link>
-            <Link to={"/logout"}>
+            <Link onClick={handleLogout}>
               <span className=" flex items-center p-2 gap-1">
                 <MdLogout fontSize={24} /> Logout
               </span>
@@ -126,7 +136,7 @@ const Navbar = ({ onSearch }) => {
             </span>
             <CgProfile className="hidden max-md:block" fontSize={22} />
           </Link>
-          <Link to={"/logout"}>
+          <Link onClick={handleLogout}>
             <MdLogout fontSize={22} />
           </Link>
         </div>

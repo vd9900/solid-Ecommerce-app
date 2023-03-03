@@ -17,7 +17,7 @@ export const getProducts =
       dispatch({ type: ALL_PRODUCT_REQUEST });
       // console.log(page);
       const { data } = await axios.get(
-        `http://localhost:5000/api/vi/products?s=${s}&page=${page}&price[gte]=${price[0]}&price[lte]=${price[1]}`
+        `/api/vi/products?s=${s}&page=${page}&price[gte]=${price[0]}&price[lte]=${price[1]}`
       );
       console.log(page);
       dispatch({
