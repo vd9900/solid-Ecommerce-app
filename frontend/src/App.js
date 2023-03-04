@@ -4,11 +4,12 @@ import {
   redirect,
   Route,
   Routes,
-  // useNavigate,
 } from "react-router-dom";
 import { SearchContext } from "./SearchContext/searchContext";
 import { searchReducer } from "./SearchContext/searchReducer";
 import { useReducer } from "react";
+import { RequireAuth } from "react-auth-kit";
+import { useIsAuthenticated } from "react-auth-kit";
 
 // pages
 import Starter from "./pages/start";
@@ -21,8 +22,7 @@ import SeeAll from "./pages/SeeAll";
 import SingleProduct from "./pages/SingleProduct.jsx";
 
 function App() {
-  const user = true;
-  // const navigate = Navigate();
+  const isAuth = useIsAuthenticated();
   const [state, searchDispatch] = useReducer(searchReducer, "");
   return (
     <SearchContext.Provider value={{ state, searchDispatch }}>
@@ -30,20 +30,53 @@ function App() {
         <Routes>
           <Route path="/" element={<Starter />} />
 
-          <Route
-            path="/login"
-            element={user ? <Home /> : <Navigate replace to="/login" />}
-          />
+          <Route path="/login" element={<Login />} />
 
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/home"
-            // element={user ? <Home /> : <Navigate replace to="/login" />}
+            element={
+              <RequireAuth loginPath="/login">
+                <Home />
+              </RequireAuth>
+            }
           />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/myCart" element={<Mycart />} />
-          <Route path="/products/?" element={<SeeAll />} />
-          <Route path="/product/?" element={<SingleProduct />} />
+          <Route
+            path="/me"
+            element={
+              <RequireAuth loginPath="/login">
+                <Profile />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/cart"
+            element={
+              <RequireAuth loginPath="/login">
+                <Mycart />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/products/?"
+            element={
+              <RequireAuth loginPath="/login">
+                <SeeAll />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/product/?"
+            element={
+              <RequireAuth loginPath="/login">
+                <SingleProduct />
+              </RequireAuth>
+            }
+          />
+          <Route path="*" element={<h1>page not found 404</h1>} />
         </Routes>
       </Router>
     </SearchContext.Provider>

@@ -37,9 +37,9 @@ const Navbar = ({ onSearch }) => {
   };
 
   return (
-    <div className="fixed z-20 w-screen h-14 flex bg-gray-800 sm:p-2 py-2">
+    <div className="fixed z-20 w-screen h-14 flex bg-gray-50 shadow-lg sm:p-2 py-1">
       {toggle && (
-        <div className="slide-right z-50 top-0 -left-28 py-3 pl-3 text-white bg-gray-700 absolute w-8/12 h-screen">
+        <div className="slide-right z-50 top-0 -left-28 py-3 pl-3 text-white bg-black/95 absolute w-8/12 h-screen">
           <div className="border-b flex items-center justify-between p-2 ">
             <div className="w-36">
               <img src={logo} alt="" />
@@ -56,7 +56,7 @@ const Navbar = ({ onSearch }) => {
                 <BiHomeSmile fontSize={24} /> Home page
               </span>
             </Link>
-            <Link to={"/myCart"}>
+            <Link to={"/cart"}>
               <span className=" flex  items-center p-2 gap-1">
                 <BsCart3 fontSize={24} /> Go to cart
               </span>
@@ -66,7 +66,7 @@ const Navbar = ({ onSearch }) => {
                 <MdLogout /> Logout
               </span>
             </Link>
-            <Link to={"/profile"}>
+            <Link to={"/me"}>
               <span className=" flex items-center p-2 gap-1">
                 <CgProfile fontSize={24} /> My profile
               </span>
@@ -84,52 +84,50 @@ const Navbar = ({ onSearch }) => {
           </div>
         </div>
       )}
-      <div className="w-full md:w-11/12 lg:w-9/12 xl:w-8/12 md:mx-auto flex   px-5 justify-center md:px-6 gap-6 ">
+      <div className="w-full md:w-11/12 lg:w-9/12 xl:w-8/12 md:mx-auto flex   px-5 justify-center md:px-6 max-sm:gap-3 gap-8 ">
         <div className=" flex items-center justify-center sm:hidden">
           <BiMenu
             fontSize={35}
             onClick={() => setToggle(!toggle)}
-            className="text-white"
+            className=""
           />
         </div>
         <div className="hidden sm:flex items-center  w-64">
           <img src={logo} alt="" />
         </div>
-        <div className="w-full  flex items-center justify-between   sm:px-3 py-2  shadow-xl ">
-          <form
-            action=""
-            className="flex items-center justify-between w-full gap-3"
-            onSubmit={handleSearchQuerySubmit}
+        <form
+          action=""
+          className="flex items-center justify-between w-full gap-2"
+          onSubmit={handleSearchQuerySubmit}
+        >
+          <input
+            type="text"
+            placeholder="search..."
+            className="outline-none bg-transparent w-full rounded-md border-2  bg-white py-1  px-3"
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+          />
+          <button
+            type="submit"
+            className="hidden md:flex items-center px-4 py-1 gap-1 rounded-md  border-2 border-black"
           >
-            <input
-              type="text"
-              placeholder="search..."
-              className="outline-none bg-transparent w-full rounded-md bg-white py-2  px-3"
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-              }}
-            />
-            <button
-              type="submit"
-              className="hidden md:flex items-center px-4 py-1 gap-1 rounded-md text-white border-2 border-orange-600"
-            >
-              <p className="hidden md:block">Search</p>
-              <BsSearch fontSize={22} className="sm:hidden" />
-            </button>
-          </form>
-        </div>
-        <div className="hidden sm:flex items-center px-2 gap-5 text-white">
+            <p className="hidden md:block">Search</p>
+            <BsSearch fontSize={22} className="sm:hidden" />
+          </button>
+        </form>
+        <div className="hidden sm:flex items-center px-2 gap-5 ">
           <span>
             <Link to={"/home"}>
               <BiHomeSmile fontSize={25} />
             </Link>
           </span>
           <span>
-            <Link to={"/myCart"}>
+            <Link to={"/cart"}>
               <BsCart3 fontSize={22} />
             </Link>
           </span>
-          <Link to={"/profile"} className="text-sm ">
+          <Link to={"/me"} className="text-sm ">
             <span className="hidden md:flex w-28 text-center gap-2 p-1 items-center justify-center ">
               <p className=" font-medium">Hey, Vinith</p>
               <CgProfile className="" fontSize={22} />

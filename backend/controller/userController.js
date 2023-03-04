@@ -37,12 +37,12 @@ exports.loginUser = async (req, res) => {
   }
   const User = await user.findOne({ email }).select("+password");
   if (!User) {
-    return res.json({ error: "user not exist" });
+    return res.json({ error: { email: "user not exist" } });
   }
   const isPasswordMatched = await User.comparePassword(password);
 
   if (!isPasswordMatched) {
-    return res.json({ error: "wrong email or password" });
+    return res.json({ error: { password: "wrong password" } });
   } else {
     sendToken(res, User, 200);
   }

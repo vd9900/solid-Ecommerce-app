@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSignIn } from "react-auth-kit";
 import {
   FAIL_USER_DETAIL,
   LOGIN_FAIL,
@@ -12,11 +13,20 @@ import {
 } from "../constant/userConstant";
 
 export const loginUser = (user) => async (dispacth) => {
+  const SignIn = useSignIn();
   try {
     dispacth({ type: LOGIN_REQUEST });
     const { data } = await axios.post("/api/vi/login", user);
     console.log(data);
-    data.sucess && dispacth({ type: LOGIN_SUCCESS, payload: data });
+    if (data.sucess) {
+      dispacth({ type: LOGIN_SUCCESS, payload: data });
+      SignIn({
+        token: data.token,
+        expiresIn: 5 * 24 * 60 * 60 * 10000,
+        authState: { email: data.user.email },
+        tokenType: "Bearer",
+      });
+    }
     data.error && dispacth({ type: LOGIN_FAIL, payload: data.error });
   } catch (error) {
     dispacth({ type: LOGIN_FAIL, payload: error });

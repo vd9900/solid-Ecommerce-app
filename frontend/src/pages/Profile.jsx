@@ -25,7 +25,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getUserDetails());
-  });
+  }, [dispatch]);
 
   //edit username& email logic
   const [toggleEdit, setToggleEdit] = useState(false);

@@ -14,6 +14,8 @@ import { useFormik } from "formik";
 // from redux
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../actions/userAction";
+import { useSignIn } from "react-auth-kit";
+import axios from "axios";
 
 // input schema validation with YUP
 
@@ -29,6 +31,7 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
+  const SignIn = useSignIn();
   const navigate = useNavigate();
   // handle submit
   const dispatch = useDispatch();
@@ -36,9 +39,25 @@ const Login = () => {
     (state) => state.userInfo
   );
 
-  const onSubmit = (values) => {
-    // consoleś.log(values);
-    dispatch(loginUser(values));
+  const onSubmit = async (values) => {
+    try {
+      const { data } = await axios.post("/api/vi/login", values);
+      console.log(data);
+      if (data.sucess) {
+        SignIn({
+          token: data.token,
+          expiresIn: 5 * 24 * 60 * 60 * 10000,
+          authState: { email: data.user.email },
+          tokenType: "Bearer",
+        });
+      }
+      data.sucess && navigate("/home");
+      // data.error && alert(data.error);
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log(user.token);
   };
 
   const formik = useFormik({
@@ -48,7 +67,6 @@ const Login = () => {
     validationSchema: validationSchema,
   });
   // console.log(formik);
-
 
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
