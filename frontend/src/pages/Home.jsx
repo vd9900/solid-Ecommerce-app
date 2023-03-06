@@ -7,12 +7,18 @@ import Product from "../components/Product.jsx";
 import ProductViewMore from "../components/ProductViewMore.jsx";
 import Carousel from "../components/Slider";
 import { DiscountComponent, SmCat } from "../components/SmallDevicecom";
+import Loader from "../components/Loder";
 
 import { Link } from "react-router-dom";
 
 // import { IoIosArrowDroprightCircle } from "react-icons/io";
-import { getProducts } from "../actions/productAction";
+
+// apis
+
+import { useProductsQuery } from "../services/productApi";
+
 import Loder from "../components/Loder";
+import { TfiControlShuffle } from "react-icons/tfi";
 
 const AdsImg = [
   {
@@ -35,21 +41,17 @@ const AdsImg = [
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { loading, products, error, productCount } = useSelector(
-    (state) => state.products
-  );
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
   // console.log(loading);
   // console.log(products);
+  const { data, isLoading, isSuccess } = useProductsQuery();
+  if (isSuccess) {
+  }
 
   return (
     <div className="max-w-screen ">
       <Navbar />
-      {loading ? (
-        <Loder />
+      {isLoading ? (
+        <Loader />
       ) : (
         <div className="w-full pt-11 flex flex-col gap-10 sm:gap-16 ">
           {/* ads slide carousel */}
@@ -97,14 +99,13 @@ const Home = () => {
               <p className="font-medium text-lg sm:text-2xl px-2">
                 all products
               </p>
-              <div className="w-full  p-2 gap-3 flex justify-around flex-wrap">
+              <div className="w-full  p-2  grid grid-cols-2 gap-1 justify-around ">
                 <ProductViewMore img="Special" />
-                {products &&
-                  products.map((product) => (
-                    <div>
-                      <Product product={product} />
-                    </div>
-                  ))}
+                {data.products.map((product) => (
+                  <div key={product._id}>
+                    <Product product={product} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

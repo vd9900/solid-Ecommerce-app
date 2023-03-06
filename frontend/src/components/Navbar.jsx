@@ -12,11 +12,13 @@ import { MdContactSupport, MdLogout } from "react-icons/md";
 import { BsBell, BsCart3, BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiOutlineClose } from "react-icons/ai";
 import Button from "@mui/material/Button";
-import { logoutUser } from "../actions/userAction";
+
+import { useSignOut } from "react-auth-kit";
 
 const Navbar = ({ onSearch }) => {
+  const signOut = useSignOut();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
 
@@ -24,17 +26,13 @@ const Navbar = ({ onSearch }) => {
 
   const dispatchLogout = useDispatch();
 
-  const { isAuth } = useSelector((state) => state.userInfo);
-
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
     dispatch.searchDispatch({ type: "ADD_SEARCH_QUERY", payload: searchQuery });
     navigate("/products");
   };
-  const handleLogout = () => {
-    dispatchLogout(logoutUser());
-  };
+  const handleLogout = () => {};
 
   return (
     <div className="fixed z-20 w-screen h-14 flex bg-gray-50 shadow-lg sm:p-2 py-1">
@@ -44,14 +42,14 @@ const Navbar = ({ onSearch }) => {
             <div className="w-36">
               <img src={logo} alt="" />
             </div>
-            <AiFillCloseCircle
+            <AiOutlineClose
               onClick={() => setToggle(!toggle)}
               fontSize={34}
-              className="cursor-pointer"
+              className="cursor-pointer font-semibold"
             />
           </div>
           <div className="py-4 flex flex-col gap-5 pl-4">
-            <Link to={"/home"}>
+            <Link to={"/"}>
               <span className="font-bold text-white/80 text-lg flex items-center text-justify p-2 gap-1">
                 <BiHomeSmile fontSize={24} /> Home page
               </span>
@@ -76,7 +74,7 @@ const Navbar = ({ onSearch }) => {
                 <MdContactSupport fontSize={24} /> Contact Us
               </span>
             </Link>
-            <Link onClick={handleLogout}>
+            <Link onClick={() => signOut()}>
               <span className=" flex items-center p-2 gap-1">
                 <MdLogout fontSize={24} /> Logout
               </span>
@@ -118,7 +116,7 @@ const Navbar = ({ onSearch }) => {
         </form>
         <div className="hidden sm:flex items-center px-2 gap-5 ">
           <span>
-            <Link to={"/home"}>
+            <Link to={"/"}>
               <BiHomeSmile fontSize={25} />
             </Link>
           </span>
@@ -134,7 +132,7 @@ const Navbar = ({ onSearch }) => {
             </span>
             <CgProfile className="hidden max-md:block" fontSize={22} />
           </Link>
-          <Link onClick={handleLogout}>
+          <Link onClick={() => signOut()}>
             <MdLogout fontSize={22} />
           </Link>
         </div>

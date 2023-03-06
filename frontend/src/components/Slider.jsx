@@ -28,7 +28,7 @@ const Carousel = ({
       ]} overflow-hidden flex items-center justify-center w-full`}
     >
       <div
-        className="flex transition-transform ease-out duration-500 w-full "
+        className="flex transition-transform  duration-500 w-full "
         style={{ transform: `translateX(-${curr * 100}%)` }}
       >
         {slides}

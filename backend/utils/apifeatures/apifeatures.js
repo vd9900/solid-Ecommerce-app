@@ -16,6 +16,18 @@ class ApiFeatures {
     this.query = this.query.find({ ...keyword });
     return this;
   }
+  category() {
+    const keyword = this.queryStr.category
+      ? {
+          category: {
+            $regex: this.queryStr.category,
+            $options: "i",
+          },
+        }
+      : {};
+    this.query = this.query.find({ ...keyword });
+    return this;
+  }
   filter() {
     const newQuery = { ...this.queryStr };
     console.log(newQuery);
@@ -36,7 +48,7 @@ class ApiFeatures {
     return this;
   }
   pagination(resultPerPage) {
-    const currentPage = Number(this.queryStr.page) || 1 ;
+    const currentPage = Number(this.queryStr.page) || 1;
 
     const skip = resultPerPage * (currentPage - 1);
     this.query = this.query.limit(resultPerPage).skip(skip);

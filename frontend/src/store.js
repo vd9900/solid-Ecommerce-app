@@ -1,26 +1,10 @@
-import { combineReducers, createStore, applyMiddleware } from "redux";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { emptySplitApi } from "./api/emptySplitApi";
 
-import thunk from "redux-thunk";
-
-import { composeWithDevTools } from "redux-devtools-extension";
-import {
-  productDetailsReducer,
-  productReducer,
-} from "./reducers/productReducer";
-import { userReducer } from "./reducers/userReducer";
-
-const reducer = combineReducers({
-  products: productReducer,
-  productDetails: productDetailsReducer,
-  userInfo: userReducer,
+export const store = configureStore({
+  reducer: {
+    [emptySplitApi.reducerPath]: emptySplitApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(emptySplitApi.middleware),
 });
-
-const iniitalState = {};
-
-const middleware = [thunk];
-
-export const store = createStore(
-  reducer,
-  iniitalState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);

@@ -9,13 +9,12 @@ exports.getAllProducts = async (req, res) => {
     const numberOfPageToShow = 6;
     const productCount = await Product.countDocuments();
     const apiFeature = new ApiFeatures(Product.find(), req.query)
+      .category()
       .search()
       .filter();
 
     // let filteredProduct = await apiFeature.query;
     // let filte  redProductLength = filteredProduct.length;
-
-    apiFeature.pagination(numberOfPageToShow);
     const products = await apiFeature.query;
     // console.log(products.length);
     res.status(200).json({ products, numberOfPageToShow });

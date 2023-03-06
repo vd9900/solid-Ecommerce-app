@@ -3,7 +3,7 @@
 import React from "react";
 
 import { IoIosArrowDroprightCircle } from "react-icons/io";
-
+import { Link } from "react-router-dom";
 
 export const SmCat = () => {
   return (
@@ -19,56 +19,71 @@ export const SmCat = () => {
             Special for you
           </p>
         </span>
-        <span className="grow flex flex-col items-center justify-center">
+        <Link
+          to={"/products/?category=mobile"}
+          className="grow flex flex-col items-center justify-center"
+        >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Mobiles</p>
-        </span>
-        <span className="grow flex flex-col items-center justify-center">
+        </Link>
+        <Link
+          to={"/products/?category=fashion"}
+          className="grow flex flex-col items-center justify-center"
+        >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/c12afc017e6f24cb.png?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Fashion</p>
-        </span>
-        <span className="grow flex flex-col items-center justify-center">
+        </Link>
+        <Link
+          to={"/products/?category=grocery"}
+          className="grow flex flex-col items-center justify-center"
+        >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Grocery</p>
-        </span>
+        </Link>
       </div>
       <div className="flex ">
-        <span className="grow flex flex-col items-center justify-center">
+        <Link
+          to={"/products/?category=electronics"}
+          className="grow flex flex-col items-center justify-center"
+        >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/69c6589653afdb9a.png?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Electronics</p>
-        </span>
-        <span className="grow flex flex-col items-center justify-center">
+        </Link>
+        <Link
+          to={"/products/?category=home"}
+          className="grow flex flex-col items-center justify-center"
+        >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/ab7e2b022a4587dd.jpg?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Home</p>
-        </span>
-        <span className="grow flex flex-col items-center justify-center">
+        </Link>
+        <Link to={"/products/?category=toys_more"} className="grow flex flex-col items-center justify-center">
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Toys & More</p>
-        </span>
+        </Link>
       </div>
     </div>
   );

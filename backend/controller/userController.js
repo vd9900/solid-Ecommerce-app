@@ -31,6 +31,7 @@ exports.registerUser = async (req, res, next) => {
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+  // console.log(req.body)
   //   check exist & correct password
   if (!email || !password) {
     return res.json({ error: "please enter email and password" });
@@ -104,12 +105,19 @@ exports.forgotPassword = async (req, res, next) => {
 //GET user detail
 
 exports.getuserDetail = async (req, res, next) => {
-  const User = await user.findById(req.user.id);
-
-  res.status(200).json({
-    sucess: true,
-    User,
-  });
+  try {
+    const User = await user.findOne({ email: req.query.email });
+    console.log(User);
+    res.status(200).json({
+      sucess: true,
+      message: User,
+    });
+  } catch (error) {
+    res.status(501).json({
+      sucess: false,
+      message: error,
+    });
+  }
 };
 
 exports.getUserForgotDetail = async (req, res) => {

@@ -28,15 +28,15 @@ function App() {
     <SearchContext.Provider value={{ state, searchDispatch }}>
       <Router>
         <Routes>
-          <Route path="/" element={<Starter />} />
+          <Route path="/welcome" element={<Starter />} />
 
           <Route path="/login" element={<Login />} />
 
           <Route path="/signup" element={<SignUp />} />
           <Route
-            path="/home"
+            path="/"
             element={
-              <RequireAuth loginPath="/login">
+              <RequireAuth loginPath="/welcome">
                 <Home />
               </RequireAuth>
             }
@@ -44,7 +44,7 @@ function App() {
           <Route
             path="/me"
             element={
-              <RequireAuth loginPath="/login">
+              <RequireAuth loginPath="/welcome">
                 <Profile />
               </RequireAuth>
             }
@@ -53,7 +53,7 @@ function App() {
           <Route
             path="/cart"
             element={
-              <RequireAuth loginPath="/login">
+              <RequireAuth loginPath="/welcome">
                 <Mycart />
               </RequireAuth>
             }
@@ -62,7 +62,7 @@ function App() {
           <Route
             path="/products/?"
             element={
-              <RequireAuth loginPath="/login">
+              <RequireAuth loginPath="/welcome">
                 <SeeAll />
               </RequireAuth>
             }
@@ -71,7 +71,7 @@ function App() {
           <Route
             path="/product/?"
             element={
-              <RequireAuth loginPath="/login">
+              <RequireAuth loginPath="/welcome">
                 <SingleProduct />
               </RequireAuth>
             }

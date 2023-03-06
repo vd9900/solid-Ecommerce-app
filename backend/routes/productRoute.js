@@ -16,8 +16,6 @@ router
   .route("/admin/product/new")
   .post(
     isAuthenticatedUser,
-    authorizeRoles("admin"),
-    isAuthenticatedUser,
     createProduct
   );
 

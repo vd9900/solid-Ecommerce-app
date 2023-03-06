@@ -30,7 +30,7 @@ const Starter = () => {
     <div className="max-w-screen overflow-hidden  h-screen flex md:items-center justify-center bg-gray-50 ">
       <div className="overflow-hidden  md:w-11/12 lg:w-9/12   md:h-4/6 md:bg-blue-50 shadow-lg    flex flex-col md:flex-row ">
         <div className="overflow-hidden  md:w-9/12 md:p-2   relative h-5/6  max-md:bg-blue-50 my-auto  flex md:gap-2">
-          <div className="bg-black overflow-hidden w-5/6 max-md:h-5/6  max-md:my-auto  flex flex-col mx-auto">
+          <div className=" overflow-hidden w-5/6 max-md:h-5/6  max-md:my-auto  flex flex-col mx-auto">
             <Carousel
               autoSlide={true}
               style={["overflow-hidden md:4/6 w-full mx-auto max-md:my-auto"]}
