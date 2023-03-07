@@ -3,9 +3,18 @@
 import React from "react";
 
 import { IoIosArrowDroprightCircle } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { addClickedCategoryValueOfProduct } from "../services/products/productSlice";
 
 export const SmCat = () => {
+  const dispatch = useDispatch();
+  const naviagate = useNavigate();
+  const handleClickCategory = (e) => {
+    const value = e.target.name || e.target.parentElement.name;
+    dispatch(addClickedCategoryValueOfProduct(value));
+    naviagate("/products");
+  };
   return (
     <div className="flex flex-col gap-2">
       <div className="flex ">
@@ -19,8 +28,9 @@ export const SmCat = () => {
             Special for you
           </p>
         </span>
-        <Link
-          to={"/products/?category=mobile"}
+        <button
+          name="mobile"
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -29,9 +39,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Mobiles</p>
-        </Link>
-        <Link
-          to={"/products/?category=fashion"}
+        </button>
+        <button
+          name="fashion"
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -40,9 +51,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Fashion</p>
-        </Link>
-        <Link
-          to={"/products/?category=grocery"}
+        </button>
+        <button
+          name="grocery"
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -51,11 +63,12 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Grocery</p>
-        </Link>
+        </button>
       </div>
       <div className="flex ">
-        <Link
-          to={"/products/?category=electronics"}
+        <button
+          name="electronics"
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -64,9 +77,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Electronics</p>
-        </Link>
-        <Link
-          to={"/products/?category=home"}
+        </button>
+        <button
+          name="home"
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -75,15 +89,19 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Home</p>
-        </Link>
-        <Link to={"/products/?category=toys_more"} className="grow flex flex-col items-center justify-center">
+        </button>
+        <button
+          name=""
+          onClick={handleClickCategory}
+          className="grow flex flex-col items-center justify-center"
+        >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100"
             alt=""
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Toys & More</p>
-        </Link>
+        </button>
       </div>
     </div>
   );

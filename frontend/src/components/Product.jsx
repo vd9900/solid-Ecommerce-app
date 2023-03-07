@@ -16,7 +16,7 @@ const options = {
 const Product = ({ product }) => {
   return (
     <div className="max-sm:w-full shadow-lg sm:w-56 sm:h-full flex flex-col bg-white  cursor-pointer">
-      <Link to={`/product/?id=${product?._id}`} className="mx-auto">
+      <div className="mx-auto">
         <div className="p-2 mx-auto">
           <img
             src="https://rukminim1.flixcart.com/image/200/200/krtjgcw0/headphone/d/9/g/au-mh501-maono-original-imag5j35rffkwpac.jpeg?q=70"
@@ -48,7 +48,7 @@ const Product = ({ product }) => {
             </p>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 };

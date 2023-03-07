@@ -16,7 +16,7 @@ const Profile = () => {
     console.log(data);
   }
 
-  const userData = {};
+  const userData = data.message;
   //edit username& email logic
   const [toggleEdit, setToggleEdit] = useState(false);
   const [isEditDisable, setIsEditDisable] = useState(true);
@@ -35,6 +35,7 @@ const Profile = () => {
     setToggleEdit(false);
     setUsernameEditValue(userData?.username);
     setEmailEditValue(userData?.email);
+    setIsEditDisable(true)
   };
   const handleInputOnChange = (e) => {
     console.log(e.target.name);
@@ -42,13 +43,15 @@ const Profile = () => {
       setEmailEditValue(e.target.email);
     }
     if (e.target.name === "username") {
-      setUsernameEditValue(e.target.email);
+      setUsernameEditValue(e.target.username);
     }
     if (
-      (usernameEditValue !== userData?.username &&
-        emailEditValue !== userData?.email) ||
-      e.target.value !== ""
+      (usernameEditValue === userData?.username ||
+        emailEditValue === userData?.email) ||
+      e.target.value === ""
     ) {
+      setIsEditDisable(true);
+    } else {
       setIsEditDisable(false);
     }
   };

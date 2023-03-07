@@ -17,24 +17,28 @@ import Sort from "../components/smallDevice/Sort";
 import Filter from "../components/smallDevice/Filter";
 import RangeSlider from "../components/search/priceRange";
 import { SearchContext } from "../SearchContext/searchContext";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   getAllProductsApi,
   useProductByCategoryQuery,
   useProductQuery,
-} from "../services/productApi";
+} from "../services/products/productApi";
+import {
+  addClickedCategoryValueOfProduct,
+  addClickedValueOfProduct,
+} from "../services/products/productSlice";
 
 const SeeAll = () => {
   // to get Search
+  const dispatch = useDispatch();
+  const naviagate = useNavigate();
   const { state } = useContext(SearchContext);
+  const { clickedCategory } = useSelector((state) => state.productsStore);
+  const { data, isLoading, isSuccess } =
+    useProductByCategoryQuery(clickedCategory);
+  const dkk = useProductByCategoryQuery(clickedCategory);
 
-  //api call
-  const search = useLocation().search;
-  const categroy = new URLSearchParams(search).get("category");
-
-  const { data, isLoading, isSuccess } = useProductByCategoryQuery(categroy);
-
-  console.log(data);
+  isSuccess && console.log(dkk);
 
   // const data = useSelector((state) => state.productsApi);
   // changing the pagination
@@ -50,8 +54,10 @@ const SeeAll = () => {
   const handlePriceChange = (event, newValue) => {
     setPriceValue(newValue);
   };
-
-  const dispatch = useDispatch();
+  const handleClickedProduct = (id) => {
+    dispatch(addClickedValueOfProduct(id));
+    naviagate("/product");
+  };
 
   return (
     <div className="max-w-screen relative h-screen">
@@ -180,7 +186,9 @@ const SeeAll = () => {
                 <div className=" sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
                   {isSuccess &&
                     data.products.map((pro) => (
-                      <Product key={pro._id} product={pro} />
+                      <div onClick={() => handleClickedProduct(pro._id)}>
+                        <Product key={pro._id} product={pro} />
+                      </div>
                     ))}
                 </div>
               </div>

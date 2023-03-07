@@ -6,19 +6,28 @@ const ApiFeatures = require("../utils/apifeatures/apifeatures");
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const numberOfPageToShow = 6;
-    const productCount = await Product.countDocuments();
-    const apiFeature = new ApiFeatures(Product.find(), req.query)
-      .category()
-      .search()
-      .filter();
+    let match = {};
+    if (req.query.category) {
+      match.category = req.query?.category;
+      console.log(req.query.category);
+    }
 
-    // let filteredProduct = await apiFeature.query;
-    // let filte  redProductLength = filteredProduct.length;
-    const products = await apiFeature.query;
-    // console.log(products.length);
-    res.status(200).json({ products, numberOfPageToShow });
+    if (Object.entries(match).length === 0) {
+      const products = await Product.find();
+
+      res.status(200).json({
+        products: products,
+      });
+    } else {
+      const products = await Product.aggregate([
+        { $match: { category: match.category } },
+      ]);
+      res.status(200).json({
+        products: products,
+      });
+    }
   } catch (error) {
+    console.log(error);
     res.status(404).json({ message: error });
   }
 };

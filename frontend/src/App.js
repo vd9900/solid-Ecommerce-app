@@ -60,7 +60,7 @@ function App() {
           />
 
           <Route
-            path="/products/?"
+            path="/products/"
             element={
               <RequireAuth loginPath="/welcome">
                 <SeeAll />
@@ -69,7 +69,7 @@ function App() {
           />
 
           <Route
-            path="/product/?"
+            path="/product/"
             element={
               <RequireAuth loginPath="/welcome">
                 <SingleProduct />

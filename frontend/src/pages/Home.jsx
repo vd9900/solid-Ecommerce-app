@@ -9,16 +9,17 @@ import Carousel from "../components/Slider";
 import { DiscountComponent, SmCat } from "../components/SmallDevicecom";
 import Loader from "../components/Loder";
 
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 // import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 // apis
 
-import { useProductsQuery } from "../services/productApi";
+import { useProductsQuery } from "../services/products/productApi";
 
 import Loder from "../components/Loder";
 import { TfiControlShuffle } from "react-icons/tfi";
+import { addClickedValueOfProduct } from "../services/products/productSlice";
 
 const AdsImg = [
   {
@@ -41,11 +42,14 @@ const AdsImg = [
 
 const Home = () => {
   const dispatch = useDispatch();
-  // console.log(loading);
   // console.log(products);
-  const { data, isLoading, isSuccess } = useProductsQuery();
-  if (isSuccess) {
-  }
+  const { data, isLoading, isSuccess, error } = useProductsQuery();
+  const navigate = useNavigate();
+  const handleClickedProduct = (id) => {
+    console.log(id);
+    dispatch(addClickedValueOfProduct(id));
+    navigate("/product");
+  };
 
   return (
     <div className="max-w-screen ">
@@ -103,7 +107,9 @@ const Home = () => {
                 <ProductViewMore img="Special" />
                 {data.products.map((product) => (
                   <div key={product._id}>
-                    <Product product={product} />
+                    <div onClick={() => handleClickedProduct(product._id)}>
+                      <Product product={product} />
+                    </div>
                   </div>
                 ))}
               </div>

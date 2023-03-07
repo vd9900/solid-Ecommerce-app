@@ -1,4 +1,4 @@
-import { emptySplitApi } from "../api/emptySplitApi";
+import { emptySplitApi } from "../../api/emptySplitApi";
 export const getAllProductsApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     products: builder.query({

@@ -25,7 +25,9 @@ class ApiFeatures {
           },
         }
       : {};
+
     this.query = this.query.find({ ...keyword });
+
     return this;
   }
   filter() {
@@ -45,14 +47,6 @@ class ApiFeatures {
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
     // console.log(queryStr);
     this.query = this.query.find(JSON.parse(queryStr));
-    return this;
-  }
-  pagination(resultPerPage) {
-    const currentPage = Number(this.queryStr.page) || 1;
-
-    const skip = resultPerPage * (currentPage - 1);
-    this.query = this.query.limit(resultPerPage).skip(skip);
-    // console.log(this.query);
     return this;
   }
 }

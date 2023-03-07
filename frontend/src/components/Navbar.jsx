@@ -29,7 +29,6 @@ const Navbar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
-    dispatch.searchDispatch({ type: "ADD_SEARCH_QUERY", payload: searchQuery });
     navigate("/products");
   };
   const handleLogout = () => {};

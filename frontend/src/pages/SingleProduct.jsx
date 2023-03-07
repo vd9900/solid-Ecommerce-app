@@ -11,7 +11,7 @@ import post4 from "../assets/imgs/post4.jpg";
 import { AiFillStar } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { TfiControlStop } from "react-icons/tfi";
-import { useProductQuery } from "../services/productApi";
+import { useProductQuery } from "../services/products/productApi";
 import Loader from "../components/Loder";
 const posts = [
   {
@@ -33,10 +33,8 @@ const posts = [
 ];
 
 const SingleProduct = () => {
-  const search = useLocation().search;
-  const id = new URLSearchParams(search).get("id");
-
-  const { data, isLoading } = useProductQuery(id);
+  const {clickedProduct}= useSelector((state) => state.productsStore);
+  const { data, isLoading } = useProductQuery(clickedProduct);
   console.log(data);
   const dispatch = useDispatch();
   const product = {};
@@ -69,8 +67,8 @@ const SingleProduct = () => {
               </Carousel>
             </div>
             <div className="px-3 py-6 relative">
-              <p className="font-semibold text-2xl">{data.message?.name}</p>
-              <p className="text-sm">{data.message?.description}</p>
+              <p className="font-semibold text-2xl">{data?.message?.name}</p>
+              <p className="text-sm">{data?.message?.description}</p>
               <div className="py-1 flex items-center">
                 <AiFillStar className="text-green-600" fontSize={20} />
                 <AiFillStar className="text-green-600" fontSize={20} />
@@ -85,7 +83,7 @@ const SingleProduct = () => {
                 <p className="font-serif text-lg text-red-600">18% off</p>
                 <span className="text-gray-500 text-lg line-through">₹899</span>
                 <span className="font-semibold text-2xl">
-                  {data.message?.price}
+                  {data?.message?.price}
                 </span>
               </div>
               <div className="hidden absolute md:flex w-full  bottom left-0  z-10">
