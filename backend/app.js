@@ -27,8 +27,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const product = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const order = require("./routes/orderRoute");
+const cart = require("./routes/cartRoute");
 
-app.use("/api/vi", product, user, order);
+app.use("/api/vi", product, user, order, cart);
 // app.use("/api/", user)
 
 // middleware for error

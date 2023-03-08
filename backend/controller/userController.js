@@ -106,7 +106,7 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.getuserDetail = async (req, res, next) => {
   try {
-    const User = await user.findOne({ email: req.query.email });
+    const User = await user.findOne({ email: req.user.email });
     console.log(User);
     res.status(200).json({
       sucess: true,

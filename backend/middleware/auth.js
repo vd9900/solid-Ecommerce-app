@@ -9,7 +9,7 @@ exports.isAuthenticatedUser = async (req, res, next) => {
   } else {
     const decodedData = jwt.verify(token, "GJ78LHUILY0HKLHKJ8T7GFHG");
     req.user = await User.findById(decodedData.id);
-    // console.log(req.user);
+
     next();
   }
 };

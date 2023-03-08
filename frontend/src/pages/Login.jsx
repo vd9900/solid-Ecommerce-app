@@ -131,7 +131,7 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="font-sans text-lg shadow-md bg-black/80 text-white cursor-pointer rounded-md   w-full py-2  font-bold border-black"
+                className="font-sans text-lg shadow-md bg-slate-800 text-white cursor-pointer rounded-md   w-full py-2  font-bold border-black"
               >
                 Login
               </button>

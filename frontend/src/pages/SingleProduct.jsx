@@ -12,7 +12,9 @@ import { AiFillStar } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { TfiControlStop } from "react-icons/tfi";
 import { useProductQuery } from "../services/products/productApi";
+import { useAddToCartMutation } from "../services/carts/cartApi";
 import Loader from "../components/Loder";
+import { useAuthUser } from "react-auth-kit";
 const posts = [
   {
     id: 1,
@@ -33,11 +35,22 @@ const posts = [
 ];
 
 const SingleProduct = () => {
-  const {clickedProduct}= useSelector((state) => state.productsStore);
-  const { data, isLoading } = useProductQuery(clickedProduct);
-  console.log(data);
+  const auth = useAuthUser();
+  const { clickedProduct } = useSelector((state) => state.productsStore);
+  const { data, isLoading, isSuccess } = useProductQuery(clickedProduct);
   const dispatch = useDispatch();
   const product = {};
+
+  // Add to cart logic
+  const [addToCart, { isLoading: addCartLoading, data: cartData, error }] =
+    useAddToCartMutation();
+  const handleAddCartbtn = () => {
+    addToCart({
+      product: data.message?._id,
+    });
+  };
+  console.log(error);
+
   return (
     <div className="max-w-screen bg-gray-50 min-h-screen relative">
       <Navbar />
@@ -87,7 +100,10 @@ const SingleProduct = () => {
                 </span>
               </div>
               <div className="hidden absolute md:flex w-full  bottom left-0  z-10">
-                <button className="grow py-3  text-white font-medium text-xl bg-black/95 ">
+                <button
+                  onClick={handleAddCartbtn}
+                  className="grow py-3  text-white font-medium text-xl bg-black/95 "
+                >
                   Add to cart
                 </button>
                 <button className="grow text-white font-medium text-xl py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
@@ -272,7 +288,10 @@ const SingleProduct = () => {
       )}
 
       <div className="fixed flex w-full bottom-0  z-0 md:hidden">
-        <button className="grow py-3  text-white font-medium text-xl bg-black/95 ">
+        <button
+          className="grow py-3  text-white font-medium text-xl bg-black/95 "
+          onClick={handleAddCartbtn}
+        >
           Add to cart
         </button>
         <button className="grow text-white font-medium text-xl py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
