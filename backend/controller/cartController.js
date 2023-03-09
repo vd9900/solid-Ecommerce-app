@@ -65,23 +65,24 @@ exports.addNewCart = async (req, res) => {
   });
 };
 
-exports.deleteCart = (req, res) => {
-  if (req.body.productId) {
-    console.log("helo");
-    Cart.updateOne(
+exports.deleteCart = async (req, res) => {
+  // console.log(req.query);
+  if (req.query.id) {
+    const newCart = await Cart.updateOne(
       { user: req.user._id },
       {
         $pull: {
-          cartProducts: {
-            product: req.body.productId,
-          },
+          cartProducts: { product: req.query.id },
+          // 'cartProducts[product]':req.query.id
         },
       }
-    ).exec((error, result) => {
-      if (error) return res.status(400).json({ error });
-      if (result) {
-        res.status(202).json({ result });
-      }
-    });
+    );
+    // ).exec((error, result) => {
+    //   if (error) return res.status(400).json({ error });
+    //   if (result) {
+    //     res.status(202).json({ result });
+    //   }
+    // });
+    res.json("ok");
   }
 };

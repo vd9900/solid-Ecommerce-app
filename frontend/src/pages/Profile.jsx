@@ -109,7 +109,7 @@ const Profile = () => {
                 </button>
                 <button
                   onClick={addAgainEditValue}
-                  className="bg-black text-white  px-8 rounded-md py-1 "
+                  className="bg-red-500 text-white  px-8 rounded-md py-1 "
                 >
                   cancel
                 </button>

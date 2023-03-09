@@ -66,6 +66,7 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
+    searchKeywords: [{ type: String }],
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

@@ -20,7 +20,6 @@ import productSlice from "./services/products/productSlice";
 export const store = configureStore({
   reducer: {
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
-    productsStore: productSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(emptySplitApi.middleware),

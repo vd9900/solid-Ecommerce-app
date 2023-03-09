@@ -43,14 +43,14 @@ const AdsImg = [
 const Home = () => {
   const dispatch = useDispatch();
   // console.log(products);
-  const { data, isLoading, isSuccess, error } = useProductsQuery();
+  const { data, isLoading, isSuccess, isError, error } = useProductsQuery();
   const navigate = useNavigate();
   const handleClickedProduct = (id) => {
     console.log(id);
     dispatch(addClickedValueOfProduct(id));
     navigate("/product");
   };
-
+  console.log(error);
   return (
     <div className="max-w-screen ">
       <Navbar />
@@ -105,13 +105,15 @@ const Home = () => {
               </p>
               <div className="w-full  p-2  grid grid-cols-2 gap-1 justify-around ">
                 <ProductViewMore img="Special" />
-                {data.products.map((product) => (
-                  <div key={product._id}>
-                    <div onClick={() => handleClickedProduct(product._id)}>
-                      <Product product={product} />
+                {isSuccess &&
+                  data.products.map((product) => (
+                    <div key={product._id}>
+                      <Link to={`product/?id=${product._id}`}>
+                        <Product product={product} />
+                      </Link>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                {/* {isError && <div>{error}</div>} */}
               </div>
             </div>
           </div>

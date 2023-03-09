@@ -4,5 +4,4 @@ export const emptySplitApi = createApi({
   reducerPath: "apisInfo",
   baseQuery: fetchBaseQuery({ baseUrl: "/", credentials: "include" }),
   endpoints: () => ({}),
-  tagTypes:["Carts"]
 });

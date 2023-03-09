@@ -5,34 +5,92 @@ const ApiFeatures = require("../utils/apifeatures/apifeatures");
 // GET
 
 exports.getAllProducts = async (req, res) => {
+  let match = {};
+  let page = req.query?.page;
+  let paginationCount;
   try {
-    let match = {};
+    //send reslut based category
     if (req.query.category) {
       match.category = req.query?.category;
-      console.log(req.query.category);
+      match.price = {};
+      match.price["$gte"] = req.query.price?.gte || 0;
+      match.price["$lte"] = req.query.price?.lte || 100000;
+    }
+    //send reslut based search
+    if (req.query.search) {
+      match.searchKeywords = {
+        $regex: req.query.search,
+        $options: "i",
+      };
+      match.price = {};
+      match.price["$gte"] = req.query?.price?.lte || 0;
+      match.price["$lte"] = req.query?.price?.lte || 100000;
+    }
+    //send reslut based sort
+    Checksort = {};
+    const sortValue = [
+      {
+        name: "all",
+        value: "",
+      },
+      {
+        name: "h_l",
+        by: "price",
+        value: -1,
+      },
+      {
+        name: "l_h",
+        by: "price",
+        value: 1,
+      },
+      {
+        name: "n_o",
+        by: "createdAt",
+        value: -1,
+      },
+      {
+        name: "o_n",
+        by: "createdAt",
+        value: 1,
+      },
+    ];
+    if (req.query.sort) {
+      //get the query from sortValues
+      const requestForSort = sortValue.filter((value, i) => {
+        return value.name === req.query.sort;
+      });
+
+      // only do if query is not "all"
+      if (requestForSort.length !== 0) {
+        Checksort[requestForSort[0].by] = requestForSort[0].value;
+      }
     }
 
-    if (Object.entries(match).length === 0) {
-      const products = await Product.find();
+    // for pagination
+
+    if (req.query.page && req.query.limit) {
+      // const queryCount = await query.countDocuments().lean();
+      const skip = (page - 1) * req.query.limit;
+      query = Pquery.skip(skip).limit(req.query.limit || 10);
+      // paginationCount = Math.ceil(queryCount / req.query.limit);
+    } else {
+      let products = Product.find(match).sort(Checksort);
 
       res.status(200).json({
         products: products,
-      });
-    } else {
-      const products = await Product.aggregate([
-        { $match: { category: match.category } },
-      ]);
-      res.status(200).json({
-        products: products,
+        pageNumber: page,
+        paginationCount: paginationCount || "no page",
       });
     }
   } catch (error) {
+    // console.log(match);
     console.log(error);
     res.status(404).json({ message: error });
   }
 };
 
 exports.getProductDetails = catchAsyncError(async (req, res, next) => {
+  console.log(req.query.id);
   const product = await Product.findById(req.query.id);
   if (!product) {
     return next(new ErrorHandler("Proudct not found", 404));

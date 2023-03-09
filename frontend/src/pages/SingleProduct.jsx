@@ -36,8 +36,11 @@ const posts = [
 
 const SingleProduct = () => {
   const auth = useAuthUser();
-  const { clickedProduct } = useSelector((state) => state.productsStore);
-  const { data, isLoading, isSuccess } = useProductQuery(clickedProduct);
+  const search = useLocation().search;
+  const id = new URLSearchParams(search).get("id");
+  console.log(id);
+  // const { clickedProduct } = useSelector((state) => state.productsStore);
+  const { data, isLoading, isSuccess } = useProductQuery(id);
   const dispatch = useDispatch();
   const product = {};
 

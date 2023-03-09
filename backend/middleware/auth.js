@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 
 exports.isAuthenticatedUser = async (req, res, next) => {
   const { token } = await req.cookies;
-  // console.log(token);
   if (!token) {
     res.status(401).json({ error: "Please login first" });
   } else {

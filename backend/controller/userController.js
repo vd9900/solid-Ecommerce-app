@@ -31,7 +31,7 @@ exports.registerUser = async (req, res, next) => {
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
-  // console.log(req.body)
+  console.log(req.body)
   //   check exist & correct password
   if (!email || !password) {
     return res.json({ error: "please enter email and password" });
