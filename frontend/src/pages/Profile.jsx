@@ -24,23 +24,24 @@ const Profile = () => {
   console.log(updatedData);
 
   // Extracting user data from fetched API and saving in userData variable
+
   const userData = data?.message;
- console.log(userData)
   // Edit fields logic states initialization
   const [toggleEdit, setToggleEdit] = useState(false);
   const [isEditDisable, setIsEditDisable] = useState(true);
-  const [usernameEditValue, setUsernameEditValue] = useState(
-    userData?.username
-  );
-  const [emailEditValue, setEmailEditValue] = useState(userData?.email);
+  const [usernameEditValue, setUsernameEditValue] = useState("");
+  const [emailEditValue, setEmailEditValue] = useState("");
+
+  // set default value of form to user details
 
   // Handler to submit edited details
   const handleDetailsEdit = () => {
     // Check whether the modified email and username values are the same as previous
     // If so, do not allow editing further
-    if (emailEditValue === userData?.email) return;
-    if (usernameEditValue === userData?.username) return;
+    // if (emailEditValue === userData?.email) return;
+    // if (usernameEditValue === userData?.username) return;
     updateUserInfo({ username: usernameEditValue, email: emailEditValue });
+    setToggleEdit(false);
   };
 
   // Handler to reset input fields and form

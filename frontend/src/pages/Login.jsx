@@ -72,7 +72,7 @@ const Login = () => {
       {false ? (
         <Loader />
       ) : (
-        <div className="w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200 h-full sm:h-5/6  flex flex-col justify-around">
+        <div className=" w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200 h-full sm:h-5/6  flex flex-col justify-around">
           <div className="w-10/12    mx-auto flex flex-col gap-10">
             <p className="text-3xl font-medium text-gray-800 font-serif mx-auto">
               SignIn
@@ -136,15 +136,15 @@ const Login = () => {
                 Login
               </button>
             </form>
-          </div>
-          <div className="text-center">
-            <p className="py-2 text-gray-600">Have not account yet?</p>
-            <Link
-              to={"/SignUp"}
-              className="font-semibold cursor-pointer underline"
-            >
-              SIGNUP
-            </Link>
+            <div className="text-center">
+              <p className="py-2 text-gray-600">Have not account yet?</p>
+              <Link
+                to={"/SignUp"}
+                className="font-semibold cursor-pointer underline"
+              >
+                SIGNUP
+              </Link>
+            </div>
           </div>
         </div>
       )}

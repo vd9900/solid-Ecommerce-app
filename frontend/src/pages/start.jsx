@@ -79,12 +79,12 @@ const Starter = () => {
             start your E-commerce shopping with our best user experience,
             Amazing things will happen when you click get started.
           </p>
-          <button
+          <Link to={"/login"}
             className="border-2 bg-black text-white  hover:border-black hover:bg-white hover:text-black  
           duration-1000 rounded-md py-2 font-semibold px-4 text-sm"
           >
-            <Link to={"/login"}>Get started</Link>
-          </button>
+            Get started
+          </Link>
         </div>
       </div>
     </div>
