@@ -46,11 +46,9 @@ const Home = () => {
   const { data, isLoading, isSuccess, isError, error } = useProductsQuery();
   const navigate = useNavigate();
   const handleClickedProduct = (id) => {
-    console.log(id);
     dispatch(addClickedValueOfProduct(id));
     navigate("/product");
   };
-  console.log(error);
   return (
     <div className="max-w-screen ">
       <Navbar />

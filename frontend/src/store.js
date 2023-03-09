@@ -14,12 +14,12 @@ import productSlice from "./services/products/productSlice";
 
 // const rootReducer = combineReducers({
 //   [emptySplitApi.reducerPath]: emptySplitApi.reducer,
-//   productsStore: newPersistReducer,
 // });
 
 export const store = configureStore({
   reducer: {
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
+    productsStore: productSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(emptySplitApi.middleware),

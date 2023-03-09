@@ -28,9 +28,9 @@ export const SmCat = () => {
             Special for you
           </p>
         </span>
-        <button
+        <Link
           name="mobile"
-          onClick={handleClickCategory}
+          to={"products/?category=mobile"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -39,10 +39,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Mobiles</p>
-        </button>
-        <button
+        </Link>
+        <Link
           name="fashion"
-          onClick={handleClickCategory}
+          to={"products/?category=fashion"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -51,10 +51,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Fashion</p>
-        </button>
-        <button
+        </Link>
+        <Link
           name="grocery"
-          onClick={handleClickCategory}
+          to={"products/?category=grocery"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -63,12 +63,12 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Grocery</p>
-        </button>
+        </Link>
       </div>
       <div className="flex ">
-        <button
+        <Link
           name="electronics"
-          onClick={handleClickCategory}
+          to={"products/?category=electronics"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -77,10 +77,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Electronics</p>
-        </button>
-        <button
+        </Link>
+        <Link
           name="home"
-          onClick={handleClickCategory}
+          to={"products/?category=home"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -89,10 +89,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Home</p>
-        </button>
-        <button
+        </Link>
+        <Link
           name=""
-          onClick={handleClickCategory}
+          to={"products/?category=toys_more"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -101,7 +101,7 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Toys & More</p>
-        </button>
+        </Link>
       </div>
     </div>
   );

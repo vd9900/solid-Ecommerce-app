@@ -22,14 +22,15 @@ const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
 
-  const dispatch = useContext(SearchContext);
+  // const dispatch = useContext(SearchContext);
 
   const dispatchLogout = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
-    navigate("/products");
+
+    navigate(`/products/?search=${searchQuery}`);
   };
   const handleLogout = () => {};
 

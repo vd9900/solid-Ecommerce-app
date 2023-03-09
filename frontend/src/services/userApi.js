@@ -4,6 +4,13 @@ export const userApi = emptySplitApi.injectEndpoints({
     userInfo: builder.query({
       query: (email) => `api/vi/me/?email=${email}`,
     }),
+    updateUserInfo: builder.mutation({
+      query: (info) => ({
+        url: "api/vi/me",
+        method: "PATCH",
+        body: info,
+      }),
+    }),
   }),
 });
 

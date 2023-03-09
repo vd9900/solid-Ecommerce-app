@@ -25,7 +25,6 @@ const Mycart = () => {
     isSuccess,
     error,
   } = useCartsQuery(undefined, { refetchOnMountOrArgChange: true });
-  console.log(carts);
   const [deleteFromCart] = useDeleteFromCartMutation();
   const handleCartDelete = (id) => {
     alert(id);
@@ -51,7 +50,7 @@ const Mycart = () => {
                     <CartProduct key={productId} productId={productId} />
                   ))}
                 {isError && <div>Cart is empty</div>}
-
+                {carts?.ids.length === 0 && <div>Cart is empty</div>}
                 {/* place order btn here */}
                 <div className="flex md:hidden p-2 bg-white justify-between items-center">
                   <div className="px-3 py-1 flex items-center gap-1">

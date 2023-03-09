@@ -19,7 +19,7 @@ const Product = ({ product }) => {
       <div className="mx-auto">
         <div className="p-2 mx-auto">
           <img
-            src="https://rukminim1.flixcart.com/image/200/200/krtjgcw0/headphone/d/9/g/au-mh501-maono-original-imag5j35rffkwpac.jpeg?q=70"
+            src="https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/b/p/s/-original-imaggsuemmztbghp.jpeg?q=70"
             alt=""
             className="max-sm:w-36 hover:scale-105 duration-300"
           />

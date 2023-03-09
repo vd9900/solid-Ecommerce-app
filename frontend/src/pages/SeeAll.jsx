@@ -17,7 +17,7 @@ import Sort from "../components/smallDevice/Sort";
 import Filter from "../components/smallDevice/Filter";
 import RangeSlider from "../components/search/priceRange";
 import { SearchContext } from "../SearchContext/searchContext";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   getAllProductsApi,
   useProductByCategoryQuery,
@@ -32,14 +32,15 @@ const SeeAll = () => {
   // to get Search
   const dispatch = useDispatch();
   const naviagate = useNavigate();
+
+  // get url  address
+  const routeAddress = window.location.href.split("/").splice(3).join("/");
+  // console.log(routeAddress);
   const { state } = useContext(SearchContext);
-  const { clickedCategory } = useSelector((state) => state.productsStore);
+  // const { clickedCategory } = useSelector((state) => state.productsStore);
   const { data, isLoading, isSuccess } =
-    useProductByCategoryQuery(clickedCategory);
-  const dkk = useProductByCategoryQuery(clickedCategory);
-
-  isSuccess && console.log(dkk);
-
+    useProductByCategoryQuery(routeAddress);
+  console.log(data);
   // const data = useSelector((state) => state.productsApi);
   // changing the pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,6 +56,7 @@ const SeeAll = () => {
     setPriceValue(newValue);
   };
   const handleClickedProduct = (id) => {
+    console.log(id);
     dispatch(addClickedValueOfProduct(id));
     naviagate("/product");
   };
@@ -185,10 +187,10 @@ const SeeAll = () => {
               <div className=" p-3 flex flex-col md:items-center md:justify-center max-sm:pt-10">
                 <div className=" sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
                   {isSuccess &&
-                    data.products.map((pro) => (
-                      <div onClick={() => handleClickedProduct(pro._id)}>
+                    data?.products.map((pro) => (
+                      <Link to={`/product/?id=${pro._id}`}>
                         <Product key={pro._id} product={pro} />
-                      </div>
+                      </Link>
                     ))}
                 </div>
               </div>
