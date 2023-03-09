@@ -59,29 +59,27 @@ exports.getAllProducts = async (req, res) => {
       const requestForSort = sortValue.filter((value, i) => {
         return value.name === req.query.sort;
       });
-
       // only do if query is not "all"
       if (requestForSort.length !== 0) {
         Checksort[requestForSort[0].by] = requestForSort[0].value;
       }
     }
-
-    // for pagination
-
+    let query = Product.find(match).sort(Checksort);
     if (req.query.page && req.query.limit) {
-      // const queryCount = await query.countDocuments().lean();
+      productCount = await Product.countDocuments(match);
+      // const queryCount = await Product.countDocuments();
       const skip = (page - 1) * req.query.limit;
-      query = Pquery.skip(skip).limit(req.query.limit || 10);
-      // paginationCount = Math.ceil(queryCount / req.query.limit);
-    } else {
-      let products = Product.find(match).sort(Checksort);
-
-      res.status(200).json({
-        products: products,
-        pageNumber: page,
-        paginationCount: paginationCount || "no page",
-      });
+      query = query.skip(skip).limit(req.query.limit || 10);
+      paginationCount = Math.ceil(productCount / req.query.limit);
     }
+
+    const products = await query;
+
+    res.status(200).json({
+      products: products,
+      pageNumber: page,
+      paginationCount: paginationCount || "no page",
+    });
   } catch (error) {
     // console.log(match);
     console.log(error);

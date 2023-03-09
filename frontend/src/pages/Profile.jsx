@@ -6,37 +6,54 @@ import Navbar from "../components/Navbar";
 import Loader from "../components/Loder";
 
 import img from "../assets/imgs/post1.jpg";
-import { useUserInfoQuery } from "../services/userApi";
+import {
+  useUpdateUserInfoMutation,
+  useUserInfoQuery,
+} from "../services/userApi";
 import { useAuthUser } from "react-auth-kit";
 
 const Profile = () => {
+  // Importing required hooks
   const auth = useAuthUser();
-  const { isLoading, data, isSuccess } = useUserInfoQuery(auth().email);
+  const { isLoading, data, isSuccess } = useUserInfoQuery(auth().email, {
+    refetchOnMountOrArgChange: true,
+  });
+  const [updateUserInfo, { data: updatedData, error }] =
+    useUpdateUserInfoMutation();
+  console.log(error);
+  console.log(updatedData);
 
+  // Extracting user data from fetched API and saving in userData variable
   const userData = data?.message;
-  //edit username& email logic
+ console.log(userData)
+  // Edit fields logic states initialization
   const [toggleEdit, setToggleEdit] = useState(false);
   const [isEditDisable, setIsEditDisable] = useState(true);
   const [usernameEditValue, setUsernameEditValue] = useState(
     userData?.username
   );
   const [emailEditValue, setEmailEditValue] = useState(userData?.email);
-  const handleDetailsEdit = () => {
-    if (emailEditValue === userData?.email) return;
-    if (emailEditValue === userData?.username) return;
 
-    console.log(emailEditValue);
-    console.log(usernameEditValue);
+  // Handler to submit edited details
+  const handleDetailsEdit = () => {
+    // Check whether the modified email and username values are the same as previous
+    // If so, do not allow editing further
+    if (emailEditValue === userData?.email) return;
+    if (usernameEditValue === userData?.username) return;
+    updateUserInfo({ username: usernameEditValue, email: emailEditValue });
   };
+
+  // Handler to reset input fields and form
   const addAgainEditValue = () => {
     setToggleEdit(false);
     setUsernameEditValue(userData?.username);
     setEmailEditValue(userData?.email);
     setIsEditDisable(true);
   };
-  const handleInputOnChange = (e) => {
-    console.log(e.target.name);
 
+  // Handler for capturing input events and setting new states to variables
+  const handleInputOnChange = (e) => {
+    // Check whether the change in input is equal to the current user details
     if (
       (usernameEditValue === userData?.username &&
         emailEditValue === userData?.email) ||
@@ -46,11 +63,15 @@ const Profile = () => {
     } else {
       setIsEditDisable(false);
     }
+
+    // Set new value of email, if email field is changed in input
     if (e.target.name === "email") {
-      setEmailEditValue(e.target.email);
+      setEmailEditValue(e.target.value);
     }
+
+    // Set new value of username, if username field is changed in input
     if (e.target.name === "username") {
-      setUsernameEditValue(e.target.username);
+      setUsernameEditValue(e.target.value);
     }
   };
 
@@ -125,7 +146,7 @@ const Profile = () => {
                 />
                 <p className="text-3xl py-2 mr-auto">
                   {" "}
-                  {data.message?.username}
+                  {data?.message?.username}
                 </p>
               </div>
               <button
@@ -153,14 +174,14 @@ const Profile = () => {
                     <p className="text-sm  text-gray-700">username</p>
                     <p className="p-0 m-0 leading-4 font-medium  text-gray-800">
                       {/* name */}
-                      {data.message?.username}
+                      {data?.message?.username}
                     </p>
                   </span>
                   <span className="">
                     <p className="text-sm  text-gray-700">email</p>
                     <p className="p-0 m-0 leading-4 font-medium  text-gray-800">
                       {/* email */}
-                      {data.message?.email}
+                      {data?.message?.email}
                     </p>
                   </span>
                 </div>
@@ -177,7 +198,7 @@ const Profile = () => {
                   <span className="">
                     <p className="text-sm p-0 text-gray-700">joined</p>
                     <p className="p-0 m-0 leading-4 font-medium font-mono text-gray-800">
-                      {Date(data.message?.createdAt)}
+                      {Date(data?.message?.createdAt)}
                     </p>
                   </span>
                 </div>
