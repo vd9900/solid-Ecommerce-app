@@ -68,35 +68,29 @@ exports.forgotPassword = async (req, res, next) => {
   const User = await user.findOne({ email: req.body.email });
   if (!User) {
     res.status(404).json({
+      success: false,
       error: "user not found",
     });
   } else {
-    // get resetPassword Token
-    const resetToken = await User.getResetPasswordToken();
-
-    await User.save({ validateBeforeSave: false });
-
-    const resetPasswordUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/vi/password/${resetToken}`;
-
-    const message = `Your password reset link \n\n ${resetPasswordUrl}`;
-
     try {
-      await sendEmail({
-        email: User.email,
-        subject: `E-commerce password Recovery`,
-        message,
-      });
+      // generate random 4 digit otp
+      let randomNum = Math.floor(Math.random() * 10000)
+        .toString()
+        .padStart(4, "0");
+      console.log(randomNum);
 
-      res.status(200).json({
-        sucess: true,
-        message: `Email sent to ${User.email} successfully!`,
-      });
+      sendEmail(req.body.email, randomNum)
+        .then((message) => {
+          req.session.otp = randomNum;
+          res.status(200).json({
+            sucess: true,
+            message: message,
+          });
+        })
+        .catch((error) => {
+          res.status(500).json(error.message);
+        });
     } catch (error) {
-      User.resetPasswordToken = undefined;
-      User.resetPasswordExpire = undefined;
-      await User.save({ validateBeforeSave: false });
       res.status(500).json(error.message);
     }
   }
@@ -120,25 +114,11 @@ exports.getuserDetail = async (req, res, next) => {
   }
 };
 
-exports.getUserForgotDetail = async (req, res) => {
-  const User = await user.findById(req.user.id).select("+password");
-  // console.log(User.password)
-
-  const isOldPasswordMatch = await User.comparePassword(req.body.oldPassword);
-
-  // if (!isOldPasswordMatch) {
-  //   return res.status(400).json("old password is incorrect");
-  // }
-
-  // if (req.body.newPassword !== req.body.confirmPassword) {
-  //   return res.status(400).json("old password is incorrect");
-  // }
-
-  User.password = req.body.confirmPassword;
-
-  await User.save({ validateBeforeSave: false });
-
-  sendToken(res, User, 201);
+exports.checkOTP = async (req, res) => {
+  console.log(req.body);
+  console.log(req.session);
+  res.json("hello");
+  // sendToken(res, User, 201);
 };
 
 exports.updateProfile = async (req, res) => {

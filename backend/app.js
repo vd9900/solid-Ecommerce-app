@@ -2,10 +2,21 @@ const Express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+var session = require("express-session");
 const app = Express();
 
 const errorHandler = require("./middleware/error");
+
+app.use(
+  session({
+    secret: "kingkong",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 app.use(cors());
+app.set("trust proxy", 1); // trust first proxy)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
@@ -20,7 +31,6 @@ app.use((req, res, next) => {
 // });
 
 //session
-app.set("trust proxy", 1); // trust first proxy)
 app.use(Express.json());
 app.use(cookieParser());
 // app.use(bodyParser.json());

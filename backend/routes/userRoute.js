@@ -9,6 +9,7 @@ const {
   updateProfile,
   getAllUser,
   getOneUser,
+  checkOTP,
 } = require("../controller/userController");
 
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
@@ -23,7 +24,7 @@ router.route("/logout").get(logout);
 
 router.route("/me").get(isAuthenticatedUser, getuserDetail);
 
-router.route("/password/update").put(isAuthenticatedUser, getUserForgotDetail);
+router.route("/password/forgot/checkotp").post(checkOTP);
 
 router.route("/me/update").put(isAuthenticatedUser, updateProfile);
 
