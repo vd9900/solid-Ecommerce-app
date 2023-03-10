@@ -20,6 +20,9 @@ import SignUp from "./pages/SignUp";
 import Mycart from "./pages/Mycart";
 import SeeAll from "./pages/SeeAll";
 import SingleProduct from "./pages/SingleProduct.jsx";
+import ResetEmail from "./components/login&signup/resetPassword/ResetEmail";
+import Enterotp from "./components/login&signup/resetPassword/Enterotp";
+import CreatePassword from "./components/login&signup/resetPassword/CreatePassword";
 
 function App() {
   const isAuth = useIsAuthenticated();
@@ -28,6 +31,13 @@ function App() {
     <SearchContext.Provider value={{ state, searchDispatch }}>
       <Router>
         <Routes>
+          <Route path="/welcome" element={<Starter />} />
+          <Route path="/forgot_password" element={<ResetEmail />} />
+          <Route path="/forgot_password/otp" element={<Enterotp />} />
+          <Route
+            path="/forgot_password/newPassword"
+            element={<CreatePassword />}
+          />
           <Route path="/welcome" element={<Starter />} />
 
           <Route path="/login" element={<Login />} />

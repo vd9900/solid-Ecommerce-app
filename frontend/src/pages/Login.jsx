@@ -126,7 +126,7 @@ const Login = () => {
                     : ""}
                 </p>
                 <div className="py-1 text-gray-600 text-right text-sm">
-                  <p>Forgot password?</p>
+                  <Link to={"/forgot_password"}>Forgot password?</Link>
                 </div>
               </div>
               <button
