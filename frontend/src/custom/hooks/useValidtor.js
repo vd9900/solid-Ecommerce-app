@@ -33,14 +33,7 @@ const onSubmit = (e) => {
   const onSucess = (fun) => {
     fun();
   };
-  useEffect(() => {
-    if (isSubmit && Object.entries(formError).length === 0) {
-      callback((err) => {
-        const key = Object.keys(err)[0];
-        const value = Object.values(err)[0];
-        setServerError({ [key]: value });
-        console.log(serverError);
-      });
+
       //   onSucess();
     }
   }, [formError]);
