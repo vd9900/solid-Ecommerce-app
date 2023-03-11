@@ -1,52 +1,35 @@
-const Express = require("express");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-var session = require("express-session");
-const app = Express();
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const session = require('express-session');
+const errorHandler = require('./middleware/error');
+const productRoutes = require('./routes/productRoute');
+const userRoutes = require('./routes/userRoute');
+const orderRoutes = require('./routes/orderRoute');
+const cartRoutes = require('./routes/cartRoute');
 
-const errorHandler = require("./middleware/error");
+const app = express();
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('trust proxy', 1);
 app.use(
   session({
-    secret: "kingkong",
+    secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
 );
 
-app.use(cors());
-app.set("trust proxy", 1); // trust first proxy)
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
-});
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
-//session
-app.use(Express.json());
-app.use(cookieParser());
-// app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
 // Routes
+app.use('/api/vi', productRoutes,userRoutes,orderRoutes,cartRoutes);
 
-const product = require("./routes/productRoute");
-const user = require("./routes/userRoute");
-const order = require("./routes/orderRoute");
-const cart = require("./routes/cartRoute");
-
-app.use("/api/vi", product, user, order, cart);
-// app.use("/api/", user)
-
-// middleware for error
+// Error middleware
 app.use(errorHandler);
 
 module.exports = app;

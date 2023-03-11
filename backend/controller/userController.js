@@ -1,4 +1,5 @@
 const user = require("../models/userModel");
+const { hashPassword } = require("../utils/hashPassword");
 const { sendToken } = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail.js");
 
@@ -10,15 +11,17 @@ exports.registerUser = async (req, res, next) => {
   // console.log(req.body);
   try {
     const { username, email, password } = req.body;
+    const securePass = await hashPassword(password);
     const newUser = await user.create({
       username,
       email,
-      password,
+      securePass,
       avatar: {
         public_id: "abc123",
         url: "profile_png",
       },
     });
+
     console.log(newUser);
     sendToken(res, newUser, 201);
   } catch (error) {
@@ -65,7 +68,8 @@ exports.logout = async (req, res, next) => {
 // forgot password
 
 exports.forgotPassword = async (req, res, next) => {
-  const User = await user.findOne({ email: req.body.email });
+  console.log(req.body);
+  const User = await user.findOne({ email: req.query.email });
   if (!User) {
     res.status(404).json({
       success: false,
@@ -88,9 +92,11 @@ exports.forgotPassword = async (req, res, next) => {
           });
         })
         .catch((error) => {
+          console.log(error);
           res.status(500).json(error.message);
         });
     } catch (error) {
+      console.log(error);
       res.status(500).json(error.message);
     }
   }
@@ -115,10 +121,68 @@ exports.getuserDetail = async (req, res, next) => {
 };
 
 exports.checkOTP = async (req, res) => {
-  console.log(req.body);
-  console.log(req.session);
-  res.json("hello");
+  console.log(req.query.otp);
+  console.log(req.session.otp);
+
+  if (req.query.otp === req.session.otp) {
+    req.session.isMatched = true;
+    res.status(200).json({
+      success: true,
+      data: "otp matched!",
+    });
+  } else {
+    if (!req.session.otp) {
+      res.status(200).json({
+        success: false,
+        error: "otp exipred",
+      });
+    } else {
+      res.status(200).json({
+        success: false,
+        error: "otp does not match!",
+      });
+    }
+  }
   // sendToken(res, User, 201);
+};
+
+exports.createNewPassword = async (req, res) => {
+  // console.log(req.body);
+  const password = req.body.password;
+  const email = req.body.email;
+  console.log(email, password);
+  console.log("jello");
+  console.log(req.session);
+  try {
+    const User = await user.find({ email });
+    // console.log(User);
+    if (User) {
+      const securePass = await hashPassword(password);
+      const UpdateUserPassword = await user.updateOne(
+        { email: req.body.email },
+        {
+          $set: {
+            password: securePass,
+          },
+        }
+      );
+      console.log(UpdateUserPassword);
+      if (UpdateUserPassword.acknowledged) {
+        res.status(201).json({
+          success: true,
+          data: "password has been changed",
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          data: "something went worng!",
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
 };
 
 exports.updateProfile = async (req, res) => {

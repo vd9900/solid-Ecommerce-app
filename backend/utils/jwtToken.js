@@ -12,6 +12,7 @@ exports.sendToken = async (res, user, statusCode) => {
       .cookie("token", token, options)
       .json({ sucess: true, user, token });
   } catch (error) {
+    // console.log(error)
     res.status(404).json({ sucess: false, error });
   }
 };

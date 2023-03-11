@@ -10,6 +10,9 @@ import { BiLock } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
+import { useSendEmailMutation } from "../../../services/updatePassword/forgotPasswordApi";
+import { useDispatch } from "react-redux";
+import { UserEmail } from "../../../services/products/productSlice";
 
 // input schema validation with YUP
 
@@ -23,16 +26,28 @@ const validationSchema = yup.object({
 const ResetEmail = () => {
   const SignIn = useSignIn();
   const navigate = useNavigate();
-  const onSubmit = async (values) => {
-    alert(JSON.stringify(values));
-  };
+  const dispatch = useDispatch();
 
+  const onSubmit = async (values) => {
+    dispatch(UserEmail(values.email));
+    sendEmail(values.email);
+  };
   const formik = useFormik({
     initialValues: { email: "" },
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
   });
+
+  const [sendEmail, { isSuccess, isError, error, data: emailData }] =
+    useSendEmailMutation();
+  console.log(emailData);
+
+  //   !error?.data?.sucess && formik.setErrors({ email: "user not exist" });
+
+  if (isSuccess) {
+    navigate("/forgot_password/otp");
+  }
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
       {false ? (

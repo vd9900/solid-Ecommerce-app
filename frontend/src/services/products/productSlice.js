@@ -12,9 +12,16 @@ const productSlice = createSlice({
     addClickedCategoryValueOfProduct: (state, action) => {
       return { ...state, clickedCategory: action.payload };
     },
+    UserEmail: (state, action) => {
+      return { ...state, UserEmail: action.payload };
+    },
   },
 });
 
-export const { addClickedValueOfProduct,addClickedCategoryValueOfProduct } = productSlice.actions;
+export const {
+  addClickedValueOfProduct,
+  addClickedCategoryValueOfProduct,
+  UserEmail,
+} = productSlice.actions;
 
 export default productSlice.reducer;
