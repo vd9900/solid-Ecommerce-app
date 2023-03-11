@@ -5,14 +5,12 @@ import React from "react";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addClickedCategoryValueOfProduct } from "../services/products/productSlice";
 
 export const SmCat = () => {
   const dispatch = useDispatch();
   const naviagate = useNavigate();
   const handleClickCategory = (e) => {
     const value = e.target.name || e.target.parentElement.name;
-    dispatch(addClickedCategoryValueOfProduct(value));
     naviagate("/products");
   };
   return (

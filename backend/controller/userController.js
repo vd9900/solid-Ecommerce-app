@@ -195,7 +195,7 @@ exports.updateProfile = async (req, res) => {
 
     res.status(200).json({
       sucess: true,
-      newUserDeatail,
+      message: "profile updated",
     });
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -209,7 +209,7 @@ exports.getAllUser = async (req, res) => {
     return res.status(404).json("user not founded");
   }
   res.status(200).json({
-    sucess: true,
+    success: true,
     User,
   });
 };

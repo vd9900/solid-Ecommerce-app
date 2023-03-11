@@ -5,76 +5,68 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loder";
 
+import { useFormik } from "formik";
+import * as yup from "yup";
+
 import img from "../assets/imgs/post1.jpg";
 import {
   useUpdateUserInfoMutation,
   useUserInfoQuery,
 } from "../services/userApi";
 import { useAuthUser } from "react-auth-kit";
+import { CircularProgress } from "@mui/material";
 
+const validationSchema = yup.object({
+  email: yup.string().email("Enter a valid email"),
+  username: yup.string().required("enter your username"),
+});
 const Profile = () => {
   // Importing required hooks
+
   const auth = useAuthUser();
   const { isLoading, data, isSuccess } = useUserInfoQuery(auth().email, {
     refetchOnMountOrArgChange: true,
   });
-  const [updateUserInfo, { data: updatedData, error }] =
-    useUpdateUserInfoMutation();
-  console.log(error);
-  console.log(updatedData);
+  const [
+    updateUserInfo,
+    {
+      data: updatedData,
+      error,
+      isLoading: updateUserProfileLoading,
+      isSuccess: updateUserProfileSuccess,
+    },
+  ] = useUpdateUserInfoMutation();
+  console.log("eerro", error);
+  console.log("succes", updatedData);
+  console.log(updateUserProfileLoading);
 
   // Extracting user data from fetched API and saving in userData variable
 
   const userData = data?.message;
+  console.log(userData);
   // Edit fields logic states initialization
   const [toggleEdit, setToggleEdit] = useState(false);
-  const [isEditDisable, setIsEditDisable] = useState(true);
-  const [usernameEditValue, setUsernameEditValue] = useState("");
-  const [emailEditValue, setEmailEditValue] = useState("");
 
   // set default value of form to user details
 
-  // Handler to submit edited details
-  const handleDetailsEdit = () => {
-    // Check whether the modified email and username values are the same as previous
-    // If so, do not allow editing further
-    // if (emailEditValue === userData?.email) return;
-    // if (usernameEditValue === userData?.username) return;
-    updateUserInfo({ username: usernameEditValue, email: emailEditValue });
-    setToggleEdit(false);
-  };
-
   // Handler to reset input fields and form
+
+  const formik = useFormik({
+    initialValues: { email: "", username: "" },
+    validateOnBlur: true,
+    onSubmit: (values, action) => {
+      updateUserInfo({ username: values.username, email: values.email });
+      action.resetForm();
+    },
+    validationSchema: validationSchema,
+  });
   const addAgainEditValue = () => {
     setToggleEdit(false);
-    setUsernameEditValue(userData?.username);
-    setEmailEditValue(userData?.email);
-    setIsEditDisable(true);
+    formik.resetForm();
   };
-
-  // Handler for capturing input events and setting new states to variables
-  const handleInputOnChange = (e) => {
-    // Check whether the change in input is equal to the current user details
-    if (
-      (usernameEditValue === userData?.username &&
-        emailEditValue === userData?.email) ||
-      e.target.value === ""
-    ) {
-      setIsEditDisable(true);
-    } else {
-      setIsEditDisable(false);
-    }
-
-    // Set new value of email, if email field is changed in input
-    if (e.target.name === "email") {
-      setEmailEditValue(e.target.value);
-    }
-
-    // Set new value of username, if username field is changed in input
-    if (e.target.name === "username") {
-      setUsernameEditValue(e.target.value);
-    }
-  };
+  useEffect(() => {
+    updateUserProfileSuccess && setToggleEdit(false);
+  }, [updateUserProfileSuccess]);
 
   return (
     <div className=" max-w-screen h-screen bg-gray-50">
@@ -89,7 +81,9 @@ const Profile = () => {
         <div className="relative pt-16 sm:w-11/12 md:w-10/12 lg:w-9/12 sm:h-5/6 mx-auto flex justify-center sm:items-center">
           <div className=" sm:relative w-full md:10/12 lg:w-11/12 xl:w-10/12   sm:h-5/6 flex max-sm:flex-col shadow-md bg-white/80 py-4 rounded-md">
             {/* edit toggel component */}
-            <div
+            <form
+              autoComplete=""
+              onSubmit={formik.handleSubmit}
               className={`${
                 toggleEdit ? "flex" : "hidden"
               } shadow-md flex flex-col duration-300  justify-between bg-gray-50 rounded-md py-2 gap-5  w-9/12  h-auto   absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
@@ -98,16 +92,22 @@ const Profile = () => {
                 <div className="border-b py-2">
                   <p className="px-3 font-serif  text-xl">Edit profile</p>
                 </div>
-                <div className="px-4 flex flex-col gap-3">
+                <div className="overflow-hidden px-4 flex flex-col gap-3">
                   <div className="p-2">
                     <p className="text-lg py-1">Username</p>
                     <input
                       type="text"
                       className="border bg-gray-100 outline-none py-1 w-full sm:w-6/12 px-3 rounded-sm "
                       name="username"
-                      value={usernameEditValue}
-                      onChange={handleInputOnChange}
+                      value={formik.values.username}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
+                    <p className="text-red-600 text-sm">
+                      {formik.touched.username && formik.errors.username
+                        ? formik.errors.username
+                        : ""}
+                    </p>
                   </div>
                   <div className="p-2">
                     <p className="text-lg py-1">Email</p>
@@ -115,28 +115,47 @@ const Profile = () => {
                       type="text"
                       className="border bg-gray-100 outline-none py-1 w-full sm:w-6/12 px-3 rounded-sm "
                       name="email"
-                      value={emailEditValue}
-                      onChange={handleInputOnChange}
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
+                    <p className="text-red-600 text-sm">
+                      {formik.touched.email && formik.errors.email
+                        ? formik.errors.email
+                        : ""}
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 px-3">
                 <button
-                  onClick={handleDetailsEdit}
-                  className="disabled:opacity-75 bg-black text-white  px-8 rounded-md py-1 "
-                  disabled={isEditDisable}
+                  // onClick={handleDetailsEdit}
+                  className=" bg-black text-white flex gap-2 items-center px-6 rounded-md py-1 "
+                  type="submit"
                 >
+                  <CircularProgress
+                    size={16}
+                    className={`${
+                      updateUserProfileLoading ? "inline-block" : "hidden"
+                    }`}
+                    style={{
+                      color: "white",
+                      display: `${
+                        updateUserProfileLoading ? "inline-block" : "none"
+                      }`,
+                    }}
+                  />
                   Edit
                 </button>
                 <button
                   onClick={addAgainEditValue}
-                  className="bg-red-500 text-white  px-8 rounded-md py-1 "
+                  className="border border-black  px-8 rounded-md py-1 "
+                  type="button"
                 >
                   cancel
                 </button>
               </div>
-            </div>
+            </form>
 
             <div className="sm:w-4/12 px-6 flex flex-col  items-center justify-evenly">
               <div className="flex flex-col gap-5 w-full">

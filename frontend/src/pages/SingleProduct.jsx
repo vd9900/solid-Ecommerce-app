@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
@@ -15,6 +15,9 @@ import { useProductQuery } from "../services/products/productApi";
 import { useAddToCartMutation } from "../services/carts/cartApi";
 import Loader from "../components/Loder";
 import { useAuthUser } from "react-auth-kit";
+import Review from "../components/Review";
+import { useAddReviewMutation } from "../services/reviews/reviewsApi";
+import { Rating } from "@mui/material";
 const posts = [
   {
     id: 1,
@@ -35,6 +38,8 @@ const posts = [
 ];
 
 const SingleProduct = () => {
+  const [toggleReview, setToggleReview] = useState(false);
+
   const auth = useAuthUser();
   const search = useLocation().search;
   const id = new URLSearchParams(search).get("id");
@@ -42,8 +47,7 @@ const SingleProduct = () => {
   // const { clickedProduct } = useSelector((state) => state.productsStore);
   const { data, isLoading, isSuccess } = useProductQuery(id);
   const dispatch = useDispatch();
-  const product = {};
-
+  console.log(data);
   // Add to cart logic
   const [addToCart, { isLoading: addCartLoading, data: cartData, error }] =
     useAddToCartMutation();
@@ -61,10 +65,10 @@ const SingleProduct = () => {
         <Loader />
       ) : (
         <div
-          className="pt-14 md:px-2 flex flex-col md:flex-row gap-6 md:gap-2 md:w-12/12
+          className="  pt-14 md:px-2 flex flex-col md:flex-row gap-0 md:gap-2 md:w-12/12
              lg:w-11/12 xl:w-10/12 md:pt-20 md:justify-center md:mx-auto"
         >
-          <div className="bg-white md:w-5/12 lg:w-4/12">
+          <div className="bg-white  md:w-5/12 lg:w-4/12  ">
             <div className="pb-2 md:p-2 h-auto relative flex">
               <Carousel
                 dotColor="bg-white md:bg-black"
@@ -86,14 +90,15 @@ const SingleProduct = () => {
               <p className="font-semibold text-2xl">{data?.message?.name}</p>
               <p className="text-sm">{data?.message?.description}</p>
               <div className="py-1 flex items-center">
-                <AiFillStar className="text-green-600" fontSize={20} />
-                <AiFillStar className="text-green-600" fontSize={20} />
-                <AiFillStar className="text-green-600" fontSize={20} />
-                <AiFillStar className="text-green-600" fontSize={20} />
-                <AiFillStar className="text-green-600" fontSize={20} />
-                <span className="pl-1 text-gray-600 text-sm font-medium">
-                  1,234
-                </span>
+                <div className="flex  items-center gap-1 pl-1 text-gray-600 text-sm font-medium">
+                  <Rating
+                    name="read-only"
+                    size="large"
+                    value={data?.message?.ratings}
+                    readOnly
+                  />
+                  <span>({data?.message?.numberOfReviews})</span>
+                </div>
               </div>
               <div className="py-2 flex items-center gap-3">
                 <p className="font-serif text-lg text-red-600">18% off</p>
@@ -115,34 +120,16 @@ const SingleProduct = () => {
               </div>
             </div>
           </div>
-          {/* Product review */}
 
-          <div className="bg-white  md:hidden">
-            <div className="px-6 py-2 ">
-              <div className="text-lg py-2 font-serif font-semibold">
-                <p>Product Deatils</p>
-              </div>
-              <div>
-                <ul className="list-disc  list-inside text-gray-800 flex flex-col gap-1">
-                  <li>long time battery</li>
-                  <li>long time battery</li>
-                  <li>long time battery</li>
-                  <li>long time battery</li>
-                  <li>long time battery</li>
-                  <li>long time battery</li>
-                </ul>
-              </div>
-            </div>
-          </div>
           {/* Product review */}
-          <div className="bg-white md:grow">
-            <div className=" py-2 ">
-              <div className="bg-white hidden md:block ">
-                <div className=" ">
+          <div className=" bg-white md:grow">
+            <div className=" pt-2  pb-16">
+              <div className="relative bg-white flex flex-col gap-2 border-b">
+                <div className="relative ">
                   <div className="text-lg px-6 border-b py-2 font-serif font-semibold">
                     <p>Product Deatils</p>
                   </div>
-                  <div className="px-6 py-6">
+                  <div className=" px-6 py-6">
                     <ul className="list-disc  list-inside text-gray-800 flex flex-col gap-1">
                       <li>long time battery</li>
                       <li>long time battery</li>
@@ -153,138 +140,81 @@ const SingleProduct = () => {
                     </ul>
                   </div>
                 </div>
-              </div>
-              <div className="px-6 flex items-center justify-between font-serif text-lg py-2 font-semibold">
-                <p>Rating & Reviews</p>
-                <button className="py-2 px-4 text-sm rounded-md bg-black text-white">
-                  Add Review
-                </button>
-              </div>
-              <div className="px-6 py-2">
-                <div className="border-4 px-4 flex-col border-black/90 mx-auto w-36 h-36 flex items-center justify-center rounded-full">
-                  <span className="text-3xl border-b-2 w-full justify-center py-2   text-gray-800 flex items-center">
-                    4.3
-                    <AiFillStar />
-                  </span>
-                  <p className="text-sm font-semibold text-gray-600 text-center">
-                    1,321 rating and 134 reviews
-                  </p>
+                <Review
+                  toggleReview={toggleReview}
+                  ontoggleChange={() => setToggleReview(!toggleReview)}
+                  productId={id}
+                />
+                <div className="px-6 flex items-center justify-between font-serif text-lg py-2 font-semibold">
+                  <p>Rating & Reviews</p>
+                  <button
+                    onClick={() => setToggleReview(!toggleReview)}
+                    className="py-2 px-4 text-sm rounded-md bg-black text-white"
+                  >
+                    Add Review
+                  </button>
+                </div>
+                <div className="hidden md:block px-6 py-4 ">
+                  <div className="border-4 px-4 flex-col border-black/90 mx-auto w-36 h-36 flex items-center justify-center rounded-full">
+                    <span className="text-4xl border-b-2 w-full justify-center py-2   text-gray-800 flex items-center">
+                      {data?.message?.ratings}
+                      <AiFillStar className="text-yellow-500" />
+                    </span>
+                    <p className="text-sm font-semibold text-gray-600 text-center">
+                      {data?.message.numberOfReviews} reviews
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="py-2">
-                <div className="flex flex-col gap-3 border-b-2 py-2">
-                  <div className="px-6 flex items-center gap-1 font-medium">
-                    <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
-                      4.3
-                    </span>
-                    <p>Super!</p>
-                  </div>
-                  <div className="px-6 ">
-                    <p className="textleading-tight text-gray-800">
-                      Backup is good. nice color and the delivery was so fast.
-                      thank you for this good product
-                    </p>
-                    <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
-                      <span>Vinith</span>•<span className="">2month ago</span>
+
+              {data.message.reviews?.map((rev) => (
+                <div className="py-1">
+                  <div className="flex flex-col gap-1 border-b py-2">
+                    <div className="px-6 text-lg font-medium text-gray-700 flex gap-2 items-center  ">
+                      <span>{rev.name}</span>
+                    </div>
+                    <div className="px-6 flex items-center gap-1 font-medium">
+                      <Rating
+                        name="read-only"
+                        size="small"
+                        value={rev.rating}
+                        readOnly
+                      />
+                    </div>
+                    <div className="px-6 ">
+                      <p className="textleading-tight text-gray-800">
+                        {rev.comment}
+                      </p>
+                    </div>
+                    <div className="px-6 font-mono text-sm">
+                      <span className="">{rev.PostedAt}</span>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="py-2">
-                <div className="flex flex-col gap-3 border-b-2 py-2">
-                  <div className="px-6 flex items-center gap-1 font-medium">
-                    <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
-                      4.3
-                    </span>
-                    <p>Super!</p>
-                  </div>
-                  <div className="px-6 ">
-                    <p className="textleading-tight text-gray-800">
-                      Backup is good. nice color and the delivery was so fast.
-                      thank you for this good product
-                    </p>
-                    <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
-                      <span>Vinith</span>•<span className="">2month ago</span>
+              ))}
+              {data.message?.reviews?.length === 0 ? (
+                <div className="py-2">
+                  <div className="flex flex-col  border-b py-4">
+                    <p className="font-medium text-center">No, reviews yet</p>
+                    {/* <div className="px-6 flex items-center gap-1 font-medium">
+                      <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
+                        4.3
+                      </span>
+                      <p>Super!</p>
+
                     </div>
+                    <div className="px-6 ">
+                      <p className="textleading-tight text-gray-800">
+                        Backup is good. nice color and the delivery was so fast.
+                        thank you for this good product
+                      </p>
+                      <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
+                        <span>Vinith</span>•<span className="">2month ago</span>
+                      </div>
+                    </div> */}
                   </div>
                 </div>
-              </div>
-              <div className="py-2">
-                <div className="flex flex-col gap-3 border-b-2 py-2">
-                  <div className="px-6 flex items-center gap-1 font-medium">
-                    <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
-                      4.3
-                    </span>
-                    <p>Super!</p>
-                  </div>
-                  <div className="px-6 ">
-                    <p className="textleading-tight text-gray-800">
-                      Backup is good. nice color and the delivery was so fast.
-                      thank you for this good product
-                    </p>
-                    <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
-                      <span>Vinith</span>•<span className="">2month ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="py-2">
-                <div className="flex flex-col gap-3 border-b-2 py-2">
-                  <div className="px-6 flex items-center gap-1 font-medium">
-                    <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
-                      4.3
-                    </span>
-                    <p>Super!</p>
-                  </div>
-                  <div className="px-6 ">
-                    <p className="textleading-tight text-gray-800">
-                      Backup is good. nice color and the delivery was so fast.
-                      thank you for this good product
-                    </p>
-                    <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
-                      <span>Vinith</span>•<span className="">2month ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="py-2">
-                <div className="flex flex-col gap-3 border-b-2 py-2">
-                  <div className="px-6 flex items-center gap-1 font-medium">
-                    <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
-                      4.3
-                    </span>
-                    <p>Super!</p>
-                  </div>
-                  <div className="px-6 ">
-                    <p className="textleading-tight text-gray-800">
-                      Backup is good. nice color and the delivery was so fast.
-                      thank you for this good product
-                    </p>
-                    <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
-                      <span>Vinith</span>•<span className="">2month ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="py-2">
-                <div className="flex flex-col gap-3 border-b-2 py-2">
-                  <div className="px-6 flex items-center gap-1 font-medium">
-                    <span className="text-white w-7 h-4 bg-green-500 flex items-center justify-center rounded-sm p-1 text-xs">
-                      4.3
-                    </span>
-                    <p>Super!</p>
-                  </div>
-                  <div className="px-6 ">
-                    <p className="textleading-tight text-gray-800">
-                      Backup is good. nice color and the delivery was so fast.
-                      thank you for this good product
-                    </p>
-                    <div className="text-sm font-mono text-gray-700 flex gap-2 items-center  ">
-                      <span>Vinith</span>•<span className="">2month ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ) : null}
             </div>
           </div>
         </div>

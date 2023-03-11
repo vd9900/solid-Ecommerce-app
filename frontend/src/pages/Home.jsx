@@ -19,7 +19,6 @@ import { useProductsQuery } from "../services/products/productApi";
 
 import Loder from "../components/Loder";
 import { TfiControlShuffle } from "react-icons/tfi";
-import { addClickedValueOfProduct } from "../services/products/productSlice";
 
 const AdsImg = [
   {
@@ -46,7 +45,6 @@ const Home = () => {
   const { data, isLoading, isSuccess, isError, error } = useProductsQuery();
   const navigate = useNavigate();
   const handleClickedProduct = (id) => {
-    dispatch(addClickedValueOfProduct(id));
     navigate("/product");
   };
   return (
@@ -55,9 +53,9 @@ const Home = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full pt-11 flex flex-col gap-10 sm:gap-16 ">
+        <div className="w-full pt-11 flex flex-col gap-10 sm:gap-0 ">
           {/* ads slide carousel */}
-          <div className="w-full h-auto py-3 flex flex-col gap-4">
+          <div className="w-full h-auto max-sm:py-3 flex flex-col gap-0">
             <div className="relative">
               <Carousel autoSlide={true} hideTools={true} style={["w-full "]}>
                 {AdsImg.map(({ id, url }) => {
@@ -81,36 +79,36 @@ const Home = () => {
             </div>
           </div>
           {/* Recommended products */}
-          <div className="w-full bg-gray-50  ">
-            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
-              <p className="font-medium text-lg sm:text-2xl px-2">
-                Special for you
-              </p>
-              <div className="w-full  p-2 gap-3 flex justify-around flex-wrap">
-                <ProductViewMore img="Special" />
-                {/* <Product />
-              <Product />
-              <Product />
-              <Product /> */}
-              </div>
-            </div>
-          </div>
+
           {/* fetching from server */}
           <div className="w-full bg-gray-50  ">
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
-              <p className="font-medium text-lg sm:text-2xl px-2">
-                all products
-              </p>
-              <div className="w-full  p-2  grid grid-cols-2 gap-1 justify-around ">
+              <p className="font-medium font-serif text-3xl p-2">Fashion</p>
+              <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
                 <ProductViewMore img="Special" />
                 {isSuccess &&
-                  data.products.map((product) => (
-                    <div key={product._id}>
-                      <Link to={`product/?id=${product._id}`}>
-                        <Product product={product} />
-                      </Link>
-                    </div>
-                  ))}
+                  data.products
+                    .filter((pro) => pro.category === "fashion")
+                    .map((product) => (
+                      // <div key={product._id} className="bg-pink-100">
+                      <Product key={product._id} product={product} />
+                      // </div>
+                    ))}
+                {/* {isError && <div>{error}</div>} */}
+              </div>
+            </div>
+            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
+              <p className="font-medium font-serif text-3xl p-2">Mobiles</p>
+              <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
+                <ProductViewMore img="Special" />
+                {isSuccess &&
+                  data.products
+                    .filter((pro) => pro.category === "mobile")
+                    .map((product) => (
+                      // <div key={product._id} className="bg-pink-100">
+                      <Product key={product._id} product={product} />
+                      // </div>
+                    ))}
                 {/* {isError && <div>{error}</div>} */}
               </div>
             </div>

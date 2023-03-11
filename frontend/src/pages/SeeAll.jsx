@@ -55,11 +55,6 @@ const SeeAll = () => {
   const handlePriceChange = (event, newValue) => {
     setPriceValue(newValue);
   };
-  const handleClickedProduct = (id) => {
-    console.log(id);
-    dispatch(addClickedValueOfProduct(id));
-    naviagate("/product");
-  };
 
   return (
     <div className="max-w-screen relative h-screen">

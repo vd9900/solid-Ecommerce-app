@@ -64,6 +64,10 @@ const productSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        PostedAt: {
+          type: Date,
+          default: Date.now(),
+        },
       },
     ],
     searchKeywords: [{ type: String }],
