@@ -183,9 +183,7 @@ const SeeAll = () => {
                 <div className=" sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
                   {isSuccess &&
                     data?.products.map((pro) => (
-                      <Link to={`/product/?id=${pro._id}`}>
-                        <Product key={pro._id} product={pro} />
-                      </Link>
+                      <Product key={pro._id} product={pro} />
                     ))}
                 </div>
               </div>

@@ -5,7 +5,10 @@ exports.getAllCart = async (req, res) => {
   const newCart = await Cart.findOne({ user: req.user._id });
   if (newCart) {
     Cart.findOne({ user: req.user._id })
-      .populate("cartProducts.product", "_id name price productPictures")
+      .populate(
+        "cartProducts.product",
+        "_id name price productPictures ratings numberOfReviews"
+      )
       .exec((error, cart) => {
         if (error) return res.status(400).json({ error });
         if (cart) {
@@ -16,6 +19,8 @@ exports.getAllCart = async (req, res) => {
               name: item.product.name,
               price: item.product.price,
               qty: item.quantity,
+              rating: item.rating,
+              numberOfReviews: item.numberOfReviews,
             });
           });
           res.status(200).json(cartItems);

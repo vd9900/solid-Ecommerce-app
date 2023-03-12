@@ -4,7 +4,7 @@ exports.sendToken = async (res, user, statusCode) => {
 
     //options for cookie
     const options = {
-      expires: new Date(Date.now() + 5 * 24 * 60 * 60 * 100),
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 100),
       httpOnly: true,
     };
     res

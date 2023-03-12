@@ -17,8 +17,8 @@ const options = {
 const Product = ({ product }) => {
   console.log(product);
   return (
-    <div className=" bg-blue-50  shadow-lg   flex flex-col   cursor-pointer">
-      <Link to={`product/?id=${product._id}`}>
+    <div className=" bg-white  shadow-lg   flex flex-col   cursor-pointer">
+      <Link to={`/product/?id=${product._id}`}>
         <div className="mx-auto">
           <div className="p-2 mx-auto">
             <img

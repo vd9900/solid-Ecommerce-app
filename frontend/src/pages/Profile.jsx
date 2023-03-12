@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+// import moment from "m";
 import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
@@ -17,12 +17,15 @@ import { useAuthUser } from "react-auth-kit";
 import { CircularProgress } from "@mui/material";
 
 const validationSchema = yup.object({
-  email: yup.string().email("Enter a valid email"),
-  username: yup.string().required("enter your username"),
+  email: yup
+    .string()
+    .email("Enter a new email address")
+    .required("please your email"),
+  username: yup.string().required("Enter new username"),
 });
 const Profile = () => {
   // Importing required hooks
-
+  const [toggleEdit, setToggleEdit] = useState(false);
   const auth = useAuthUser();
   const { isLoading, data, isSuccess } = useUserInfoQuery(auth().email, {
     refetchOnMountOrArgChange: true,
@@ -36,16 +39,11 @@ const Profile = () => {
       isSuccess: updateUserProfileSuccess,
     },
   ] = useUpdateUserInfoMutation();
-  console.log("eerro", error);
-  console.log("succes", updatedData);
-  console.log(updateUserProfileLoading);
-
+  // const formattedDate = moment(date).format("MM/DD/YYYY h:mm A");
   // Extracting user data from fetched API and saving in userData variable
 
   const userData = data?.message;
-  console.log(userData);
   // Edit fields logic states initialization
-  const [toggleEdit, setToggleEdit] = useState(false);
 
   // set default value of form to user details
 
@@ -103,7 +101,7 @@ const Profile = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
-                    <p className="text-red-600 text-sm">
+                    <p className="text-red-600 text-xs">
                       {formik.touched.username && formik.errors.username
                         ? formik.errors.username
                         : ""}
@@ -119,7 +117,7 @@ const Profile = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
-                    <p className="text-red-600 text-sm">
+                    <p className="text-red-600 text-xs">
                       {formik.touched.email && formik.errors.email
                         ? formik.errors.email
                         : ""}
@@ -130,7 +128,8 @@ const Profile = () => {
               <div className="flex items-center justify-end gap-3 px-3">
                 <button
                   // onClick={handleDetailsEdit}
-                  className=" bg-black text-white flex gap-2 items-center px-6 rounded-md py-1 "
+                  className=" disabled:bg-black/90 bg-black text-white flex gap-2 items-center px-6 rounded-md py-1 "
+                  disabled={updateUserProfileLoading}
                   type="submit"
                 >
                   <CircularProgress
@@ -212,7 +211,7 @@ const Profile = () => {
                   <span className="">
                     <p className="text-sm p-0 text-gray-700">Last login</p>
                     <p className="p-0 m-0 leading-4 font-medium font-mono text-gray-800">
-                      {Date(data.message?.updatedAt)}
+                      {Date(data?.message?.updatedAt)}
                     </p>
                   </span>
                   <span className="">

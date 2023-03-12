@@ -53,9 +53,9 @@ const Home = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full pt-11 flex flex-col gap-10 sm:gap-0 ">
+        <div className="w-full pt-11 flex flex-col  ">
           {/* ads slide carousel */}
-          <div className="w-full h-auto max-sm:py-3 flex flex-col gap-0">
+          <div className="w-full h-auto flex flex-col gap-0">
             <div className="relative">
               <Carousel autoSlide={true} hideTools={true} style={["w-full "]}>
                 {AdsImg.map(({ id, url }) => {
@@ -104,6 +104,51 @@ const Home = () => {
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "mobile")
+                    .map((product) => (
+                      // <div key={product._id} className="bg-pink-100">
+                      <Product key={product._id} product={product} />
+                      // </div>
+                    ))}
+                {/* {isError && <div>{error}</div>} */}
+              </div>
+            </div>
+            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
+              <p className="font-medium font-serif text-3xl p-2">Grocery</p>
+              <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
+                <ProductViewMore img="Special" />
+                {isSuccess &&
+                  data.products
+                    .filter((pro) => pro.category === "grocery")
+                    .map((product) => (
+                      // <div key={product._id} className="bg-pink-100">
+                      <Product key={product._id} product={product} />
+                      // </div>
+                    ))}
+                {/* {isError && <div>{error}</div>} */}
+              </div>
+            </div>
+            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
+              <p className="font-medium font-serif text-3xl p-2">Electronics</p>
+              <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
+                <ProductViewMore img="Special" />
+                {isSuccess &&
+                  data.products
+                    .filter((pro) => pro.category === "electronics")
+                    .map((product) => (
+                      // <div key={product._id} className="bg-pink-100">
+                      <Product key={product._id} product={product} />
+                      // </div>
+                    ))}
+                {/* {isError && <div>{error}</div>} */}
+              </div>
+            </div>
+            <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
+              <p className="font-medium font-serif text-3xl p-2">Toys & more</p>
+              <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
+                <ProductViewMore img="Special" />
+                {isSuccess &&
+                  data.products
+                    .filter((pro) => pro.category === "toys_more")
                     .map((product) => (
                       // <div key={product._id} className="bg-pink-100">
                       <Product key={product._id} product={product} />

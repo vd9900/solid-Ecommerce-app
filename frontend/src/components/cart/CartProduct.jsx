@@ -1,3 +1,4 @@
+import { Rating } from "@mui/material";
 import React, { useEffect } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { BiMinus } from "react-icons/bi";
@@ -30,13 +31,14 @@ const CartProduct = ({ productId }) => {
           {/* product details */}
           <p>{product?.name}</p>
           <div className="py-1 flex items-center">
-            <AiFillStar className="text-yellow-400" fontSize={20} />
-            <AiFillStar className="text-yellow-400" fontSize={20} />
-            <AiFillStar className="text-yellow-400" fontSize={20} />
-            <AiFillStar className="text-yellow-400" fontSize={20} />
-            <AiFillStar className="text-yellow-400" fontSize={20} />
+            <Rating
+              name="read-only"
+              size="large"
+              value={product?.ratings}
+              readOnly
+            />
             <span className="pl-1 text-orange-800 text-sm font-medium">
-              (1,234)
+              ({product?.numberOfReviews})
             </span>
           </div>
           <div className="py-1 flex items-center gap-3">

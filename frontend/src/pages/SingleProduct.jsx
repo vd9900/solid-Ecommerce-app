@@ -45,7 +45,9 @@ const SingleProduct = () => {
   const id = new URLSearchParams(search).get("id");
   console.log(id);
   // const { clickedProduct } = useSelector((state) => state.productsStore);
-  const { data, isLoading, isSuccess } = useProductQuery(id);
+  const { data, isLoading, isSuccess } = useProductQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const dispatch = useDispatch();
   console.log(data);
   // Add to cart logic

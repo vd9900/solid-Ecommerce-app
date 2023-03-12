@@ -1,5 +1,5 @@
-import { Rating } from "@mui/material";
-import React, { useState } from "react";
+import { CircularProgress, Rating } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useAddReviewMutation } from "../services/reviews/reviewsApi";
 
 const Review = ({ toggleReview, ontoggleChange, productId }) => {
@@ -8,20 +8,19 @@ const Review = ({ toggleReview, ontoggleChange, productId }) => {
     rating: 0,
     comment: "",
   });
-  const [addReview, { error: reviewError, data: reviewData }] =
-    useAddReviewMutation();
+  const [
+    addReview,
+    { error: reviewError, data: reviewData, isSuccess, isLoading },
+  ] = useAddReviewMutation();
 
   const handleAddReview = () => {
-    alert(JSON.stringify(reviews));
+    if (reviews.comment === "") return;
     const reviewInfo = { ...reviews, productId };
-    console.log(reviewInfo);
     addReview(reviewInfo);
   };
-  console.log("error", reviewError);
-  console.log("success", reviewData);
-//   if (reviewData?.success) {
-//     ontoggleChange();
-//   }
+  useEffect(() => {
+    isSuccess && ontoggleChange();
+  }, [isSuccess]);
 
   return (
     <div
@@ -67,10 +66,18 @@ const Review = ({ toggleReview, ontoggleChange, productId }) => {
       <div className="flex items-center justify-end gap-3 px-3">
         <button
           onClick={handleAddReview}
-          className="disabled:opacity-75 bg-black text-white  px-8 rounded-md py-1 "
-          //   disabled={isEditDisable}
+          className="disabled:opacity-75 flex items-center gap-1  bg-black text-white  px-6 rounded-md py-1 "
+          disabled={isLoading}
         >
-          Edit
+          <CircularProgress
+            size={16}
+            style={{
+              color: "white",
+              display: `${isLoading ? "inline-block" : "none"}`,
+            }}
+            className="text-black"
+          />
+          Post
         </button>
         <button
           onClick={() => ontoggleChange()}

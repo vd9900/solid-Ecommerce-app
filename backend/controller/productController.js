@@ -153,35 +153,27 @@ exports.createProductReview = async (req, res) => {
     rating: req.body.rating,
     comment: req.body.comment,
   };
-  const product = await Product.findById(req.body.productId);
-  // const isReviewed = product.reviews.find(
-  //   (rev) => rev.user.toString() === req.user._id.toString()
-  // );
+  try {
+    const product = await Product.findById(req.body.productId);
 
-  // if (isReviewed) {
-  // } else {
-  product.reviews.push(review);
-  product.numberOfReviews = product.reviews.length;
-  // }
-  // if (isReviewed) {
-  //   product.reviews.forEach((rev) => {
-  //     if (rev.user.toString() === req.user._id.toString()) {
-  //       (rev.rating = rating), (rev.comment = comment);
-  //     }
-  //   });
-  // } else {
-  //   product.reviews.push(review);
-  //   product.numberOfReviews = product.reviews.length;
-  // }
-  let avg = 0;
+    product.reviews.push(review);
+    product.numberOfReviews = product.reviews.length;
 
-  product.reviews.forEach((rev) => {
-    console.log(rev.rating);
-    avg = avg += rev.rating;
-  });
-  product.ratings = avg / product.reviews.length;
+    let avg = 0;
 
-  await product.save({ validateBeforeSave: false });
+    product.reviews.forEach((rev) => {
+      console.log(rev.rating);
+      avg = avg += rev.rating;
+    });
+    product.ratings = avg / product.reviews.length;
 
-  res.status(200).json({ success: true });
+    await product.save({ validateBeforeSave: false });
+
+    res.status(200).json({ success: true, message: "review posted" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error,
+    });
+  }
 };
