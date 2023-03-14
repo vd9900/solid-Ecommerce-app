@@ -63,9 +63,9 @@ const Navbar = ({ onSearch }) => {
                 <BsCart3 fontSize={24} /> Go to cart
               </span>
             </Link>
-            <Link>
+            <Link to={"/myorders"}>
               <span className=" flex items-center p-2 gap-1">
-                <MdLogout /> Logout
+                <MdLogout /> Orders
               </span>
             </Link>
             <Link to={"/me"}>

@@ -59,7 +59,7 @@ const SignUp = () => {
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
       <div className="w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200  sm:h-5/6 h-full  flex flex-col justify-around">
-        <div className="w-10/12    mx-auto flex flex-col max-sm:gap-10">
+        <div className="w-10/12  mx-auto flex flex-col max-sm:gap-8 gap-4">
           <p className="text-3xl text-gray-800 font-medium font-serif mx-auto">
             SignUp
           </p>
@@ -89,7 +89,7 @@ const SignUp = () => {
               </div>
             </div> */}
             {/* username and password and avatar */}
-            <div className={`${true ? "flex" : "hidden"} flex-col gap-10`}>
+            <div className={`${true ? "flex" : "hidden"} flex-col gap-8`}>
               <div>
                 <p className="font-semibold text-gray-600">Username</p>
                 <div className="flex items-center gap-2 py-2 border-b-2 focus-within:border-b-2 focus-within:border-black/60 duration-200">
@@ -106,7 +106,7 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                   />
                 </div>
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-xs">
                   {formik.touched.username && formik.errors.username
                     ? formik.errors.username
                     : ""}
@@ -129,7 +129,7 @@ const SignUp = () => {
                       onBlur={formik.handleBlur}
                     />
                   </div>
-                  <p className="text-red-600 text-sm">
+                  <p className="text-red-600 text-xs">
                     {formik.touched.email && formik.errors.email
                       ? formik.errors.email
                       : ""}
@@ -153,7 +153,7 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                   />
                 </div>
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-xs">
                   {formik.touched.password && formik.errors.password
                     ? formik.errors.password
                     : ""}
@@ -171,14 +171,14 @@ const SignUp = () => {
               </button>
             ) : (
               <button
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   true ? setGoNext(true) : null;
-                // }}
-                className="flex items-center justify-center gap-1 font-sans bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 cursor-pointer rounded-md text-white hover:bg-black w-full py-2  font-bold border-black"
+                type="submit"
+                className="
+ font-serif shadow-md bg-black text-white
+                 cursor-pointer rounded-full 
+                  w-11/12 mx-auto py-2  font-bold border-black
+                  transition duration-200 transform active:scale-95 ease-in-out"
               >
-                next
-                <HiOutlineChevronDoubleRight />
+                SignUp
               </button>
             )}
           </form>

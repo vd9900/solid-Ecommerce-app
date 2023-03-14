@@ -44,7 +44,7 @@ const Profile = () => {
 
   const userData = data?.message;
   // Edit fields logic states initialization
-
+  console.log(error);
   // set default value of form to user details
 
   // Handler to reset input fields and form

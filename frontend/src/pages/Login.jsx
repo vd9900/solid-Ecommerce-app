@@ -74,7 +74,7 @@ const Login = () => {
       ) : (
         <div className=" w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200 h-full sm:h-5/6  flex flex-col justify-around">
           <div className="w-10/12    mx-auto flex flex-col gap-10">
-            <p className="text-3xl font-medium text-gray-800 font-serif mx-auto">
+            <p className="text-3xl font-medium text-gray-900 font-serif mx-auto">
               SignIn
             </p>
             <form
@@ -125,13 +125,19 @@ const Login = () => {
                     ? formik.errors.password
                     : ""}
                 </p>
-                <div className="py-1 text-gray-600 text-right text-sm">
+                <div className="py-1 text-gray-700 text-right text-sm">
                   <Link to={"/forgot_password"}>Forgot password?</Link>
                 </div>
               </div>
               <button
                 type="submit"
-                className="font-sans text-lg shadow-md bg-slate-800 text-white cursor-pointer rounded-md   w-full py-2  font-bold border-black"
+                className="
+               mx-auto w-10/12
+               font-serif shadow-md bg-black text-white
+                 cursor-pointer rounded-full 
+
+                 py-2  font-bold border-black
+                  transition duration-200 transform active:scale-95 ease-in-out"
               >
                 Login
               </button>

@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import productSlice from "./services/products/productSlice";
+import cartSplice from "./services/carts/cartSplice";
 
 // const rootPersistConfig = {
 //   key: "root",
@@ -20,6 +21,7 @@ export const store = configureStore({
   reducer: {
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
     productsStore: productSlice,
+    cartsStore: cartSplice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(emptySplitApi.middleware),

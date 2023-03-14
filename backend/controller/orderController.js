@@ -4,30 +4,23 @@ const Product = require("../models/productModel");
 //create new order
 
 exports.newOrder = async (req, res) => {
-  const {
-    shippingInfo,
-    orderItems,
-    paymentInfo,
-    itemPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
+  console.log(req.body);
+  console.log("lsdkfl");
   const newOrder = await Order.create({
-    shippingInfo,
-    orderItems,
-    paymentInfo,
-    itemPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    paidAt: Date.now(),
+    fullname: req.body.fullname,
+    shippingInfo: {
+      address: req.body.address,
+      city: req.body.city,
+      country: req.body.city,
+    },
+    orderItems: req.body.products,
     user: req.user._id,
+    totalPaid: req.body.total,
   });
 
   res.status(201).json({
     sucess: true,
-    newOrder,
+    data: newOrder,
   });
 };
 

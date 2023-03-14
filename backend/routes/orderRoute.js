@@ -9,7 +9,7 @@ const {
 } = require("../controller/orderController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 
-router.route("/order/new").post(isAuthenticatedUser, newOrder);
+router.route("/myorders/new").post(isAuthenticatedUser, newOrder);
 
 router.route("/order/").get(isAuthenticatedUser, getOneOrder);
 

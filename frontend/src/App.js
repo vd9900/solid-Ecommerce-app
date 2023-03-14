@@ -23,6 +23,9 @@ import SingleProduct from "./pages/SingleProduct.jsx";
 import ResetEmail from "./components/login&signup/resetPassword/ResetEmail";
 import Enterotp from "./components/login&signup/resetPassword/Enterotp";
 import CreatePassword from "./components/login&signup/resetPassword/CreatePassword";
+import Address from "./components/order/Address";
+import Payment from "./components/order/Payment";
+import Order from "./components/Order";
 
 function App() {
   const isAuth = useIsAuthenticated();
@@ -65,6 +68,31 @@ function App() {
             element={
               <RequireAuth loginPath="/welcome">
                 <Mycart />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/myorders"
+            element={
+              <RequireAuth loginPath="/welcome">
+                <Order />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/payment"
+            element={
+              <RequireAuth loginPath="/welcome">
+                <Payment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/cart/address"
+            element={
+              <RequireAuth loginPath="/welcome">
+                <Address />
               </RequireAuth>
             }
           />
