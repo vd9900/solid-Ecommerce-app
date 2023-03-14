@@ -12,6 +12,7 @@ import Loader from "../components/Loder";
 import CartProduct from "../components/cart/CartProduct";
 import { addToCart, calucalteToltal } from "../services/carts/cartSplice";
 import { Link } from "react-router-dom";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 const Mycart = () => {
   const {
     data: carts,
@@ -69,7 +70,7 @@ const Mycart = () => {
             <div className="md:w-8/12 w-full">
               <div className="mx-auto flex flex-col gap-3 h-full">
                 {/* all carts here */}
-                <div className="flex flex-col pb-16 ">
+                <div className="flex flex-col pb-16 px-2">
                   {isSuccess &&
                     carts.map((product) => (
                       <CartProduct
@@ -89,8 +90,8 @@ const Mycart = () => {
                 <div className="w-full fixed bottom-0 flex md:hidden  border-black/80 py-2 px-2 bg-gray-200 justify-between items-center">
                   <div className="px-3 py-1 flex items-center gap-1">
                     <span className="flex gap-1 text-lg font-semibold items-center">
-                      Total
-                      <FaAt fontSize={24} />
+                      <AiOutlineInfoCircle fontSize={28} />
+                      Total :
                     </span>
                     <p className="font-mono font-semibold text-2xl">
                       ₹{totalAmout}
@@ -110,19 +111,15 @@ const Mycart = () => {
               {/* Save for later here */}
             </div>
             {/* payment here */}
-            <div className="hidden md:block md:w-4/12 h-60 bg-white ">
+            <div className="hidden md:block md:w-4/12 h-56 bg-white shadow-md rounded-md">
               <div className="flex flex-col gap-1">
                 <div>
                   <p className="py-2 px-4 border-b font-serif">Price Detials</p>
                 </div>
                 <div className="py-2 px-4 flex flex-col gap-2">
                   <div className="flex items-center justify-between">
-                    <p>Price(2 items)</p>
-                    <p>₹899</p>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p>You saved</p>
-                    <p className="text-green-700">₹999</p>
+                    <p>Cart items</p>
+                    <p>{carts?.length}</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p>Delivery Charges</p>
@@ -130,16 +127,18 @@ const Mycart = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="font-semibold">Total Amount </p>
-                    <p className="text-xl font-semibold">{totalAmout}</p>
+                    <p className="text-xl font-semibold">₹{totalAmout}</p>
                   </div>
                 </div>
                 {/* place order btn here */}
-                <div className="border-t py-1 md:flex mb-auto  px-4 justify-end items-center ">
+                <div className="border-t py-2 md:flex mb-auto  px-4 justify-end items-center ">
                   <Link
-                    to={"address"}
-                    className="w-32 text-white flex items-center p-2 rounded-sm bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                    to={`${totalAmout > 0 ? "address" : ""}`}
+                    className={`${
+                      totalAmout > 0 ? "bg-black/90" : "bg-black/70"
+                    } flex  gap-1   font-medium border items-center w-5/12 py-2 px-2 justify-center  text-white  rounded-full`}
                   >
-                    <span className="font-semibold">Place order</span>
+                    Check out
                     <HiOutlineCursorArrowRays fontSize={25} />
                   </Link>
                 </div>

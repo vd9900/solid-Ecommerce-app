@@ -27,29 +27,49 @@ exports.newOrder = async (req, res) => {
 //get single order
 
 exports.getOneOrder = async (req, res) => {
-  const order = await Order.findById(req.query.id).populate(
-    "user",
-    "name email"
-  );
+  try {
+    const order = await Order.findById(req.query.order);
 
-  if (!order) return res.status(404).json("Order not exist");
+    if (!order)
+      return res.status(404).json({ success: false, error: "Order not exist" });
 
-  res.status(200).json({
-    sucess: true,
-    order,
-  });
+    res.status(200).json({
+      sucess: true,
+      message: order,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      error: error,
+    });
+  }
 };
 
 //get login user order
 exports.myOrders = async (req, res) => {
-  const order = await Order.find();
+  try {
+    const order = await Order.find({ user: req.user._id }).select([
+      "fullname",
+      "_id",
+      "createdAt",
+    ]);
+    if (!order)
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not exist" });
 
-  if (!order) return res.status(404).json("Order not exist");
-
-  res.status(200).json({
-    sucess: true,
-    order,
-  });
+    res.status(200).json({
+      sucess: true,
+      message: order,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
 };
 
 //get all order (admin)

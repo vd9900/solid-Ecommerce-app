@@ -12,7 +12,14 @@ const orderApi = emptySplitApi.injectEndpoints({
     getOrderDetails: bulid.query({
       query: () => "api/vi/myorders",
     }),
+    getSignaleOrderDetails: bulid.query({
+      query: (order) => `api/vi/order/?order=${order}`,
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useGetOrderDetailsQuery,
+  useGetSignaleOrderDetailsQuery,
+} = orderApi;

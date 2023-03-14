@@ -25,7 +25,10 @@ import Enterotp from "./components/login&signup/resetPassword/Enterotp";
 import CreatePassword from "./components/login&signup/resetPassword/CreatePassword";
 import Address from "./components/order/Address";
 import Payment from "./components/order/Payment";
-import Order from "./components/Order";
+import Order from "./components/order/Order";
+import SingleOrder from "./components/order/SingleOrder";
+import { Helmet } from "react-helmet";
+// import SingleOrder from "./components/Order/SingleOrder";
 
 function App() {
   const isAuth = useIsAuthenticated();
@@ -33,6 +36,11 @@ function App() {
   return (
     <SearchContext.Provider value={{ state, searchDispatch }}>
       <Router>
+        <header>
+          <Helmet>
+            <title>E-commerce</title>
+          </Helmet>
+        </header>
         <Routes>
           <Route path="/welcome" element={<Starter />} />
           <Route path="/forgot_password" element={<ResetEmail />} />
@@ -76,6 +84,14 @@ function App() {
             element={
               <RequireAuth loginPath="/welcome">
                 <Order />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/order"
+            element={
+              <RequireAuth loginPath="/welcome">
+                <SingleOrder />
               </RequireAuth>
             }
           />
