@@ -101,7 +101,7 @@ const CartProduct = ({ product, refetch }) => {
           </div>
 
           <div className="max-md:hidden flex gap-4  w-10/12 items-center">
-            <div className=" text-gray-700 text-lg text-center">
+            <div className=" text-gray-700  text-center">
               <p className="text-center flex gap-1 items-center">
                 ₹{product?.price}
                 <RiCloseLine /> {Qty}:QTY =
@@ -125,7 +125,7 @@ const CartProduct = ({ product, refetch }) => {
           <p className="text-center">
             ₹{product?.price} * {Qty}:QTY =
             <span className="text-xl font-medium text-black">
-              {" "}
+
               ₹{Qty * product?.price}
             </span>
           </p>
