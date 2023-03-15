@@ -5,27 +5,26 @@ const ApiFeatures = require("../utils/apifeatures/apifeatures");
 // GET
 
 exports.getAllProducts = async (req, res) => {
+  console.log(req.query);
   let match = {};
   let page = req.query?.page;
   let paginationCount;
   try {
-    //send reslut based category
-    if (req.query.category) {
-      match.category = req.query?.category;
-      match.price = {};
-      match.price["$gte"] = req.query.price?.gte || 0;
-      match.price["$lte"] = req.query.price?.lte || 100000;
-    }
     //send reslut based search
     if (req.query.search) {
-      match.searchKeywords = {
-        $regex: req.query.search,
-        $options: "i",
-      };
-      match.price = {};
-      match.price["$gte"] = req.query?.price?.lte || 0;
-      match.price["$lte"] = req.query?.price?.lte || 100000;
+      match.$or = [
+        {
+          name: new RegExp(req.query.search, "i"),
+        },
+        { searchKeywords: new RegExp(req.query.search, "i") },
+        {
+          category: new RegExp(req.query.search, "i"),
+        },
+      ];
     }
+    match.price = {};
+    match.price["$gte"] = req.query?.price?.gte || 0;
+    match.price["$lte"] = req.query?.price?.lte || 100000;
     //send reslut based sort
     Checksort = {};
     const sortValue = [
@@ -165,7 +164,7 @@ exports.createProductReview = async (req, res) => {
       console.log(rev.rating);
       avg = avg += rev.rating;
     });
-    product.ratings = avg / product.reviews.length;
+    product.ratings = Math.ceil(avg / product.reviews.length);
 
     await product.save({ validateBeforeSave: false });
 
