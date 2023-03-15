@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ReactStarts from "react-rating-stars-component";
 
 import { AiFillStar } from "react-icons/ai";
@@ -14,8 +14,7 @@ const options = {
   activeColor: "black",
 };
 
-const Product = ({ product }) => {
-  console.log(product);
+const Product = memo(({ product }) => {
   return (
     <div className=" bg-white  shadow-lg   flex flex-col   cursor-pointer">
       <Link to={`/product/?id=${product._id}`}>
@@ -61,6 +60,6 @@ const Product = ({ product }) => {
       </Link>
     </div>
   );
-};
+});
 
 export default Product;

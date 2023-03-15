@@ -20,6 +20,7 @@ import {
 import Button from "@mui/material/Button";
 
 import { useSignOut } from "react-auth-kit";
+import { addSearchValue } from "../services/products/productSlice";
 
 const Navbar = ({ onSearch }) => {
   const signOut = useSignOut();
@@ -28,13 +29,13 @@ const Navbar = ({ onSearch }) => {
 
   // const dispatch = useContext(SearchContext);
 
-  const dispatchLogout = useDispatch();
+  const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
-
-    navigate(`/products/?search=${searchQuery}`);
+    dispatch(addSearchValue(searchQuery));
+    navigate(`/products`);
   };
   const handleLogout = () => {};
 
@@ -95,15 +96,15 @@ const Navbar = ({ onSearch }) => {
           className="flex items-center   max-md:justify-between w-full gap-2"
           onSubmit={handleSearchQuerySubmit}
         >
-          <div className=" w-full flex items-center max-md:shadow-md max-md:border max-md:bg-white px-3 rounded-full">
+          <div className=" w-full flex items-center max-md:shadow-md max-md:border max-md:bg-white md:pl-4 rounded-full">
             <AiOutlineSearch
               fontSize={24}
               className="md:hidden text-gray-400"
             />
             <input
               type="text"
-              placeholder="search..."
-              className="outline-none bg-transparent w-full  md:rounded-md md:border-2  md:bg-white max-sm:py-2 py-1  px-1"
+              placeholder="Search..."
+              className="outline-none bg-transparent w-full  md:rounded-full md:border-2  md:bg-white max-sm:py-2 py-2  px-3"
               onChange={(e) => {
                 setSearchQuery(e.target.value);
               }}
@@ -118,7 +119,10 @@ const Navbar = ({ onSearch }) => {
           </div>
           <button
             type="submit"
-            className="hidden md:flex items-center px-4 py-1 gap-1 rounded-md  border-2 border-black"
+            className="hidden 
+            md:flex
+              px-6 py-2  border rounded-full
+              transition duration-200 transform active:scale-95 ease-in-out"
           >
             <p className="hidden md:block">Search</p>
             <BsSearch fontSize={22} className="sm:hidden" />

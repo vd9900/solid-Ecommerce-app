@@ -1,9 +1,9 @@
 // hooks & redux
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 //material ui
-import { Box, ButtonGroup, Pagination, Slider } from "@mui/material";
+import { Box, ButtonGroup, debounce, Pagination, Slider } from "@mui/material";
 import PaginationLink from "../components/search/pagination";
 
 //icons
@@ -26,20 +26,30 @@ import {
 import {
   addClickedCategoryValueOfProduct,
   addClickedValueOfProduct,
+  addPriceRange,
+  clearFilter,
 } from "../services/products/productSlice";
+import { DebounceSearch, useDebounce } from "../utils/hooks/Deboune";
 
 const SeeAll = () => {
-  // to get Search
   const dispatch = useDispatch();
-  const naviagate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const filterDetails = useSelector(
+    (state) => state.productsStore.SearchAndFilter
+  );
+  const searchParams = new URLSearchParams({
+    ...filterDetails,
+    page: 2,
+    limit: 6,
+  }).toString();
+  console.log(searchParams);
+  // const id = searchParams.get("search");
 
-  // get url  address
-  const routeAddress = window.location.href.split("/").splice(3).join("/");
-  // console.log(routeAddress);
-  const { state } = useContext(SearchContext);
   // const { clickedCategory } = useSelector((state) => state.productsStore);
-  const { data, isLoading, isSuccess } =
-    useProductByCategoryQuery(routeAddress);
+  // const rootUrl = window.location.href.split("/").splice(3).join("");
+  const { data, isLoading, isSuccess, refetch } =
+    useProductByCategoryQuery(searchParams);
   console.log(data);
   // const data = useSelector((state) => state.productsApi);
   // changing the pagination
@@ -50,11 +60,28 @@ const SeeAll = () => {
   const [toggleFilter, setToggleFilter] = useState(false);
 
   // price change handler
-  const [priceValue, setPriceValue] = useState([0, 10000]);
+  const [priceValue, setPriceValue] = useState([0, 120000]);
 
-  const handlePriceChange = (event, newValue) => {
-    setPriceValue(newValue);
-  };
+  const isInitialMount = useRef(true);
+  const delayedValue = useDebounce(priceValue, 400);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      const [minValue, maxValue] = priceValue;
+      dispatch(addPriceRange({ minValue, maxValue }));
+      // code to update url
+      // navigate(
+      //   `?search=${id}&price[gte]=${priceValue[0]}&price[lte]=${priceValue[1]}`
+      // );
+      // invalidate query to fetch new data
+    }
+  }, [delayedValue]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilter());
+    };
+  }, []);
 
   return (
     <div className="max-w-screen relative h-screen">
@@ -84,13 +111,13 @@ const SeeAll = () => {
                       <Slider
                         getAriaLabel={() => "Temperature range"}
                         value={priceValue}
-                        onChange={handlePriceChange}
+                        onChange={(e) => setPriceValue(e.target.value)}
                         valueLabelDisplay="auto"
                         // getAriaValueText={valuetext}
                         // color=""
                         step={100}
-                        min={100}
-                        max={10000}
+                        min={50}
+                        max={120000}
                         // color="default"
                       />
                     </Box>
@@ -180,17 +207,22 @@ const SeeAll = () => {
                 </button>
               </div>
               <div className=" p-3 flex flex-col md:items-center md:justify-center max-sm:pt-10">
-                <div className=" sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
-                  {isSuccess &&
-                    data?.products.map((pro) => (
-                      <Product key={pro._id} product={pro} />
-                    ))}
-                </div>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <div className=" sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
+                    {isSuccess &&
+                      data?.products.map((pro) => (
+                        <Product key={pro._id} product={pro} />
+                      ))}
+                  </div>
+                )}
               </div>
               <div className="py-3 mt-auto flex flex-col items-center">
                 <Pagination
-                  count={5}
+                  count={data?.paginationCount}
                   size={"large"}
+                  page={data?.pageNumber}
                   onChange={(e) =>
                     setCurrentPage(e.target.childNodes[0].nodeValue)
                   }

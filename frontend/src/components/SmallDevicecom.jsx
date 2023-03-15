@@ -28,7 +28,7 @@ export const SmCat = () => {
         </span>
         <Link
           name="mobile"
-          to={"products/?category=mobile"}
+          to={"products/?search=mobile"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -40,7 +40,7 @@ export const SmCat = () => {
         </Link>
         <Link
           name="fashion"
-          to={"products/?category=fashion"}
+          to={"products/?search=fashion"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -52,7 +52,7 @@ export const SmCat = () => {
         </Link>
         <Link
           name="grocery"
-          to={"products/?category=grocery"}
+          to={"products/?search=grocery"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -66,7 +66,7 @@ export const SmCat = () => {
       <div className="flex ">
         <Link
           name="electronics"
-          to={"products/?category=electronics"}
+          to={"products/?search=electronics"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -78,7 +78,7 @@ export const SmCat = () => {
         </Link>
         <Link
           name="home"
-          to={"products/?category=home"}
+          to={"products/?search=home"}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -90,7 +90,7 @@ export const SmCat = () => {
         </Link>
         <Link
           name=""
-          to={"products/?category=toys_more"}
+          to={"products/?search=toys_more"}
           className="grow flex flex-col items-center justify-center"
         >
           <img

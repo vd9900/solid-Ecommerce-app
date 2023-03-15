@@ -9,7 +9,7 @@ export const getAllProductsApi = emptySplitApi.injectEndpoints({
       query: (id) => `/api/vi/product?id=${id}`,
     }),
     productByCategory: builder.query({
-      query: (query) => `/api/vi/${query}`,
+      query: (query) => `/api/vi/products/?${query}`,
     }),
     addToCart: builder.mutation({
       query: (details) => ({
