@@ -121,11 +121,13 @@ const Navbar = ({ onSearch }) => {
             type="submit"
             className="hidden 
             md:flex
-              px-6 py-2  border rounded-full
+            bg-black/90
+            text-white
+items-center gap-1 px-5 py-2  border rounded-full
               transition duration-200 transform active:scale-95 ease-in-out"
           >
+            <BsSearch fontSize={18} className="" />
             <p className="hidden md:block">Search</p>
-            <BsSearch fontSize={22} className="sm:hidden" />
           </button>
         </form>
         <div className="hidden sm:flex items-center px-2 gap-5 ">

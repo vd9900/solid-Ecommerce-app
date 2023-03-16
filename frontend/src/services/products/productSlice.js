@@ -21,6 +21,8 @@ const productSlice = createSlice({
         ...state,
         SearchAndFilter: {
           search: action.payload,
+          page: 1,
+          limit: 2,
         },
       };
     },
@@ -38,6 +40,38 @@ const productSlice = createSlice({
         },
       };
     },
+    addRatingRange: (state, action) => {
+      const previousSearchAndFilterValue = state.SearchAndFilter;
+      return {
+        ...state,
+        SearchAndFilter: {
+          ...previousSearchAndFilterValue,
+          "rating[gte]": action.payload.minRating,
+          "rating[lte]": action.payload.maxRating,
+        },
+      };
+    },
+    changePage: (state, action) => {
+      const previousSearchAndFilterValue = state.SearchAndFilter;
+      return {
+        ...state,
+        SearchAndFilter: {
+          ...previousSearchAndFilterValue,
+          page: action.payload,
+        },
+      };
+    },
+    addSort: (state, action) => {
+      const previousSearchAndFilterValue = state.SearchAndFilter;
+      return {
+        ...state,
+        SearchAndFilter: {
+          ...previousSearchAndFilterValue,
+          page: 1,
+          sort: action.payload,
+        },
+      };
+    },
   },
 });
 
@@ -46,6 +80,8 @@ export const {
   UserAddress,
   addSearchValue,
   addPriceRange,
+  changePage,
+  addSort,
   clearFilter,
 } = productSlice.actions;
 

@@ -21,10 +21,14 @@ exports.getAllProducts = async (req, res) => {
           category: new RegExp(req.query.search, "i"),
         },
       ];
+      match.price = {};
+      match.price["$gte"] = req.query?.price?.gte || 0;
+      match.price["$lte"] = req.query?.price?.lte || 100000;
+
+      match.ratings = {};
+      match.ratings["$gte"] = req.query?.rating?.gte || 0;
+      match.ratings["$lte"] = req.query?.rating?.lte || 5;
     }
-    match.price = {};
-    match.price["$gte"] = req.query?.price?.gte || 0;
-    match.price["$lte"] = req.query?.price?.lte || 100000;
     //send reslut based sort
     Checksort = {};
     const sortValue = [
