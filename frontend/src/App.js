@@ -26,7 +26,9 @@ import CreatePassword from "./components/login&signup/resetPassword/CreatePasswo
 import Address from "./components/order/Address";
 import Payment from "./components/order/Payment";
 import Order from "./components/order/Order";
+import PaymentConform from "./components/order/PaymentConform.jsx";
 import SingleOrder from "./components/order/SingleOrder";
+import Contact from "./components/Contact.jsx";
 import { Helmet } from "react-helmet";
 // import SingleOrder from "./components/Order/SingleOrder";
 
@@ -101,6 +103,22 @@ function App() {
             element={
               <RequireAuth loginPath="/welcome">
                 <Payment />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/payment/successfull"
+            element={
+              <RequireAuth loginPath="/welcome">
+                <PaymentConform />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <RequireAuth loginPath="/welcome">
+                <Contact />
               </RequireAuth>
             }
           />

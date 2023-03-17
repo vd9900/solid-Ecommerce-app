@@ -9,7 +9,7 @@ const cartSplice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
+    AddToCart: (state, action) => {
       // your logic to add item to the cart
 
       state.products = action.payload.products;
@@ -36,15 +36,22 @@ const cartSplice = createSlice({
     calucalteToltal: (state, action) => {
       state.total = action.payload;
     },
+    ClearTheCart: (state, action) => {
+      return (state = {
+        products: [],
+        total: 0,
+      });
+    },
   },
 });
 
 export const {
   incrementQty,
   decrementQty,
-  addToCart,
+  AddToCart,
   deleteTheCartQty,
   calucalteToltal,
+  ClearTheCart,
 } = cartSplice.actions;
 
 export default cartSplice.reducer;

@@ -33,6 +33,7 @@ import {
   addRatingRange,
 } from "../services/products/productSlice";
 import { DebounceSearch, useDebounce } from "../utils/hooks/Deboune";
+import noitemGif from "../assets/imgs/noproduct.gif";
 
 const SeeAll = () => {
   const dispatch = useDispatch();
@@ -244,7 +245,7 @@ const SeeAll = () => {
               </div>
             </aside>
             <div className="rounded-md shadow-md w-full relative bg-white md:w-9/12  lg:w-9/12 xl:w-9/12  md:ml-auto  flex flex-col gap-0">
-              <div className="md:hidden  fixed w-full z-10 flex bg-slate-200 border-b py-1">
+              <div className="md:hidden  fixed w-full z-10 flex bg-gray-200 border-b py-1">
                 <button
                   className="grow border-r border-black/40 py-2"
                   onClick={() => {
@@ -264,7 +265,7 @@ const SeeAll = () => {
                   Filter
                 </button>
               </div>
-              <div className=" p-3 flex flex-col md:items-center md:justify-center max-sm:pt-10">
+              <div className=" p-3 flex flex-col md:items-center md:justify-center max-sm:pt-10 ">
                 {isLoading ? (
                   <Loader />
                 ) : (
@@ -275,18 +276,29 @@ const SeeAll = () => {
                       ))}
                   </div>
                 )}
+                {data?.products.length === 0 ? (
+                  <div className=" h-full py-36 flex flex-col items-center gap-2 justify-center">
+                    <img src={noitemGif} alt="not found" className="w-56" />
+                    <p className="text-center text-gray-700">
+                      We've looked real hard, but we can't find anything
+                      something wrong with this "{filterDetails?.search}"
+                    </p>
+                  </div>
+                ) : null}
               </div>
-              <div className="py-3 mt-auto flex flex-col items-center">
-                <Pagination
-                  count={data?.paginationCount}
-                  size={"large"}
-                  page={Number(filterDetails?.page) || 1}
-                  value={Number(filterDetails?.page) || 1}
-                  onChange={(e) => {
-                    dispatch(changePage(e.target.childNodes[0].nodeValue));
-                  }}
-                />
-              </div>
+              {data?.products.length !== 0 ? (
+                <div className="py-3 mt-auto flex flex-col items-center">
+                  <Pagination
+                    count={data?.paginationCount}
+                    size={"large"}
+                    page={Number(filterDetails?.page) || 1}
+                    value={Number(filterDetails?.page) || 1}
+                    onChange={(e) => {
+                      dispatch(changePage(e.target.childNodes[0].nodeValue));
+                    }}
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

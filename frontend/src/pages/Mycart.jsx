@@ -3,14 +3,18 @@ import { HiOutlineCursorArrowRays } from "react-icons/hi2";
 import { FaAt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../components/Navbar";
-
+import emptyCartGif from "../assets/imgs/emptycart.gif";
 import {
   useCartsQuery,
   useDeleteFromCartMutation,
 } from "../services/carts/cartApi";
 import Loader from "../components/Loder";
 import CartProduct from "../components/cart/CartProduct";
-import { addToCart, calucalteToltal } from "../services/carts/cartSplice";
+import {
+  AddToCart,
+  calucalteToltal,
+  ClearTheCart,
+} from "../services/carts/cartSplice";
 import { Link } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 const Mycart = () => {
@@ -29,7 +33,7 @@ const Mycart = () => {
 
   useEffect(() => {
     if (isSuccess && carts.length > 0) {
-      console.log(carts);
+      dispatch(ClearTheCart());
       const newCarts = carts.map((product) => ({
         id: product._id,
         price: product.price,
@@ -45,7 +49,7 @@ const Mycart = () => {
         total: totalValue,
         products: newCarts,
       };
-      dispatch(addToCart(cartInfo));
+      dispatch(AddToCart(cartInfo));
     }
   }, [carts, dispatch, isSuccess]);
 
@@ -81,10 +85,17 @@ const Mycart = () => {
                         refetch={refetch}
                       />
                     ))}
-                  {isError && <div>Cart is empty</div>}
+                  {isError && (
+                    <div>
+                      <img src={emptyCartGif} alt="" className="w-56" />
+                    </div>
+                  )}
                   {carts?.length === 0 && (
-                    <div className="flex flex-col items-center justify-end shadow-sm p-4 h-80 ">
-                      <div className="flex py-4 gap-2">Cart is empty</div>
+                    <div className="bg-white rounded-md h-96 flex flex-col items-center justify-center">
+                      <img src={emptyCartGif} alt="" className="w-56" />
+                      <p className="text-gray-700 font-medium">
+                        Life would be empty without a item in cart
+                      </p>
                     </div>
                   )}
                 </div>

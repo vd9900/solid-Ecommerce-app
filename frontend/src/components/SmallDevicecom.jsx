@@ -5,18 +5,22 @@ import React from "react";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { addSearchValue, clearFilter } from "../services/products/productSlice";
 
 export const SmCat = () => {
   const dispatch = useDispatch();
   const naviagate = useNavigate();
   const handleClickCategory = (e) => {
     const value = e.target.name || e.target.parentElement.name;
+    dispatch(clearFilter());
+    dispatch(addSearchValue(value));
     naviagate("/products");
   };
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex ">
-        <span className="grow flex flex-col items-center justify-center">
+        {/* <span className="grow flex flex-col items-center justify-center">
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/f15c02bfeb02d15d.png?q=100"
             alt=""
@@ -25,10 +29,10 @@ export const SmCat = () => {
           <p className="text-sm font-medium text-center leading-tight">
             Special for you
           </p>
-        </span>
-        <Link
+        </span> */}
+        <button
           name="mobile"
-          to={"products/?search=mobile"}
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -37,10 +41,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Mobiles</p>
-        </Link>
-        <Link
+        </button>
+        <button
           name="fashion"
-          to={"products/?search=fashion"}
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -49,10 +53,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Fashion</p>
-        </Link>
-        <Link
+        </button>
+        <button
           name="grocery"
-          to={"products/?search=grocery"}
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -61,12 +65,12 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Grocery</p>
-        </Link>
+        </button>
       </div>
       <div className="flex ">
-        <Link
+        <button
           name="electronics"
-          to={"products/?search=electronics"}
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -75,10 +79,10 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Electronics</p>
-        </Link>
-        <Link
+        </button>
+        <button
           name="home"
-          to={"products/?search=home"}
+          onClick={handleClickCategory}
           className="grow flex flex-col items-center justify-center"
         >
           <img
@@ -87,11 +91,11 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Home</p>
-        </Link>
-        <Link
-          name=""
-          to={"products/?search=toys_more"}
+        </button>
+        <button
+          name="toys_more"
           className="grow flex flex-col items-center justify-center"
+          onClick={handleClickCategory}
         >
           <img
             src="https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100"
@@ -99,7 +103,7 @@ export const SmCat = () => {
             className="object-cover w-24"
           />
           <p className="text-sm font-medium">Toys & More</p>
-        </Link>
+        </button>
       </div>
     </div>
   );

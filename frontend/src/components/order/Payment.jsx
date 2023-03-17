@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useSelector } from "react-redux";
 import { useCreateOrderMutation } from "../../services/orders/ordersApi";
+import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
   cardnumber: yup
@@ -16,7 +18,9 @@ const validationSchema = yup.object({
 });
 
 const Payment = () => {
-  const [createOrder, { isSuccess, data }] = useCreateOrderMutation();
+  const navigate = useNavigate();
+  const [createOrder, { isSuccess, data, isLoading }] =
+    useCreateOrderMutation();
   console.log(data);
   const formik = useFormik({
     initialValues: {
@@ -34,7 +38,9 @@ const Payment = () => {
     },
     validationSchema: validationSchema,
   });
-
+  if (isSuccess) {
+    navigate("/payment/successfull");
+  }
   const cartInfo = useSelector((state) => state.cartsStore);
   const userAddressInfo = useSelector(
     (state) => state.productsStore.UserAddress
@@ -164,13 +170,22 @@ const Payment = () => {
                   policy
                 </p>
               </div>
-              <div className="py-4">
+              <div className="py-4 ">
                 <button
-                  className="bg-black  w-full text-white px-10 rounded-full py-2
+                  className="disabled:opacity-80 flex mx-auto items-center gap-1 justify-center bg-black  w-10/12 text-white px-10 rounded-full py-2
           transition duration-200 transform active:scale-95 ease-in-out
            "
+                  disabled={isLoading}
                   type="submit"
                 >
+                  <CircularProgress
+                    size={18}
+                    style={{
+                      color: "white",
+                      display: `${isLoading ? "inline-block" : "none"}`,
+                    }}
+                    className="text-black"
+                  />
                   Pay now
                 </button>
               </div>

@@ -11,10 +11,11 @@ import { BiHomeSmile, BiMenu } from "react-icons/bi";
 import { MdContactSupport, MdLogout } from "react-icons/md";
 import { BsBell, BsCart3, BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
+import { CgNotes, CgProfile } from "react-icons/cg";
 import {
   AiFillCloseCircle,
   AiOutlineClose,
+  AiOutlineHome,
   AiOutlineSearch,
 } from "react-icons/ai";
 import Button from "@mui/material/Button";
@@ -41,7 +42,7 @@ const Navbar = ({ onSearch }) => {
   const handleLogout = () => {};
 
   return (
-    <div className="fixed z-20 w-screen h-14 flex bg-white shadow-lg sm:p-2 py-1">
+    <div className="fixed z-20 w-screen h-14 flex md:bg-black/90 bg-white md:text-white shadow-md sm:p-2 py-0">
       {toggle && (
         <div className="slide-left z-50 top-0 left-52 py-3  text-white bg-black/95 absolute w-9/12 h-screen">
           <div className="border-b flex items-center justify-between p-2 ">
@@ -57,17 +58,18 @@ const Navbar = ({ onSearch }) => {
           <div className="py-4 flex flex-col  gap-5 pl-6">
             <Link to={"/"}>
               <span className="font-bold   text-white/80 text-lg flex items-center text-justify p-2 gap-1">
-                <BiHomeSmile fontSize={24} /> Home page
+                <AiOutlineHome fontSize={24} /> Home page
               </span>
             </Link>
             <Link to={"/cart"}>
-              <span className=" flex border rounded-full  items-center px-5  py-2 gap-1">
+              <span className=" flex  rounded-full  items-center   p-2 gap-1">
                 <BsCart3 fontSize={24} /> Go to cart
               </span>
             </Link>
             <Link to={"/myorders"}>
               <span className=" flex items-center p-2 gap-1">
-                <MdLogout /> Orders
+                <CgNotes fontSize={24} />
+                Orders
               </span>
             </Link>
             <Link to={"/me"}>
@@ -75,7 +77,7 @@ const Navbar = ({ onSearch }) => {
                 <CgProfile fontSize={24} /> My profile
               </span>
             </Link>
-            <Link>
+            <Link to={"/contact"}>
               <span className=" flex items-center p-2 gap-1">
                 <MdContactSupport fontSize={24} /> Contact Us
               </span>
@@ -88,7 +90,7 @@ const Navbar = ({ onSearch }) => {
           </div>
         </div>
       )}
-      <div className="w-full md:w-11/12 lg:w-9/12 xl:w-8/12 md:mx-auto flex   px-2 justify-center md:px-6 max-sm:gap-3 gap-8 ">
+      <div className="w-full  lg:w-10/12 xl:w-8/12 md:mx-auto flex   px-2 justify-center md:px-6 max-sm:gap-3 gap-8 ">
         <div className="hidden sm:flex items-center  w-64">
           <img src={logo} alt="" />
         </div>
@@ -105,7 +107,7 @@ const Navbar = ({ onSearch }) => {
             <input
               type="text"
               placeholder="Search..."
-              className="outline-none bg-transparent w-full  md:rounded-full md:border-2  md:bg-white max-sm:py-2 py-2  px-3"
+              className="outline-none bg-transparent w-full  md:rounded-full md:border-2   max-sm:py-2 py-2  px-4"
               onChange={(e) => {
                 setSearchQuery(e.target.value);
               }}
@@ -121,7 +123,7 @@ const Navbar = ({ onSearch }) => {
           <button
             type="submit"
             className="hidden 
-            md:flex
+            lg:flex
             bg-black/90
             text-white
 items-center gap-1 px-5 py-2  border rounded-full
@@ -134,12 +136,17 @@ items-center gap-1 px-5 py-2  border rounded-full
         <div className="hidden sm:flex items-center px-2 gap-5 ">
           <span>
             <Link to={"/"}>
-              <BiHomeSmile fontSize={25} />
+              <AiOutlineHome fontSize={25} />
             </Link>
           </span>
           <span>
             <Link to={"/cart"}>
               <BsCart3 fontSize={22} />
+            </Link>
+          </span>
+          <span>
+            <Link to={"/myorders"}>
+              <CgNotes fontSize={22} />
             </Link>
           </span>
           <Link to={"/me"} className="text-sm ">

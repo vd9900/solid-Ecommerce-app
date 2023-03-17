@@ -4,28 +4,33 @@ const products = require("../models/productModel");
 exports.getAllCart = async (req, res) => {
   const newCart = await Cart.findOne({ user: req.user._id });
   if (newCart) {
-    Cart.findOne({ user: req.user._id })
-      .populate(
-        "cartProducts.product",
-        "_id name price productPictures ratings numberOfReviews"
-      )
-      .exec((error, cart) => {
-        if (error) return res.status(400).json({ error });
-        if (cart) {
-          let cartItems = [];
-          cart.cartProducts.forEach((item, index) => {
-            cartItems.push({
-              _id: item.product._id.toString(),
-              name: item.product.name,
-              price: item.product.price,
-              qty: item.quantity,
-              rating: item.rating,
-              numberOfReviews: item.numberOfReviews,
+    try {
+      Cart.findOne({ user: req.user._id })
+        .populate(
+          "cartProducts.product",
+          "_id name price productPictures ratings numberOfReviews"
+        )
+        .exec((error, cart) => {
+          if (error) return res.status(400).json({ error });
+          if (cart) {
+            let cartItems = [];
+            cart.cartProducts.forEach((item, index) => {
+              cartItems.push({
+                _id: item.product._id.toString(),
+                name: item.product.name,
+                price: item.product.price,
+                qty: item.quantity,
+                rating: item.rating,
+                numberOfReviews: item.numberOfReviews,
+              });
             });
-          });
-          res.status(200).json(cartItems);
-        }
-      });
+            res.status(200).json(cartItems);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+      res.status(500).josn({ success: false, error });
+    }
   } else {
     res.status(400).json({ error: "cart is empty" });
   }

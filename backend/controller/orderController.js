@@ -11,7 +11,7 @@ exports.newOrder = async (req, res) => {
     shippingInfo: {
       address: req.body.address,
       city: req.body.city,
-      country: req.body.city,
+      country: req.body.country,
     },
     orderItems: req.body.products,
     user: req.user._id,

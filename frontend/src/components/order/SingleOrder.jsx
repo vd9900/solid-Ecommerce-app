@@ -13,18 +13,18 @@ const SingleOrder = () => {
   console.log(data);
 
   return (
-    <div className="bg-gray-100 w-screen h-screen">
+    <div className="bg-gray-100 max-w-screen h-screen">
       <Navbar />
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="pt-16 px-1">
-          <div className="md:w-10/12 lg:w-9/12 xl:w-9/12 mx-auto">
+        <div className="pt-16 px-1 w-full">
+          <div className="md:w-10/12 lg:w-9/12 xl:w-9/12 mx-auto ">
             <p className="text-3xl   py-3 font-serif font-medium">
               Order Details
             </p>
-            <div className="flex flex-col md:flex-row gap-5">
-              <div class=" rounded-lg bg-white shadow-md overflow-hidden">
+            <div className="flex flex-col md:flex-row gap-5 w-full">
+              <div class="md:w-10/12 rounded-lg bg-white shadow-md overflow-hidden">
                 <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
                   <thead class="bg-black/90 text-white">
                     <tr>
@@ -69,8 +69,8 @@ const SingleOrder = () => {
                 </table>
               </div>
               {/* payment info */}
-              <div>
-                <div className="rounded-md shadow-md bg-white">
+              <div className="md:w-5/12">
+                <div className="rounded-md shadow-md bg-white ">
                   <div className="rounded-md p-3 bg-black text-white font-medium">
                     <p>Payment Info</p>
                   </div>

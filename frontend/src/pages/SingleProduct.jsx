@@ -8,7 +8,7 @@ import post1 from "../assets/imgs/post1.jpg";
 import post2 from "../assets/imgs/post2.jpg";
 import post3 from "../assets/imgs/post3.jpg";
 import post4 from "../assets/imgs/post4.jpg";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { TfiControlStop } from "react-icons/tfi";
 import { useProductQuery } from "../services/products/productApi";
@@ -19,6 +19,12 @@ import Review from "../components/Review";
 import { useAddReviewMutation } from "../services/reviews/reviewsApi";
 import { Alert, Collapse, IconButton, Rating } from "@mui/material";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import {
+  AddToCart,
+  calucalteToltal,
+  ClearTheCart,
+} from "../services/carts/cartSplice";
+// import { AddToCart, calucalteToltal } from "../services/carts/cartSplice";
 const posts = [
   {
     id: 1,
@@ -39,6 +45,7 @@ const posts = [
 ];
 
 const SingleProduct = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggleReview, setToggleReview] = useState(false);
   const [toggleAddToCart, setToggleAddToCart] = useState(false);
@@ -51,15 +58,32 @@ const SingleProduct = () => {
   const { data, isLoading, isSuccess, refetch } = useProductQuery(id, {
     refetchOnMountOrArgChange: true,
   });
-  const [addToCart, { isLoading: addCartLoading, data: cartData, error }] =
-    useAddToCartMutation(undefined, { refetchOnMountOrArgChange: true });
-
-    const handleBuyProduct = ()=>{}
+  const [
+    addToCart,
+    { isLoading: addCartLoading, data: cartData, error, isError },
+  ] = useAddToCartMutation(undefined, { refetchOnMountOrArgChange: true });
+  console.log(error);
+  const handleBuyProduct = () => {
+    const productInfo = {
+      id: data?.message._id,
+      price: data?.message.price,
+      name: data?.message.name,
+      quantity: 1,
+    };
+    const cartInfo = {
+      products: productInfo,
+    };
+    dispatch(ClearTheCart());
+    dispatch(AddToCart(cartInfo));
+    dispatch(calucalteToltal(data?.message.price));
+    navigate("/cart/address");
+  };
 
   const handleAddCartbtn = () => {
     if (!isCartClicked) {
       setToggleAddToCart(true);
       setIsCartClicked(true);
+      console.log(data.message?._id);
       addToCart({
         product: data.message?._id,
       });
@@ -73,7 +97,7 @@ const SingleProduct = () => {
     if (toggleAddToCart === true) {
       timer = setTimeout(() => {
         setToggleAddToCart(false);
-      }, 1800);
+      }, 2000);
     }
     return () => clearTimeout(timer);
   }, [toggleAddToCart]);
@@ -85,10 +109,13 @@ const SingleProduct = () => {
       <div
         className={`${
           toggleAddToCart ? "" : "opacity-10 hidden"
-        } px-2 absolute w-3/12 top-0 slide-bottom left-1/2 transform -translate-x-1/2  z-10`}
+        } px-2 absolute md:w-3/12 md:top-0 slide-bottom md:left-1/2 w-7/12  right-0 transform -translate-x-1/2  z-10`}
       >
-        <div className="bg-black/80 text-white rounded-md  p-2">
-          added to cart <span></span>
+        <div className="bg-black/80 text-white rounded-md flex items-center justify-between p-2">
+          Added to cart{" "}
+          <span onClick={() => setToggleAddToCart(false)}>
+            <AiOutlineClose fontSize={20} />
+          </span>
         </div>
       </div>
       {isLoading ? (
@@ -150,7 +177,7 @@ const SingleProduct = () => {
                   )}
                 </button>
                 <button
-                onClick={handleBuyProduct}
+                  onClick={handleBuyProduct}
                   className="grow text-white font-medium text-xl font-serif py-2 rounded-full
                  shadow-md bg-black
                  transition duration-200 transform active:scale-95 ease-in-out
@@ -272,9 +299,10 @@ const SingleProduct = () => {
           onClick={handleAddCartbtn}
           className="  transition duration-200 transform active:scale-95 bg-white ease-in-out grow py-3  border font-medium font-serif text-xl   shadow-md"
         >
-          Add to cart
+          {isCartClicked ? <span>Go to Cart</span> : <span>Add to Cart</span>}{" "}
         </button>
         <button
+          onClick={handleBuyProduct}
           className="grow text-white font-medium text-xl font-serif py-3 
                  shadow-md bg-black
                  transition duration-200 transform active:scale-95 ease-in-out

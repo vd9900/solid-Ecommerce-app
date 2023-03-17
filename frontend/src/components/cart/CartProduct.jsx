@@ -1,4 +1,4 @@
-import { Rating } from "@mui/material";
+import { CircularProgress, Rating } from "@mui/material";
 import React, { useEffect } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { BiMinus } from "react-icons/bi";
@@ -14,7 +14,7 @@ import {
   incrementQty,
 } from "../../services/carts/cartSplice";
 const CartProduct = ({ product, refetch }) => {
-  const [deleteFromCart, { error }] = useDeleteFromCartMutation();
+  const [deleteFromCart, { error, isLoading }] = useDeleteFromCartMutation();
 
   // add qty to product logic
   const productQty = useSelector((state) => state.cartsStore.products);
@@ -105,8 +105,17 @@ const CartProduct = ({ product, refetch }) => {
             <div className=" flex gap-4  w-5/12 items-center">
               <button
                 className="hover:bg-black hover:text-white duration-500 flex items-center  text-sm  font-semibold border rounded-full justify-center grow  w-5/12 py-3"
+                disabled={isLoading}
                 onClick={() => handleCartDelete(product?._id)}
               >
+                <CircularProgress
+                  size={16}
+                  style={{
+                    color: "white",
+                    display: `${isLoading ? "inline-block" : "none"}`,
+                  }}
+                  className="text-black"
+                />
                 Remove
                 <MdOutlineDelete fontSize={20} />
               </button>

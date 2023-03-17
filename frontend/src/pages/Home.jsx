@@ -53,7 +53,7 @@ const Home = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full pt-11 flex flex-col  ">
+        <div className="w-full pt-14 flex flex-col  ">
           {/* ads slide carousel */}
           <div className="w-full h-auto flex flex-col gap-0">
             <div className="relative">
@@ -74,9 +74,9 @@ const Home = () => {
               <SmCat />
             </div>
             {/* Discounts component*/}
-            <div className="w-full bg-gray-400 p-2 sm:hidden ">
-              <DiscountComponent />
-            </div>
+            {/* <div className="w-full bg-gray-400 p-2 sm:hidden ">
+              {/* <DiscountComponent /> */}
+            {/* </div> */}
           </div>
           {/* Recommended products */}
 
@@ -85,7 +85,7 @@ const Home = () => {
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Fashion</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                <ProductViewMore img="Special" />
+                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "fashion")
@@ -100,7 +100,7 @@ const Home = () => {
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Mobiles</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                <ProductViewMore img="Special" />
+                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "mobile")
@@ -115,7 +115,7 @@ const Home = () => {
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Grocery</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                <ProductViewMore img="Special" />
+                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "grocery")
@@ -130,7 +130,7 @@ const Home = () => {
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Electronics</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                <ProductViewMore img="Special" />
+                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "electronics")
@@ -145,7 +145,7 @@ const Home = () => {
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Toys & more</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                <ProductViewMore img="Special" />
+                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "toys_more")

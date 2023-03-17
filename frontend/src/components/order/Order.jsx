@@ -10,16 +10,16 @@ const Order = () => {
   console.log("error", error);
 
   return (
-    <div className="w-screen h-screen bg-gray-100">
+    <div className="max-w-screen h-screen bg-gray-100">
       <Navbar />
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="pt-16 ">
+        <div className="pt-16 md:w-9/12 md:mx-auto">
           <div className="p-3">
             <p className="text-2xl font-serif font-medium">My orders</p>
           </div>
-          <div className="px-3 py-2 flex flex-col gap-3">
+          <div className="px-3 py-2 flex flex-col gap-3 ">
             {data.message.map((order) => (
               <div className="flex flex-col gap-3 rounded-md  p-3 border bg-white">
                 <div>

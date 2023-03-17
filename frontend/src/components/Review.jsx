@@ -74,7 +74,7 @@ const Review = ({ toggleReview, ontoggleChange, productId, refetch }) => {
             size={16}
             style={{
               color: "white",
-              display: `${!isLoading ? "inline-block" : "none"}`,
+              display: `${isLoading ? "inline-block" : "none"}`,
             }}
             className="text-black"
           />
