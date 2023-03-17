@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Carousel from "../components/Slider";
@@ -17,7 +17,8 @@ import Loader from "../components/Loder";
 import { useAuthUser } from "react-auth-kit";
 import Review from "../components/Review";
 import { useAddReviewMutation } from "../services/reviews/reviewsApi";
-import { Rating } from "@mui/material";
+import { Alert, Collapse, IconButton, Rating } from "@mui/material";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 const posts = [
   {
     id: 1,
@@ -38,31 +39,58 @@ const posts = [
 ];
 
 const SingleProduct = () => {
+  const navigate = useNavigate();
   const [toggleReview, setToggleReview] = useState(false);
+  const [toggleAddToCart, setToggleAddToCart] = useState(false);
+  const [isCartClicked, setIsCartClicked] = useState(false);
 
-  const auth = useAuthUser();
   const search = useLocation().search;
   const id = new URLSearchParams(search).get("id");
   console.log(id);
   // const { clickedProduct } = useSelector((state) => state.productsStore);
-  const { data, isLoading, isSuccess } = useProductQuery(id, {
+  const { data, isLoading, isSuccess, refetch } = useProductQuery(id, {
     refetchOnMountOrArgChange: true,
   });
-  const dispatch = useDispatch();
-  console.log(data);
-  // Add to cart logic
   const [addToCart, { isLoading: addCartLoading, data: cartData, error }] =
-    useAddToCartMutation();
-  const handleAddCartbtn = () => {
-    addToCart({
-      product: data.message?._id,
-    });
-  };
-  console.log(error);
+    useAddToCartMutation(undefined, { refetchOnMountOrArgChange: true });
 
+    const handleBuyProduct = ()=>{}
+
+  const handleAddCartbtn = () => {
+    if (!isCartClicked) {
+      setToggleAddToCart(true);
+      setIsCartClicked(true);
+      addToCart({
+        product: data.message?._id,
+      });
+    } else {
+      navigate("/cart");
+    }
+  };
+
+  useEffect(() => {
+    let timer;
+    if (toggleAddToCart === true) {
+      timer = setTimeout(() => {
+        setToggleAddToCart(false);
+      }, 1800);
+    }
+    return () => clearTimeout(timer);
+  }, [toggleAddToCart]);
+
+  const [open, setOpen] = React.useState(true);
   return (
-    <div className="max-w-screen bg-gray-50 min-h-screen relative">
+    <div className="max-w-screen  bg-gray-50 min-h-screen relative">
       <Navbar />
+      <div
+        className={`${
+          toggleAddToCart ? "" : "opacity-10 hidden"
+        } px-2 absolute w-3/12 top-0 slide-bottom left-1/2 transform -translate-x-1/2  z-10`}
+      >
+        <div className="bg-black/80 text-white rounded-md  p-2">
+          added to cart <span></span>
+        </div>
+      </div>
       {isLoading ? (
         <Loader />
       ) : (
@@ -70,8 +98,8 @@ const SingleProduct = () => {
           className="  pt-14 md:px-2 flex flex-col md:flex-row gap-0 md:gap-2 md:w-12/12
              lg:w-11/12 xl:w-10/12 md:pt-20 md:justify-center md:mx-auto"
         >
-          <div className="bg-white  md:w-5/12 lg:w-4/12  ">
-            <div className="pb-2 md:p-2 h-auto relative flex">
+          <div className="bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
+            <div className="pb-2 md:p-2 relative flex">
               <Carousel
                 dotColor="bg-white md:bg-black"
                 style={["md:w-4/6 w-full h-auto mx-auto max-md:my-auto"]}
@@ -109,14 +137,25 @@ const SingleProduct = () => {
                   {data?.message?.price}
                 </span>
               </div>
-              <div className="hidden absolute md:flex w-full  bottom left-0  z-10">
+              <div className="hidden  md:flex w-full px-3 gap-2   z-10">
                 <button
+                  // to={toggleAddToCart ? "/cart" : ""}
                   onClick={handleAddCartbtn}
-                  className="grow py-3  text-white font-medium text-xl bg-black/95 "
+                  className=" text-center transition duration-200 transform active:scale-95 ease-in-out grow py-2  border font-medium font-serif text-xl rounded-full  shadow-md"
                 >
-                  Add to cart
+                  {isCartClicked ? (
+                    <span>Go to Cart</span>
+                  ) : (
+                    <span>Add to Cart</span>
+                  )}
                 </button>
-                <button className="grow text-white font-medium text-xl py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+                <button
+                onClick={handleBuyProduct}
+                  className="grow text-white font-medium text-xl font-serif py-2 rounded-full
+                 shadow-md bg-black
+                 transition duration-200 transform active:scale-95 ease-in-out
+                  "
+                >
                   Buy now
                 </button>
               </div>
@@ -124,8 +163,8 @@ const SingleProduct = () => {
           </div>
 
           {/* Product review */}
-          <div className=" bg-white md:grow">
-            <div className=" pt-2  pb-16">
+          <div className=" bg-white md:grow rounded-md shadow-md h-auto">
+            <div className="h-auto pt-2  max-sm:pb-16">
               <div className="relative bg-white flex flex-col gap-2 border-b">
                 <div className="relative ">
                   <div className="text-lg px-6 border-b py-2 font-serif font-semibold">
@@ -143,15 +182,21 @@ const SingleProduct = () => {
                   </div>
                 </div>
                 <Review
+                  refetch={refetch}
                   toggleReview={toggleReview}
                   ontoggleChange={() => setToggleReview(!toggleReview)}
                   productId={id}
                 />
-                <div className="px-6 flex items-center justify-between font-serif text-lg py-2 font-semibold">
-                  <p>Rating & Reviews</p>
+                <div className="px-6 flex items-center justify-between  py-2 ">
+                  <p className="font-medium font-serif text-xl">
+                    Rating & Reviews
+                  </p>
                   <button
                     onClick={() => setToggleReview(!toggleReview)}
-                    className="py-2 px-4 text-sm rounded-md bg-black text-white"
+                    className="bg-black/90
+                    text-white
+    py-2  border rounded-full text-sm px-4
+                      transition duration-200 transform active:scale-95 ease-in-out"
                   >
                     Add Review
                   </button>
@@ -163,13 +208,13 @@ const SingleProduct = () => {
                       <AiFillStar className="text-yellow-500" />
                     </span>
                     <p className="text-sm font-semibold text-gray-600 text-center">
-                      {data?.message.numberOfReviews} reviews
+                      {data?.message?.numberOfReviews} reviews
                     </p>
                   </div>
                 </div>
               </div>
 
-              {data.message.reviews?.map((rev) => (
+              {data?.message?.reviews?.map((rev) => (
                 <div className="py-1">
                   <div className="flex flex-col gap-1 border-b py-2">
                     <div className="px-6 text-lg font-medium text-gray-700 flex gap-2 items-center  ">
@@ -194,7 +239,7 @@ const SingleProduct = () => {
                   </div>
                 </div>
               ))}
-              {data.message?.reviews?.length === 0 ? (
+              {data?.message?.reviews?.length === 0 ? (
                 <div className="py-2">
                   <div className="flex flex-col  border-b py-4">
                     <p className="font-medium text-center">No, reviews yet</p>
@@ -224,12 +269,17 @@ const SingleProduct = () => {
 
       <div className="fixed flex w-full bottom-0  z-0 md:hidden">
         <button
-          className="grow py-3  text-white font-medium text-xl bg-black/95 "
           onClick={handleAddCartbtn}
+          className="  transition duration-200 transform active:scale-95 bg-white ease-in-out grow py-3  border font-medium font-serif text-xl   shadow-md"
         >
           Add to cart
         </button>
-        <button className="grow text-white font-medium text-xl py-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+        <button
+          className="grow text-white font-medium text-xl font-serif py-3 
+                 shadow-md bg-black
+                 transition duration-200 transform active:scale-95 ease-in-out
+                  "
+        >
           Buy now
         </button>
       </div>

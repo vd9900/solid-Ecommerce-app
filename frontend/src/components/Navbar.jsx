@@ -20,7 +20,7 @@ import {
 import Button from "@mui/material/Button";
 
 import { useSignOut } from "react-auth-kit";
-import { addSearchValue } from "../services/products/productSlice";
+import { addSearchValue, clearFilter } from "../services/products/productSlice";
 
 const Navbar = ({ onSearch }) => {
   const signOut = useSignOut();
@@ -34,6 +34,7 @@ const Navbar = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearchQuerySubmit = (e) => {
     e.preventDefault();
+    dispatch(clearFilter());
     dispatch(addSearchValue(searchQuery));
     navigate(`/products`);
   };
@@ -96,7 +97,7 @@ const Navbar = ({ onSearch }) => {
           className="flex items-center   max-md:justify-between w-full gap-2"
           onSubmit={handleSearchQuerySubmit}
         >
-          <div className=" w-full flex items-center max-md:shadow-md max-md:border max-md:bg-white md:pl-4 rounded-full">
+          <div className=" w-full flex items-center px-3 max-md:shadow-md border-black/20 max-md:border max-md:bg-white md:pl-4 rounded-full">
             <AiOutlineSearch
               fontSize={24}
               className="md:hidden text-gray-400"

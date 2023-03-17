@@ -22,7 +22,7 @@ const productSlice = createSlice({
         SearchAndFilter: {
           search: action.payload,
           page: 1,
-          limit: 2,
+          limit: 8,
         },
       };
     },
@@ -35,6 +35,7 @@ const productSlice = createSlice({
         ...state,
         SearchAndFilter: {
           ...previousSearchAndFilterValue,
+          page: 1,
           "price[gte]": action.payload.minValue,
           "price[lte]": action.payload.maxValue,
         },
@@ -46,6 +47,7 @@ const productSlice = createSlice({
         ...state,
         SearchAndFilter: {
           ...previousSearchAndFilterValue,
+          page: 1,
           "rating[gte]": action.payload.minRating,
           "rating[lte]": action.payload.maxRating,
         },
@@ -80,6 +82,7 @@ export const {
   UserAddress,
   addSearchValue,
   addPriceRange,
+  addRatingRange,
   changePage,
   addSort,
   clearFilter,

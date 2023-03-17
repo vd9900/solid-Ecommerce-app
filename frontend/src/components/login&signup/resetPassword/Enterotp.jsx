@@ -169,10 +169,14 @@ const Enterotp = () => {
                         <p className="text-red-700">Please fill the inputs</p>
                       ) : null}
                     </div>
-                    <div>
+                    <div className="text-center">
                       <button
                         onClick={(e) => verfiyOTP(e)}
-                        className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-2 bg-black border-none text-white text-lg shadow-sm"
+                        className=" 
+                        font-serif  bg-black text-white
+                         cursor-pointer rounded-full font-medium
+                          w-11/12 mx-auto py-2  border-black
+                          transition duration-200 transform active:scale-95 ease-in-out"
                       >
                         Verify Account
                       </button>

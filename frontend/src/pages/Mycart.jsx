@@ -29,9 +29,11 @@ const Mycart = () => {
 
   useEffect(() => {
     if (isSuccess && carts.length > 0) {
+      console.log(carts);
       const newCarts = carts.map((product) => ({
         id: product._id,
         price: product.price,
+        name: product.name,
         quantity: 1,
       }));
       const totalValue = newCarts.reduce((a, v) => {

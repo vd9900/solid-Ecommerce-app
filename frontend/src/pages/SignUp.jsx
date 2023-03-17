@@ -175,7 +175,7 @@ const SignUp = () => {
                 className="
  font-serif shadow-md bg-black text-white
                  cursor-pointer rounded-full 
-                  w-11/12 mx-auto py-2  font-bold border-black
+                  w-11/12 mx-auto py-2  font-medium border-black
                   transition duration-200 transform active:scale-95 ease-in-out"
               >
                 SignUp

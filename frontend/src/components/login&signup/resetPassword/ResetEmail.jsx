@@ -91,7 +91,11 @@ const ResetEmail = () => {
               </div>
               <button
                 type="submit"
-                className="font-sans text-lg shadow-md bg-slate-800 text-white cursor-pointer rounded-md   w-full py-2  font-bold border-black"
+                className=" 
+                font-serif  bg-black text-white
+                 cursor-pointer rounded-full font-medium
+                  w-11/12 mx-auto py-2  border-black
+                  transition duration-200 transform active:scale-95 ease-in-out"
               >
                 Next
               </button>

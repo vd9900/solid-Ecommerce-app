@@ -30,6 +30,7 @@ import {
   addSort,
   changePage,
   clearFilter,
+  addRatingRange,
 } from "../services/products/productSlice";
 import { DebounceSearch, useDebounce } from "../utils/hooks/Deboune";
 
@@ -43,6 +44,7 @@ const SeeAll = () => {
   const searchParams = new URLSearchParams({
     ...filterDetails,
   }).toString();
+  console.log(filterDetails);
   // const id = searchParams.get("search");
 
   // const { clickedCategory } = useSelector((state) => state.productsStore);
@@ -65,10 +67,25 @@ const SeeAll = () => {
   const isInitialMount = useRef(true);
   const delayedValue = useDebounce(priceValue, 400);
 
-  const handleRatingValue = (e) => {
+  // console.log(ratin)\
+
+  // filter input function handles
+
+  const handlePriceRange = (value) => {
+    setPriceValue(value);
+  };
+  const handleRatingRange = (value) => {
+    setRatingValue(value);
+  };
+  const handleSortValue = (e) => {
     setSortValue(e.target.dataset.id || e.target.childNodes[1].dataset.id);
   };
-  // console.log(ratin)
+
+  useEffect(() => {
+    setPriceValue([0, 120000]);
+    setRatingValue([0, 5]);
+    setSortValue("all");
+  }, [filterDetails.search]);
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -81,27 +98,42 @@ const SeeAll = () => {
     dispatch(addSort(sortValue));
   }, [sortValue]);
   useEffect(() => {
+    const [minRating, maxRating] = ratingValue;
+    dispatch(addRatingRange({ minRating, maxRating }));
+  }, [ratingValue]);
+  useEffect(() => {
     return () => {
       dispatch(clearFilter());
     };
   }, []);
-  {
-  }
+
   return (
-    <div className="max-w-screen relative min-h-screen bg-gray-100">
+    <div className="max-w-screen relative max-md:h-screen bg-gray-100">
       {/* toggle components */}
-      {toggleSort && <Sort />}
-      {toggleFilter && <Filter />}
+      {toggleSort && (
+        <Sort
+          onTogglesort={() => setToggleSort(!toggleSort)}
+          sortValue={sortValue}
+          onSortClick={handleSortValue}
+        />
+      )}
+      {toggleFilter && (
+        <Filter
+          priceChange={handlePriceRange}
+          ratingChange={handleRatingRange}
+          onToggleFilter={() => setToggleFilter(!toggleFilter)}
+        />
+      )}
 
       <Navbar />
       {isLoading ? (
         <Loader />
       ) : (
         <div className="pt-14  h-full  ">
-          <div className="sm:px-5 sm:py-3 flex gap-3  w-full h-full ">
-            <aside className="hidden md:block  md:w-3/12 lg:w-3/12 xl:w-1/5 sm:pr-2 h-full ">
-              <div className=" bg-white flex flex-col px-2 ">
-                <span className="text-xl font-medium px-4 py-3 border-b border-gray-300">
+          <div className="sm:px-5 sm:py-3 flex gap-4  w-full h-full ">
+            <aside className="hidden md:block  md:w-3/12 lg:w-3/12 xl:w-3/12  h-full bg-white">
+              <div className="  flex flex-col shadow-md rounded-md h-full">
+                <span className=" text-xl font-medium px-4 py-3 border-b border-gray-300">
                   Filters
                 </span>
                 <div className=" h-full">
@@ -109,13 +141,13 @@ const SeeAll = () => {
                     <p className="text-xs">CATEGORIES</p>
                     <p className="font-medium ">Applications</p>
                   </div>
-                  <div className="py-3 px-4 border-b">
+                  <div className="py-3 px-10">
                     <p>Price</p>
                     <Box sx={{ width: "100%" }}>
                       <Slider
                         getAriaLabel={() => "Temperature range"}
                         value={priceValue}
-                        onChange={(e) => setPriceValue(e.target.value)}
+                        onChange={(e) => handlePriceRange(e.target.value)}
                         valueLabelDisplay="auto"
                         // getAriaValueText={valuetext}
                         // color=""
@@ -123,23 +155,28 @@ const SeeAll = () => {
                         min={50}
                         max={120000}
                         // color="default"
+                        style={{
+                          color: "#000",
+                        }}
                       />
                     </Box>
                   </div>
-                  <div className="py-3 px-4 border-b">
+                  <div className="py-3 px-10 border-b">
                     <p>Customer Rating</p>
                     <Box sx={{ width: "100%" }}>
                       <Slider
                         getAriaLabel={() => "Temperature range"}
                         value={ratingValue}
-                        onChange={(e) => setRatingValue(e.target.value)}
+                        onChange={(e) => handleRatingRange(e.target.value)}
                         valueLabelDisplay="auto"
                         // getAriaValueText={valuetext}
                         // color=""
                         step={1}
                         min={0}
                         max={5}
-                        // color="default"
+                        style={{
+                          color: "#000",
+                        }}
                       />
                     </Box>
                   </div>
@@ -150,7 +187,7 @@ const SeeAll = () => {
                     </p>
                     <div className="flex flex-col px-5 gap-4 py-3 ">
                       <span
-                        onClick={handleRatingValue}
+                        onClick={handleSortValue}
                         className=" flex cursor-pointer items-center justify-between   "
                       >
                         All Items
@@ -163,7 +200,7 @@ const SeeAll = () => {
                         />
                       </span>
                       <span
-                        onClick={handleRatingValue}
+                        onClick={handleSortValue}
                         className="flex cursor-pointer items-center justify-between   "
                       >
                         Price-Low to High
@@ -176,7 +213,7 @@ const SeeAll = () => {
                         />
                       </span>
                       <span
-                        onClick={handleRatingValue}
+                        onClick={handleSortValue}
                         className="flex cursor-pointer items-center justify-between   "
                       >
                         Price-High to Low
@@ -189,7 +226,7 @@ const SeeAll = () => {
                         />
                       </span>
                       <span
-                        onClick={handleRatingValue}
+                        onClick={handleSortValue}
                         className="flex cursor-pointer items-center justify-between   "
                       >
                         Newest First
@@ -206,10 +243,10 @@ const SeeAll = () => {
                 </div>
               </div>
             </aside>
-            <div className="w-full relative bg-white md:w-9/12  lg:w-9/12 xl:11/12  md:ml-auto  flex flex-col gap-0">
-              <div className="md:hidden  fixed w-full z-10 flex bg-slate-100 border-b ">
+            <div className="rounded-md shadow-md w-full relative bg-white md:w-9/12  lg:w-9/12 xl:w-9/12  md:ml-auto  flex flex-col gap-0">
+              <div className="md:hidden  fixed w-full z-10 flex bg-slate-200 border-b py-1">
                 <button
-                  className="grow border-r py-2"
+                  className="grow border-r border-black/40 py-2"
                   onClick={() => {
                     setToggleSort(!toggleSort);
                     setToggleFilter(false);
@@ -243,7 +280,8 @@ const SeeAll = () => {
                 <Pagination
                   count={data?.paginationCount}
                   size={"large"}
-                  value={filterDetails?.page}
+                  page={Number(filterDetails?.page) || 1}
+                  value={Number(filterDetails?.page) || 1}
                   onChange={(e) => {
                     dispatch(changePage(e.target.childNodes[0].nodeValue));
                   }}

@@ -16,14 +16,14 @@ const options = {
 
 const Product = memo(({ product }) => {
   return (
-    <div className=" bg-white  shadow-lg   flex flex-col   cursor-pointer">
+    <div className=" bg-gray-50  shadow-md rounded-md   flex flex-col   cursor-pointer">
       <Link to={`/product/?id=${product._id}`}>
-        <div className="mx-auto">
+        <div className="mx-auto flex flex-col">
           <div className="p-2 mx-auto">
             <img
               src="https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/b/p/s/-original-imaggsuemmztbghp.jpeg?q=70"
               alt=""
-              className="max-sm:w-36 hover:scale-105 duration-300"
+              className="max-sm:w-full hover:scale-105 w-full duration-300"
             />
           </div>
           <div className="text-center text-sm p-2 gap-1 flex flex-col">

@@ -2,7 +2,7 @@ import { CircularProgress, Rating } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAddReviewMutation } from "../services/reviews/reviewsApi";
 
-const Review = ({ toggleReview, ontoggleChange, productId }) => {
+const Review = ({ toggleReview, ontoggleChange, productId, refetch }) => {
   const [value, setValue] = useState(0);
   const [reviews, setReviews] = useState({
     rating: 0,
@@ -11,12 +11,13 @@ const Review = ({ toggleReview, ontoggleChange, productId }) => {
   const [
     addReview,
     { error: reviewError, data: reviewData, isSuccess, isLoading },
-  ] = useAddReviewMutation();
+  ] = useAddReviewMutation(undefined, { refetchOnMountOrArgChange: true });
 
   const handleAddReview = () => {
     if (reviews.comment === "") return;
     const reviewInfo = { ...reviews, productId };
     addReview(reviewInfo);
+    refetch();
   };
   useEffect(() => {
     isSuccess && ontoggleChange();
@@ -26,7 +27,7 @@ const Review = ({ toggleReview, ontoggleChange, productId }) => {
     <div
       className={`${
         toggleReview ? "flex" : "hidden"
-      } shadow-md flex flex-col duration-300  justify-between bg-gray-50 rounded-md py-2 gap-5 max-sm:w-10/12 w-9/12  h-auto   absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+      } shadow-md z-10 flex flex-col duration-300  justify-between bg-gray-50 rounded-md py-2 gap-5 max-sm:w-10/12 w-9/12  h-auto   absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
     >
       <div>
         <div className="border-b py-2">
@@ -66,22 +67,23 @@ const Review = ({ toggleReview, ontoggleChange, productId }) => {
       <div className="flex items-center justify-end gap-3 px-3">
         <button
           onClick={handleAddReview}
-          className="disabled:opacity-75 flex items-center gap-1  bg-black text-white  px-6 rounded-md py-1 "
+          className="disabled:opacity-90 flex items-center gap-1  bg-black text-white  px-6 rounded-full py-1 "
           disabled={isLoading}
         >
           <CircularProgress
             size={16}
             style={{
               color: "white",
-              display: `${isLoading ? "inline-block" : "none"}`,
+              display: `${!isLoading ? "inline-block" : "none"}`,
             }}
             className="text-black"
           />
-          Post
+          {/* Post */}
+          <span className="">Post</span>
         </button>
         <button
           onClick={() => ontoggleChange()}
-          className="border-2 border-black  px-6 rounded-md py-1 "
+          className="border-2 border-black px-6 rounded-full transition duration-200 transform active:scale-95 ease-in-out py-1 "
         >
           cancel
         </button>
