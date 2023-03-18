@@ -23,6 +23,7 @@ import Button from "@mui/material/Button";
 
 import { useSignOut } from "react-auth-kit";
 import { addSearchValue, clearFilter } from "../services/products/productSlice";
+import { FormControlUnstyled } from "@mui/base";
 
 const Navbar = ({ onSearch }) => {
   const signOut = useSignOut();
@@ -30,6 +31,8 @@ const Navbar = ({ onSearch }) => {
   const [toggle, setToggle] = useState(false);
 
   // const dispatch = useContext(SearchContext);
+  const { UserAvatar } = useSelector((state) => state.productsStore);
+  console.log(UserAvatar);
 
   const dispatch = useDispatch();
 
@@ -92,7 +95,7 @@ const Navbar = ({ onSearch }) => {
       )}
       <div className="w-full  lg:w-10/12 xl:w-8/12 md:mx-auto flex   px-2 justify-center md:px-6 max-sm:gap-3 gap-8 ">
         <div className="hidden sm:flex items-center  w-64">
-          <img src={logo} alt="" />
+          <img src={UserAvatar.url} alt="" />
         </div>
         <form
           action=""
@@ -114,9 +117,9 @@ const Navbar = ({ onSearch }) => {
             />
             <div className="flex  items-center justify-center sm:hidden">
               <img
-                src="https://yt3.ggpht.com/b42QCAmVJ0kzNNi10_HmhsdfPEATQATS80hbLyHVJcVm6drn5pKtC6MY6wTluXi5iZ8_is5Q_Q=s88-c-k-c0x00ffffff-no-rj"
+                src={UserAvatar.url || logo}
                 onClick={() => setToggle(!toggle)}
-                className="rounded-full bg-cover w-8"
+                className="rounded-full bg-cover w-9 h-9 overflow-hidden"
               />
             </div>
           </div>
