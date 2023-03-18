@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   UserEmail: "",
   SearchAndFilter: {},
+  UserAvatar: {},
 };
 
 const productSlice = createSlice({
@@ -25,6 +26,9 @@ const productSlice = createSlice({
           limit: 8,
         },
       };
+    },
+    addUserImage: (state, action) => {
+      return { ...state, UserAvatar: action.payload };
     },
     clearFilter: (state, action) => {
       return { ...state, SearchAndFilter: {} };
@@ -80,6 +84,7 @@ const productSlice = createSlice({
 export const {
   UserEmail,
   UserAddress,
+  addUserImage,
   addSearchValue,
   addPriceRange,
   addRatingRange,

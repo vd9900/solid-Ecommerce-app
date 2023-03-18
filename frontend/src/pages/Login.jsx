@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useSignIn } from "react-auth-kit";
 import axios from "axios";
+import { addUserImage } from "../services/products/productSlice";
 
 // input schema validation with YUP
 
@@ -38,7 +39,8 @@ const Login = () => {
   const onSubmit = async (values) => {
     try {
       const { data } = await axios.post("/api/vi/login", values);
-      console.log(data.token);
+      console.log(data);
+      dispatch(addUserImage(data.user.avatar));
       if (data.sucess) {
         SignIn({
           token: data.token,

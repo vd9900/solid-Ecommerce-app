@@ -15,6 +15,10 @@ import {
 } from "../services/userApi";
 import { useAuthUser } from "react-auth-kit";
 import { CircularProgress } from "@mui/material";
+import { useUploadProfileMutation } from "../services/userApi";
+import { AiFillEdit, AiFillPlusCircle, AiTwotoneEdit } from "react-icons/ai";
+import { HiOutlinePlus } from "react-icons/hi";
+import { BsPlusCircleFill } from "react-icons/bs";
 
 const validationSchema = yup.object({
   email: yup
@@ -39,12 +43,15 @@ const Profile = () => {
       isSuccess: updateUserProfileSuccess,
     },
   ] = useUpdateUserInfoMutation();
+  const [uploadProfile, { data: uploadProfileResult }] =
+    useUploadProfileMutation();
+  console.log("result", uploadProfileResult);
   // const formattedDate = moment(date).format("MM/DD/YYYY h:mm A");
   // Extracting user data from fetched API and saving in userData variable
 
   const userData = data?.message;
   // Edit fields logic states initialization
-  console.log(error);
+  console.log(userData);
   // set default value of form to user details
 
   // Handler to reset input fields and form
@@ -61,6 +68,15 @@ const Profile = () => {
   const addAgainEditValue = () => {
     setToggleEdit(false);
     formik.resetForm();
+  };
+  const handleUserProfileImg = (e) => {
+    // converting to base64
+    const read = new FileReader();
+    read.readAsDataURL(e.target.files[0]);
+    read.onloadend = () => {
+      // on Success
+      uploadProfile({ image: read.result });
+    };
   };
   useEffect(() => {
     updateUserProfileSuccess && setToggleEdit(false);
@@ -158,11 +174,34 @@ const Profile = () => {
 
             <div className="sm:w-4/12 px-6 flex flex-col  items-center justify-evenly">
               <div className="flex flex-col gap-5 w-full">
-                <img
-                  src={img}
-                  className="mx-auto w-52 h-52 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:h-64 xl:w-64 rounded-full object-cover"
-                  alt=""
-                />
+                <div className="overflow-hidden mx-auto relative w-52 h-52 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:h-64 xl:w-64 rounded-full">
+                  <img
+                    src={userData?.avatar?.url}
+                    className="mx-auto l object-cover"
+                    alt=""
+                  />
+                  <div className="text-white absolute bottom-0 flex justify-end  bg-black/90   w-64 h-8">
+                    <label
+                      htmlFor="file-upload"
+                      className="custom-file-upload relative cursor-pointer"
+                    >
+                      <span className="  ">
+                        <BsPlusCircleFill
+                          // onClick={}
+                          fontSize={18}
+                          className=" text-white mt-1 mr-28"
+                        />
+                      </span>
+                      <input
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        onChange={handleUserProfileImg}
+                        className="absolute w-full h-full opacity-0 cursor-pointer"
+                      />
+                    </label>
+                  </div>
+                </div>
                 <p className="text-3xl py-2 mr-auto">
                   {" "}
                   {data?.message?.username}

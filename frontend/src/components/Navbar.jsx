@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { redirect, useNavigate } from "react-router-dom";
 import { SearchContext } from "../SearchContext/searchContext";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import { CgNotes, CgProfile } from "react-icons/cg";
 import {
   AiFillCloseCircle,
   AiOutlineClose,
+  AiOutlineCloseCircle,
   AiOutlineHome,
   AiOutlineSearch,
 } from "react-icons/ai";
@@ -40,13 +41,12 @@ const Navbar = ({ onSearch }) => {
     navigate(`/products`);
   };
   const handleLogout = () => {};
-
   return (
-    <div className="fixed z-20 w-screen h-14 flex md:bg-black/90 bg-white md:text-white shadow-md sm:p-2 py-0">
+    <div className="fixed z-20 w-screen h-14 flex  bg-white border-b border-black/20 shadow-md sm:p-2 py-0">
       {toggle && (
-        <div className="slide-left z-50 top-0 left-52 py-3  text-white bg-black/95 absolute w-9/12 h-screen">
+        <div className="slide-left z-50 top-0 left-52 py-3 border-l bg-gray-50 border-black/20 absolute w-9/12 h-screen">
           <div className="border-b flex items-center justify-between p-2 ">
-            <AiOutlineClose
+            <AiOutlineCloseCircle
               onClick={() => setToggle(!toggle)}
               fontSize={34}
               className="cursor-pointer font-semibold"

@@ -14,7 +14,18 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    uploadProfile: builder.mutation({
+      query: (detail) => ({
+        url: "api/vi/upload/profile",
+        method: "PUT",
+        body: detail,
+      }),
+    }),
   }),
 });
 
-export const { useUserInfoQuery, useUpdateUserInfoMutation } = userApi;
+export const {
+  useUserInfoQuery,
+  useUpdateUserInfoMutation,
+  useUploadProfileMutation,
+} = userApi;

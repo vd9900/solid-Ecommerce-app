@@ -11,6 +11,7 @@ const {
   getOneUser,
   checkOTP,
   createNewPassword,
+  addUserProfileImage,
 } = require("../controller/userController");
 
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
@@ -24,6 +25,7 @@ router.route("/password/forgot").post(forgotPassword);
 router.route("/logout").get(logout);
 
 router.route("/me").get(isAuthenticatedUser, getuserDetail);
+router.route("/upload/profile").put(isAuthenticatedUser, addUserProfileImage);
 
 router.route("/password/forgot/checkotp").put(checkOTP);
 

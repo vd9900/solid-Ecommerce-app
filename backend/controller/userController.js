@@ -2,8 +2,14 @@ const user = require("../models/userModel");
 const { hashPassword } = require("../utils/hashPassword");
 const { sendToken } = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail.js");
+const storeImage = require("../utils/storeImage");
 
 // const comparePassword = user.comparePassword;
+storeImage.config({
+  cloud_name: "dtsxq1mlu",
+  api_key: "567644344666746",
+  api_secret: "W0wiwCrwT9KxRvuDEbsTrbsaGss",
+});
 
 // Register
 
@@ -99,6 +105,41 @@ exports.forgotPassword = async (req, res, next) => {
       console.log(error);
       res.status(500).json(error.message);
     }
+  }
+};
+
+// upload user profile image
+
+exports.addUserProfileImage = async (req, res, next) => {
+  console.log(
+    process.env.CLOUD_NAME,
+    process.env.CLOUD_API_KEY,
+    process.env.CLOUD_SECRET
+  );
+  const { image } = req.body;
+  try {
+    const result = await storeImage.uploader.upload(image, {
+      folder: "user_Profiles",
+    });
+    const NewUser = await user.findOneAndUpdate(
+      { email: req.user.email },
+      {
+        avatar: {
+          public_id: result.public_id,
+          url: result.secure_url,
+        },
+      }
+    );
+    res.status(201).json({
+      success: true,
+      message: NewUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      error,
+    });
   }
 };
 
