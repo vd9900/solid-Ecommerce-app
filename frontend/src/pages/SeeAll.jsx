@@ -278,7 +278,7 @@ const SeeAll = () => {
                 )}
                 {data?.products.length === 0 ? (
                   <div className=" h-full py-36 flex flex-col items-center gap-2 justify-center">
-                    <img src={noitemGif} alt="not found" className="w-56" />
+                    <img src={noitemGif} alt="not found" className="w-36" />
                     <p className="text-center text-gray-700">
                       We've looked real hard, but we can't find anything
                       something wrong with this "{filterDetails?.search}"

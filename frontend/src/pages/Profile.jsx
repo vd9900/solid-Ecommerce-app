@@ -19,6 +19,7 @@ import { useUploadProfileMutation } from "../services/userApi";
 import { AiFillEdit, AiFillPlusCircle, AiTwotoneEdit } from "react-icons/ai";
 import { HiOutlinePlus } from "react-icons/hi";
 import { BsPlusCircleFill } from "react-icons/bs";
+import { addUserImage } from "../services/products/productSlice";
 
 const validationSchema = yup.object({
   email: yup
@@ -31,9 +32,14 @@ const Profile = () => {
   // Importing required hooks
   const [toggleEdit, setToggleEdit] = useState(false);
   const auth = useAuthUser();
-  const { isLoading, data, isSuccess } = useUserInfoQuery(auth().email, {
-    refetchOnMountOrArgChange: true,
-  });
+  const dispatch = useDispatch();
+  const { isLoading, data, isSuccess, refetch, isFetching, } = useUserInfoQuery(
+    auth().email,
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+  console.log("userinfo",data )
   const [
     updateUserInfo,
     {
@@ -43,8 +49,10 @@ const Profile = () => {
       isSuccess: updateUserProfileSuccess,
     },
   ] = useUpdateUserInfoMutation();
-  const [uploadProfile, { data: uploadProfileResult }] =
-    useUploadProfileMutation();
+  const [
+    uploadProfile,
+    { data: uploadProfileResult, isSuccess: uploadProfileSuccess },
+  ] = useUploadProfileMutation();
   console.log("result", uploadProfileResult);
   // const formattedDate = moment(date).format("MM/DD/YYYY h:mm A");
   // Extracting user data from fetched API and saving in userData variable
@@ -81,7 +89,11 @@ const Profile = () => {
   useEffect(() => {
     updateUserProfileSuccess && setToggleEdit(false);
   }, [updateUserProfileSuccess]);
-
+  useEffect(() => {
+    uploadProfileSuccess && refetch();
+    // isSuccess && dispatch(addUserImage(userData?.avatar));
+  }, [uploadProfileSuccess]);
+console.log(uploadProfileSuccess)
   return (
     <div className=" max-w-screen h-screen bg-gray-50">
       {/* <NewCom>

@@ -115,11 +115,11 @@ const Navbar = ({ onSearch }) => {
                 setSearchQuery(e.target.value);
               }}
             />
-            <div className="flex  items-center justify-center sm:hidden">
+            <div className="  sm:hidden">
               <img
                 src={UserAvatar.url || logo}
                 onClick={() => setToggle(!toggle)}
-                className="rounded-full bg-cover w-9 h-9 overflow-hidden"
+                className="rounded-full object-cover  w-10 h-9 overflow-hidden"
               />
             </div>
           </div>
