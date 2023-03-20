@@ -29,6 +29,37 @@ exports.getAllProducts = async (req, res) => {
       match.ratings["$gte"] = req.query?.rating?.gte || 0;
       match.ratings["$lte"] = req.query?.rating?.lte || 5;
     }
+    const range = await Product.aggregate([
+      // {
+      //   $match: {
+      //     $or: [
+      //       { name: { $regex: new RegExp(req.body.search, "i") } },
+      //       { category: { $regex: new RegExp(req.body.search, "i") } },
+      //       { searchKeywords: { $regex: new RegExp(req.body.search, "i") } },
+      //     ],
+      //   },
+      // },
+      {
+        $match: {
+          $or: [
+            { name: { $regex: new RegExp(req.body.search, "i") } },
+            { category: { $regex: new RegExp(req.body.search, "i") } },
+            { searchKeywords: { $regex: new RegExp(req.body.search, "i") } },
+          ],
+        },
+        maxPrice: { $max: "$price" },
+        minPrice: { $min: "$price" },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          maxPrice: 1,
+          minPrice: 1,
+        },
+      },
+    ]);
+    console.log("range", range);
     //send reslut based sort
     Checksort = {};
     const sortValue = [
@@ -68,6 +99,7 @@ exports.getAllProducts = async (req, res) => {
       }
     }
     let query = Product.find(match).sort(Checksort);
+
     if (req.query.page && req.query.limit) {
       productCount = await Product.countDocuments(match);
       // const queryCount = await Product.countDocuments();
@@ -75,8 +107,8 @@ exports.getAllProducts = async (req, res) => {
       query = query.skip(skip).limit(req.query.limit || 10);
       paginationCount = Math.ceil(productCount / req.query.limit);
     }
-
     const products = await query;
+    console.log("range", range);
 
     res.status(200).json({
       products: products,
