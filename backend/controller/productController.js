@@ -5,7 +5,6 @@ const ApiFeatures = require("../utils/apifeatures/apifeatures");
 // GET
 
 exports.getAllProducts = async (req, res) => {
-  console.log(req.query);
   let match = {};
   let page = req.query?.page;
   let paginationCount;
@@ -21,45 +20,25 @@ exports.getAllProducts = async (req, res) => {
           category: new RegExp(req.query.search, "i"),
         },
       ];
+    }
+    const minPriceValue = await Product.find(match)
+      .sort({ price: 1 })
+      .limit(1)
+      .catch((err) => 0);
+    const maxPriceValue = await Product.find(match)
+      .sort({ price: -1 })
+      .limit(1)
+      .catch((erro) => 10000);
+    console.log(maxPriceValue, minPriceValue);
+    if (req.query.price) {
       match.price = {};
-      match.price["$gte"] = req.query?.price?.gte || 0;
-      match.price["$lte"] = req.query?.price?.lte || 100000;
-
+      match.price["$gte"] = req.query?.price?.gte;
+      match.price["$lte"] = req.query?.price?.lte;
       match.ratings = {};
       match.ratings["$gte"] = req.query?.rating?.gte || 0;
       match.ratings["$lte"] = req.query?.rating?.lte || 5;
     }
-    const range = await Product.aggregate([
-      // {
-      //   $match: {
-      //     $or: [
-      //       { name: { $regex: new RegExp(req.body.search, "i") } },
-      //       { category: { $regex: new RegExp(req.body.search, "i") } },
-      //       { searchKeywords: { $regex: new RegExp(req.body.search, "i") } },
-      //     ],
-      //   },
-      // },
-      {
-        $match: {
-          $or: [
-            { name: { $regex: new RegExp(req.body.search, "i") } },
-            { category: { $regex: new RegExp(req.body.search, "i") } },
-            { searchKeywords: { $regex: new RegExp(req.body.search, "i") } },
-          ],
-        },
-        maxPrice: { $max: "$price" },
-        minPrice: { $min: "$price" },
-      },
-      {
-        $project: {
-          _id: 0,
-          category: "$_id",
-          maxPrice: 1,
-          minPrice: 1,
-        },
-      },
-    ]);
-    console.log("range", range);
+
     //send reslut based sort
     Checksort = {};
     const sortValue = [
@@ -108,10 +87,11 @@ exports.getAllProducts = async (req, res) => {
       paginationCount = Math.ceil(productCount / req.query.limit);
     }
     const products = await query;
-    console.log("range", range);
 
     res.status(200).json({
       products: products,
+      minPriceValue: minPriceValue[0]?.price || 10,
+      maxPriceValue: maxPriceValue[0]?.price || 100000,
       pageNumber: page,
       paginationCount: paginationCount || "no page",
     });

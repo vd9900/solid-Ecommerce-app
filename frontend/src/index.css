@@ -2,16 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    font-family: "Roboto",sans-serif;
+body {
+  font-family: "Roboto", sans-serif;
 }
-
-.hover-btn{
-    background-color: black;
-    transition-duration: 2000s;
-    color: white;
-
+.hover-btn {
+  background-color: black;
+  transition-duration: 2000s;
+  color: white;
 }
-.imgHeightforProduct{
-    /* height: 10rem; */
+.imgHeightforProduct {
+  /* height: 10rem; */
 }

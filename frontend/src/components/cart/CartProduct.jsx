@@ -89,8 +89,9 @@ const CartProduct = ({ product, refetch }) => {
               </button>
               <input
                 type="text"
-                value={Qty}
+                value={Qty || 1}
                 className="px-2 rounded-lg bg-transparent text-2xl border border-black/70 font-semibold text-center font-mono py-1 w-14 h-10  "
+                readOnly={true}
               />
               <button
                 onClick={() => decrement_Qty(product._id)}
@@ -136,8 +137,9 @@ const CartProduct = ({ product, refetch }) => {
           </button>
           <input
             type="text"
-            value={Qty}
+            value={Qty || 1}
             className="px-2 w-24  rounded-lg bg-transparent text-2xl border border-black/70 font-semibold text-center font-mono py-1  h-10  "
+            readOnly={true}
           />
           <button
             onClick={() => decrement_Qty(product._id)}

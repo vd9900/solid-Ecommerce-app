@@ -1,7 +1,7 @@
 import { Box, Slider } from "@mui/material";
 import React, { useState } from "react";
 
-const Filter = ({ priceChange, ratingChange, onToggleFilter }) => {
+const Filter = ({ priceChange, ratingChange, onToggleFilter,priceRangeBetween }) => {
   const [priceValue, setPriceValue] = useState([0, 120000]);
   const [ratingValue, setRatingValue] = useState([0, 5]);
 
@@ -26,9 +26,9 @@ const Filter = ({ priceChange, ratingChange, onToggleFilter }) => {
               valueLabelDisplay="auto"
               // getAriaValueText={valuetext}
               // color=""
-              step={100}
-              min={50}
-              max={120000}
+              step={10}
+              min={priceRangeBetween[0]}
+              max={priceRangeBetween[1]}
               // color="default"
               style={{
                 color: "#000",

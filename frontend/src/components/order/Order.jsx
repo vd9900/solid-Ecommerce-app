@@ -4,6 +4,8 @@ import { useGetOrderDetailsQuery } from "../../services/orders/ordersApi";
 import Navbar from "../Navbar";
 import Loader from "../Loder";
 import moment from "moment";
+import { BsChevronDoubleRight } from "react-icons/bs";
+import { HiOutlineChevronDoubleRight } from "react-icons/hi";
 const Order = () => {
   const { isLoading, data, error } = useGetOrderDetailsQuery();
   console.log(data);
@@ -15,7 +17,7 @@ const Order = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="pt-16 md:w-9/12 md:mx-auto">
+        <div className="pt-16 md:w-8/12 md:mx-auto">
           <div className="p-3">
             <p className="text-2xl font-serif font-medium">My orders</p>
           </div>
@@ -43,12 +45,12 @@ const Order = () => {
                 <div className="text-right p-2">
                   <Link
                     to={`/order/?order=${order._id}`}
-                    className="bg-black 
-              px-6 py-2 text-sm text-white rounded-full
+                    className="bg-black  flex items-center ml-auto gap-2 w-32
+              px-4 py-2 text-sm text-white rounded-full
               transition duration-200 transform active:scale-95 ease-in-out
               "
                   >
-                    Read more
+                    Read more <HiOutlineChevronDoubleRight />
                   </Link>
                 </div>
               </div>

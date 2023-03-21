@@ -20,7 +20,7 @@ const Sort = ({ sortValue = "all", onSortClick, onTogglesort }) => {
           All Items{" "}
           <input
             data-id="all"
-            checked={sortValue === "all"}
+            Checked={sortValue === "all"}
             type="radio"
             className="h-4 w-4"
             name="sort"

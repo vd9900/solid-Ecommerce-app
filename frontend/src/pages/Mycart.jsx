@@ -17,6 +17,8 @@ import {
 } from "../services/carts/cartSplice";
 import { Link } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import CartProductSkeleton from "../components/skeletons/CartProductSkeleton";
+import CartTotalComSkeleton from "../components/skeletons/CartTotalComSkeleton";
 const Mycart = () => {
   const {
     data: carts,
@@ -25,12 +27,14 @@ const Mycart = () => {
     isSuccess,
     error,
     refetch,
-  } = useCartsQuery(undefined, { refetchOnMountOrArgChange: true });
+  } = useCartsQuery();
   const [deleteFromCart] = useDeleteFromCartMutation();
 
   //storing cart in gobal store
   const dispatch = useDispatch();
-
+  if (isError) {
+    throw new Error(JSON.stringify(error));
+  }
   useEffect(() => {
     if (isSuccess && carts.length > 0) {
       dispatch(ClearTheCart());
@@ -65,18 +69,22 @@ const Mycart = () => {
   return (
     <div className="max-w-screen bg-gray-50 min-h-screen">
       <Navbar />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="pt-16 pb-4 flex flex-col gap-3 h-full">
-          <div className="sm:w-9/12 sm:mx-auto">
-            <p className="px-3 font-serif font-medium text-3xl">My cart</p>
-          </div>
-          <div className=" flex md:w-11/12 lg:w-10/12 xl:w-9/12 md:gap-3 md:mx-auto h-full">
-            <div className="md:w-8/12 w-full">
+      <div className="pt-16 pb-4 flex flex-col gap-3 h-full">
+        <div className="sm:w-9/12 sm:mx-auto">
+          <p className="px-3 font-serif font-medium text-3xl">My cart</p>
+        </div>
+        <div className=" flex md:w-11/12 lg:w-10/12 xl:w-9/12 md:gap-3 md:mx-auto h-full">
+          <div className="md:w-8/12 w-full ">
+            {isLoading ? (
+              <>
+                {[...Array(6).keys()].map((i) => (
+                  <CartProductSkeleton key={i} />
+                ))}
+              </>
+            ) : (
               <div className="mx-auto flex flex-col gap-3 h-full">
                 {/* all carts here */}
-                <div className="flex flex-col pb-16 px-2">
+                <div className="flex flex-col pb-16 px-2 gap-2">
                   {isSuccess &&
                     carts.map((product) => (
                       <CartProduct
@@ -121,11 +129,15 @@ const Mycart = () => {
                   </Link>
                 </div>
               </div>
-              {/* Save for later here */}
-            </div>
-            {/* payment here */}
-            <div className="hidden md:block md:w-4/12 h-56 bg-white shadow-md rounded-md">
-              <div className="flex flex-col gap-1">
+            )}
+            {/* Save for later here */}
+          </div>
+          {/* payment here */}
+          <div className="hidden md:block md:w-4/12  bg-white shadow-md rounded-md max-h-56">
+            {isLoading ? (
+              <CartTotalComSkeleton />
+            ) : (
+              <div className="flex flex-col gap-1 ">
                 <div>
                   <p className="py-2 px-4 border-b font-serif">Price Detials</p>
                 </div>
@@ -156,10 +168,10 @@ const Mycart = () => {
                   </Link>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

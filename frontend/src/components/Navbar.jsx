@@ -32,7 +32,7 @@ const Navbar = ({ onSearch }) => {
 
   // const dispatch = useContext(SearchContext);
   const { UserAvatar } = useSelector((state) => state.productsStore);
-  console.log(UserAvatar);
+  // console.log(UserAvatar);
 
   const dispatch = useDispatch();
 
@@ -95,7 +95,7 @@ const Navbar = ({ onSearch }) => {
       )}
       <div className="w-full  lg:w-10/12 xl:w-8/12 md:mx-auto flex   px-2 justify-center md:px-6 max-sm:gap-3 gap-8 ">
         <div className="hidden sm:flex items-center  w-64">
-          <img src={UserAvatar.url} alt="" />
+          <img src={logo} alt="" />
         </div>
         <form
           action=""
@@ -119,7 +119,7 @@ const Navbar = ({ onSearch }) => {
               <img
                 src={UserAvatar.url || logo}
                 onClick={() => setToggle(!toggle)}
-                className="rounded-full object-cover  w-10 h-9 overflow-hidden"
+                className="rounded-full object-cover  w-10 h-8 overflow-hidden"
               />
             </div>
           </div>
@@ -152,12 +152,20 @@ items-center gap-1 px-5 py-2  border rounded-full
               <CgNotes fontSize={22} />
             </Link>
           </span>
+          <span>
+            <Link to={"/contact"}>
+              <MdContactSupport fontSize={22} />
+            </Link>
+          </span>
           <Link to={"/me"} className="text-sm ">
-            <span className="hidden md:flex w-28 text-center gap-2 p-1 items-center justify-center ">
-              <p className=" font-medium">Hey, Vinith</p>
-              <CgProfile className="" fontSize={22} />
+            <span className="hidden md:flex w-10 text-center  items-center justify-center ">
+              <img
+                src={UserAvatar.url || logo}
+                onClick={() => setToggle(!toggle)}
+                className="rounded-full object-cover  w-10 h-10 overflow-hidden"
+              />
             </span>
-            <CgProfile className="hidden max-md:block" fontSize={22} />
+            {/* <CgProfile className="hidden max-md:block" fontSize={22} /> */}
           </Link>
           <Link onClick={() => signOut()}>
             <MdLogout fontSize={22} />

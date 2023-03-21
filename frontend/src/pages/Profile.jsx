@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 // import moment from "m";
 import { useDispatch, useSelector } from "react-redux";
-
+import moment from "moment";
 import Navbar from "../components/Navbar";
 import Loader from "../components/Loder";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import img from "../assets/imgs/post1.jpg";
 import {
   useUpdateUserInfoMutation,
   useUserInfoQuery,
@@ -16,16 +15,15 @@ import {
 import { useAuthUser } from "react-auth-kit";
 import { CircularProgress } from "@mui/material";
 import { useUploadProfileMutation } from "../services/userApi";
-import { AiFillEdit, AiFillPlusCircle, AiTwotoneEdit } from "react-icons/ai";
-import { HiOutlinePlus } from "react-icons/hi";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { addUserImage } from "../services/products/productSlice";
 
+// user input schmea
 const validationSchema = yup.object({
   email: yup
     .string()
-    .email("Enter a new email address")
-    .required("please your email"),
+    .email("Enter a valid email address")
+    .required("Add new  email"),
   username: yup.string().required("Enter new username"),
 });
 const Profile = () => {
@@ -33,13 +31,26 @@ const Profile = () => {
   const [toggleEdit, setToggleEdit] = useState(false);
   const auth = useAuthUser();
   const dispatch = useDispatch();
-  const { isLoading, data, isSuccess, refetch, isFetching, } = useUserInfoQuery(
-    auth().email,
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
-  console.log("userinfo",data )
+
+  // fetch user details
+  const {
+    isLoading,
+    data,
+    isSuccess,
+    refetch,
+    isFetching,
+    isError,
+    error: userInfoDetailError,
+  } = useUserInfoQuery(auth().email, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  // error handling with  errorboundary
+  if (isError) {
+    throw new Error(JSON.stringify(userInfoDetailError));
+  }
+
+  //update user info
   const [
     updateUserInfo,
     {
@@ -49,21 +60,16 @@ const Profile = () => {
       isSuccess: updateUserProfileSuccess,
     },
   ] = useUpdateUserInfoMutation();
+
+  // update user profile image
   const [
     uploadProfile,
     { data: uploadProfileResult, isSuccess: uploadProfileSuccess },
   ] = useUploadProfileMutation();
-  console.log("result", uploadProfileResult);
-  // const formattedDate = moment(date).format("MM/DD/YYYY h:mm A");
-  // Extracting user data from fetched API and saving in userData variable
 
   const userData = data?.message;
-  // Edit fields logic states initialization
-  console.log(userData);
-  // set default value of form to user details
 
-  // Handler to reset input fields and form
-
+  // input validation
   const formik = useFormik({
     initialValues: { email: "", username: "" },
     validateOnBlur: true,
@@ -73,10 +79,14 @@ const Profile = () => {
     },
     validationSchema: validationSchema,
   });
+
+  // cancel btn
   const addAgainEditValue = () => {
     setToggleEdit(false);
     formik.resetForm();
   };
+
+  // img convert to base 64 and upload to cloudnary
   const handleUserProfileImg = (e) => {
     // converting to base64
     const read = new FileReader();
@@ -86,20 +96,24 @@ const Profile = () => {
       uploadProfile({ image: read.result });
     };
   };
+
   useEffect(() => {
     updateUserProfileSuccess && setToggleEdit(false);
   }, [updateUserProfileSuccess]);
+
+  // refecth the userprofile again
   useEffect(() => {
-    uploadProfileSuccess && refetch();
-    // isSuccess && dispatch(addUserImage(userData?.avatar));
-  }, [uploadProfileSuccess]);
-console.log(uploadProfileSuccess)
+    uploadProfileSuccess &&
+      refetch() &&
+      dispatch(addUserImage(userData?.avatar));
+  }, [uploadProfileSuccess, isSuccess]);
+
+  useEffect(() => {
+    isSuccess && dispatch(addUserImage(userData?.avatar));
+  }, [data]);
+
   return (
     <div className=" max-w-screen h-screen bg-gray-50">
-      {/* <NewCom>
-        <p>home</p>
-        <p>logo</p>
-      </NewCom> */}
       <Navbar />
       {isLoading ? (
         <Loader />
@@ -112,7 +126,7 @@ console.log(uploadProfileSuccess)
               onSubmit={formik.handleSubmit}
               className={`${
                 toggleEdit ? "flex" : "hidden"
-              } shadow-md flex flex-col duration-300  justify-between bg-gray-50 rounded-md py-2 gap-5  w-9/12  h-auto   absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+              } z-40 shadow-md flex flex-col duration-300  justify-between bg-gray-50 rounded-md py-2 gap-5  w-9/12  h-auto   absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
             >
               <div>
                 <div className="border-b py-2">
@@ -129,7 +143,7 @@ console.log(uploadProfileSuccess)
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
-                    <p className="text-red-600 text-xs">
+                    <p className="text-red-600 text-sm">
                       {formik.touched.username && formik.errors.username
                         ? formik.errors.username
                         : ""}
@@ -145,7 +159,7 @@ console.log(uploadProfileSuccess)
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                     />
-                    <p className="text-red-600 text-xs">
+                    <p className="text-red-600 text-sm">
                       {formik.touched.email && formik.errors.email
                         ? formik.errors.email
                         : ""}
@@ -156,15 +170,13 @@ console.log(uploadProfileSuccess)
               <div className="flex items-center justify-end gap-3 px-3">
                 <button
                   // onClick={handleDetailsEdit}
-                  className=" disabled:bg-black/90 bg-black text-white flex gap-2 items-center px-6 rounded-md py-1 "
+                  className=" disabled:bg-black/90 h-8 bg-black text-white flex gap-2 items-center px-6 rounded-md py-1 "
                   disabled={updateUserProfileLoading}
                   type="submit"
                 >
                   <CircularProgress
-                    size={16}
-                    className={`${
-                      updateUserProfileLoading ? "inline-block" : "hidden"
-                    }`}
+                    size={18}
+                    className={``}
                     style={{
                       color: "white",
                       display: `${
@@ -172,7 +184,7 @@ console.log(uploadProfileSuccess)
                       }`,
                     }}
                   />
-                  Edit
+                  {updateUserProfileLoading ? null : <span>Edit</span>}
                 </button>
                 <button
                   onClick={addAgainEditValue}
@@ -209,7 +221,7 @@ console.log(uploadProfileSuccess)
                         name="file-upload"
                         type="file"
                         onChange={handleUserProfileImg}
-                        className="absolute w-full h-full opacity-0 cursor-pointer"
+                        className="absolute w-full h-full opacity-0 overflow-hidden cursor-pointer"
                       />
                     </label>
                   </div>
@@ -260,15 +272,19 @@ console.log(uploadProfileSuccess)
                     Histroy
                   </p>
                   <span className="">
-                    <p className="text-sm p-0 text-gray-700">Last login</p>
+                    <p className="text-sm p-0 text-gray-700">Last updated</p>
                     <p className="p-0 m-0 leading-4 font-medium font-mono text-gray-800">
-                      {Date(data?.message?.updatedAt)}
+                      {moment(data?.message?.updatedAt).format(
+                        "DD MMM YYYY h:mma"
+                      )}
                     </p>
                   </span>
                   <span className="">
                     <p className="text-sm p-0 text-gray-700">joined</p>
                     <p className="p-0 m-0 leading-4 font-medium font-mono text-gray-800">
-                      {Date(data?.message?.createdAt)}
+                      {moment(data?.message?.createdAt).format(
+                        "DD MMMM YYYYY h:mma"
+                      )}
                     </p>
                   </span>
                 </div>
