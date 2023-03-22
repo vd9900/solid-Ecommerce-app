@@ -99,12 +99,12 @@ const SeeAll = () => {
     dispatch(addRatingRange({ minRating, maxRating }));
   }, [ratingValue]);
 
-  // Clear everthing when unmount
-  useEffect(() => {
-    return () => {
-      dispatch(clearFilter());
-    };
-  }, []);
+  // // Clear everthing when unmount
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(clearFilter());
+  //   };
+  // }, []);
 
   return (
     <div className="max-w-screen relative max-md:h-screen bg-gray-100">

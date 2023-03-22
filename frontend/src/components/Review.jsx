@@ -18,6 +18,7 @@ const Review = ({ toggleReview, ontoggleChange, productId, refetch }) => {
     const reviewInfo = { ...reviews, productId };
     addReview(reviewInfo);
     refetch();
+    setReviews({ rating: 0, comment: "" });
   };
   useEffect(() => {
     isSuccess && ontoggleChange();

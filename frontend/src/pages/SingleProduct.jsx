@@ -14,16 +14,16 @@ import { TfiControlStop } from "react-icons/tfi";
 import { useProductQuery } from "../services/products/productApi";
 import { useAddToCartMutation } from "../services/carts/cartApi";
 import Loader from "../components/Loder";
-import { useAuthUser } from "react-auth-kit";
 import Review from "../components/Review";
 import { useAddReviewMutation } from "../services/reviews/reviewsApi";
-import { Alert, Collapse, IconButton, Rating } from "@mui/material";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+import { Rating } from "@mui/material";
+import moment from "moment";
 import {
   AddToCart,
   calucalteToltal,
   ClearTheCart,
 } from "../services/carts/cartSplice";
+import SingleProductSkeleton from "../components/skeletons/SingleProductSkeleton";
 // import { AddToCart, calucalteToltal } from "../services/carts/cartSplice";
 const posts = [
   {
@@ -62,7 +62,7 @@ const SingleProduct = () => {
     addToCart,
     { isLoading: addCartLoading, data: cartData, error, isError },
   ] = useAddToCartMutation(undefined, { refetchOnMountOrArgChange: true });
-  console.log(error);
+  console.log(data);
   const handleBuyProduct = () => {
     const productInfo = {
       id: data?.message._id,
@@ -118,25 +118,25 @@ const SingleProduct = () => {
           </span>
         </div>
       </div>
-      {isLoading ? (
-        <Loader />
+      {!isLoading ? (
+        <SingleProductSkeleton />
       ) : (
         <div
           className="  pt-14 md:px-2 flex flex-col md:flex-row gap-0 md:gap-2 md:w-12/12
              lg:w-11/12 xl:w-10/12 md:pt-20 md:justify-center md:mx-auto"
         >
           <div className="bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
-            <div className="pb-2 md:p-2 relative flex">
+            <div className="pb-2 md:p-2 relative flex ">
               <Carousel
                 dotColor="bg-white md:bg-black"
-                style={["md:w-4/6 w-full h-auto mx-auto max-md:my-auto"]}
+                style={["md:w-4/6 w-full  mx-auto max-md:my-auto"]}
               >
                 {posts.map(({ id, img }) => {
                   return (
                     <img
                       src={img}
                       alt=""
-                      className="w-screen imgHeightforProduct md:w-full"
+                      className="w-screen t md:w-full"
                       key={id}
                     />
                   );
@@ -228,7 +228,7 @@ const SingleProduct = () => {
                     Add Review
                   </button>
                 </div>
-                <div className="hidden md:block px-6 py-4 ">
+                <div className="block px-6 py-4 ">
                   <div className="border-4 px-4 flex-col border-black/90 mx-auto w-36 h-36 flex items-center justify-center rounded-full">
                     <span className="text-4xl border-b-2 w-full justify-center py-2   text-gray-800 flex items-center">
                       {data?.message?.ratings}
@@ -261,7 +261,9 @@ const SingleProduct = () => {
                       </p>
                     </div>
                     <div className="px-6 font-mono text-sm">
-                      <span className="">{rev.PostedAt}</span>
+                      <span className="">
+                        {moment(rev?.PostedAt).format("DD MMM YYYY h:mma")}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -291,26 +293,30 @@ const SingleProduct = () => {
               ) : null}
             </div>
           </div>
-        </div>
-      )}
 
-      <div className="fixed flex w-full bottom-0  z-0 md:hidden">
-        <button
-          onClick={handleAddCartbtn}
-          className="  transition duration-200 transform active:scale-95 bg-white ease-in-out grow py-3  border font-medium font-serif text-xl   shadow-md"
-        >
-          {isCartClicked ? <span>Go to Cart</span> : <span>Add to Cart</span>}{" "}
-        </button>
-        <button
-          onClick={handleBuyProduct}
-          className="grow text-white font-medium text-xl font-serif py-3 
+          <div className="fixed flex w-full bottom-0  z-0 md:hidden">
+            <button
+              onClick={handleAddCartbtn}
+              className="  transition duration-200 transform active:scale-95 bg-white ease-in-out grow py-3  border font-medium font-serif text-xl   shadow-md"
+            >
+              {isCartClicked ? (
+                <span>Go to Cart</span>
+              ) : (
+                <span>Add to Cart</span>
+              )}{" "}
+            </button>
+            <button
+              onClick={handleBuyProduct}
+              className="grow text-white font-medium text-xl font-serif py-3 
                  shadow-md bg-black
                  transition duration-200 transform active:scale-95 ease-in-out
                   "
-        >
-          Buy now
-        </button>
-      </div>
+            >
+              Buy now
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

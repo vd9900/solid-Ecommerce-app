@@ -60,33 +60,33 @@ const Navbar = ({ onSearch }) => {
           </div>
           <div className="py-4 flex flex-col  gap-5 pl-6">
             <Link to={"/"}>
-              <span className="font-bold   text-white/80 text-lg flex items-center text-justify p-2 gap-1">
+              <span className="font-medium text-lg flex items-center text-justify p-2 gap-1">
                 <AiOutlineHome fontSize={24} /> Home page
               </span>
             </Link>
             <Link to={"/cart"}>
-              <span className=" flex  rounded-full  items-center   p-2 gap-1">
+              <span className="font-medium flex  rounded-full  items-center   p-2 gap-1">
                 <BsCart3 fontSize={24} /> Go to cart
               </span>
             </Link>
             <Link to={"/myorders"}>
-              <span className=" flex items-center p-2 gap-1">
+              <span className="font-medium flex items-center p-2 gap-1">
                 <CgNotes fontSize={24} />
                 Orders
               </span>
             </Link>
             <Link to={"/me"}>
-              <span className=" flex items-center p-2 gap-1">
+              <span className="font-medium flex items-center p-2 gap-1">
                 <CgProfile fontSize={24} /> My profile
               </span>
             </Link>
             <Link to={"/contact"}>
-              <span className=" flex items-center p-2 gap-1">
+              <span className="font-medium flex items-center p-2 gap-1">
                 <MdContactSupport fontSize={24} /> Contact Us
               </span>
             </Link>
             <Link onClick={() => signOut()}>
-              <span className=" flex items-center p-2 gap-1">
+              <span className="font-medium flex items-center p-2 gap-1">
                 <MdLogout fontSize={24} /> Logout
               </span>
             </Link>

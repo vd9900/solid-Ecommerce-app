@@ -3,7 +3,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { AuthProvider } from "react-auth-kit";
 import ReactDOM from "react-dom/client";
-import store from "./store";
+import store, { persistor } from "./store";
 import "./index.css";
 import App from "./App";
 import { PersistGate } from "redux-persist/integration/react";
@@ -19,7 +19,9 @@ root.render(
       cookieSecure={window.location.protocol === "https:"}
     >
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>{" "}
       </Provider>
     </AuthProvider>
   </ErrorBoundary>
