@@ -48,7 +48,7 @@ exports.addNewCart = async (req, res) => {
         return res.status(401).json("Product already added to cart");
       } else {
         cart.cartProducts.push({ product: req.body.product });
-        
+
         const updatedCart = await cart.save();
         return res.json(updatedCart);
       }

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 const connectDB = () => {
   mongoose
     .connect("mongodb://127.0.0.1/Ecommerce", { useNewUrlParser: false })
