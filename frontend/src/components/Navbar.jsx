@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
-import { SearchContext } from "../SearchContext/searchContext";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import "../styles/custom/animation.css";
@@ -13,17 +12,14 @@ import { BsBell, BsCart3, BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { CgNotes, CgProfile } from "react-icons/cg";
 import {
-  AiFillCloseCircle,
-  AiOutlineClose,
   AiOutlineCloseCircle,
   AiOutlineHome,
   AiOutlineSearch,
 } from "react-icons/ai";
-import Button from "@mui/material/Button";
 
 import { useSignOut } from "react-auth-kit";
 import { addSearchValue, clearFilter } from "../services/products/productSlice";
-import { FormControlUnstyled } from "@mui/base";
+import MyModal from "./modals/MyModal";
 
 const Navbar = ({ onSearch }) => {
   const signOut = useSignOut();
@@ -46,7 +42,7 @@ const Navbar = ({ onSearch }) => {
   const handleLogout = () => {};
   return (
     <div className="fixed z-20 w-screen h-14 flex  bg-white border-b border-black/20 shadow-md sm:p-2 py-0">
-      {toggle && (
+      <MyModal onClose={() => setToggle(!toggle)} isOpen={toggle}>
         <div className="slide-left z-50 top-0 left-52 py-3 border-l bg-gray-50 border-black/20 absolute w-9/12 h-screen">
           <div className="border-b flex items-center justify-between p-2 ">
             <AiOutlineCloseCircle
@@ -92,7 +88,7 @@ const Navbar = ({ onSearch }) => {
             </Link>
           </div>
         </div>
-      )}
+      </MyModal>
       <div className="w-full  lg:w-10/12 xl:w-8/12 md:mx-auto flex   px-2 justify-center md:px-6 max-sm:gap-3 gap-8 ">
         <div className="hidden sm:flex items-center  w-64">
           <img src={logo} alt="" />

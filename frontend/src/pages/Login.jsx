@@ -40,8 +40,8 @@ const Login = () => {
     try {
       const { data } = await axios.post("/api/vi/login", values);
       console.log(data);
-      dispatch(addUserImage(data.user.avatar));
       if (data.sucess) {
+        dispatch(addUserImage(data.user.avatar));
         SignIn({
           token: data.token,
           expiresIn: 5 * 24 * 60 * 60 * 10000,

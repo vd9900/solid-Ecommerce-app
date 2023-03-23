@@ -50,19 +50,35 @@ const SingleProduct = () => {
   const [toggleReview, setToggleReview] = useState(false);
   const [toggleAddToCart, setToggleAddToCart] = useState(false);
   const [isCartClicked, setIsCartClicked] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const search = useLocation().search;
   const id = new URLSearchParams(search).get("id");
   console.log(id);
   // const { clickedProduct } = useSelector((state) => state.productsStore);
-  const { data, isLoading, isSuccess, refetch } = useProductQuery(id, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isSuccess, refetch, isFetching } = useProductQuery(
+    id,
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const [
     addToCart,
-    { isLoading: addCartLoading, data: cartData, error, isError },
-  ] = useAddToCartMutation(undefined, { refetchOnMountOrArgChange: true });
-  console.log(data);
+    {
+      isLoading: addCartLoading,
+      data: cartData,
+      error,
+      isError,
+      refetch: cartRefetch,
+    },
+  ] = useAddToCartMutation(undefined, {
+    refetchOnMountOrArgChange: true,
+    onSuccess: () => {
+      cartRefetch();
+    },
+  });
+  console.log(" cart data",cartData);
+  console.log("cart error",error);
   const handleBuyProduct = () => {
     const productInfo = {
       id: data?.message._id,
@@ -85,7 +101,7 @@ const SingleProduct = () => {
       setIsCartClicked(true);
       console.log(data.message?._id);
       addToCart({
-        product: data.message?._id,
+        product: id,
       });
     } else {
       navigate("/cart");
@@ -102,7 +118,6 @@ const SingleProduct = () => {
     return () => clearTimeout(timer);
   }, [toggleAddToCart]);
 
-  const [open, setOpen] = React.useState(true);
   return (
     <div className="max-w-screen  bg-gray-50 min-h-screen relative">
       <Navbar />
@@ -118,7 +133,7 @@ const SingleProduct = () => {
           </span>
         </div>
       </div>
-      {!isLoading ? (
+      {!loaded && isLoading ? (
         <SingleProductSkeleton />
       ) : (
         <div
@@ -136,6 +151,7 @@ const SingleProduct = () => {
                     <img
                       src={img}
                       alt=""
+                      onLoad={() => setLoaded(true)}
                       className="w-screen t md:w-full"
                       key={id}
                     />
@@ -241,8 +257,8 @@ const SingleProduct = () => {
                 </div>
               </div>
 
-              {data?.message?.reviews?.map((rev) => (
-                <div className="py-1">
+              {data?.message?.reviews?.map((rev, i) => (
+                <div key={i} className="py-1">
                   <div className="flex flex-col gap-1 border-b py-2">
                     <div className="px-6 text-lg font-medium text-gray-700 flex gap-2 items-center  ">
                       <span>{rev.name}</span>

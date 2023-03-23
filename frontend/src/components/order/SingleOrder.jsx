@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useGetSignaleOrderDetailsQuery } from "../../services/orders/ordersApi";
 import Navbar from "../Navbar";
 import Loader from "../Loder";
@@ -40,8 +40,8 @@ const SingleOrder = () => {
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-                    {data?.message?.orderItems.map((item) => (
-                      <tr class="w-full">
+                    {data?.message?.orderItems.map((item, i) => (
+                      <tr key={i} class="w-full">
                         <th class="flex gap-3 px-2 py-4 font-normal items-center text-gray-900">
                           <div class="relative w-24 sm:w-28 md:w-36 lg:w-44 xl:w-56  ">
                             <img
@@ -69,7 +69,7 @@ const SingleOrder = () => {
                 </table>
               </div>
               {/* payment info */}
-              <div className="md:w-5/12">
+              <div className="md:w-5/12 flex flex-col gap-4">
                 <div className="rounded-md shadow-md bg-white ">
                   <div className="rounded-md p-3 bg-black text-white font-medium">
                     <p>Payment Info</p>
@@ -114,12 +114,13 @@ const SingleOrder = () => {
                   </div>
                 </div>
                 <div className="py-3 text-right">
-                  <button
-                    className="bg-black px-8 py-2 text-sm text-white rounded-full
+                  <Link
+                    to={"/contact"}
+                    className="bg-black px-8 py-3 text-sm text-white rounded-full
                 transition duration-200 transform active:scale-95 ease-in-out"
                   >
                     Need Help?
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -22,7 +22,7 @@ const cartSplice = createSlice({
     incrementQty: (state, action) => {
       const itemId = action.payload;
       const itemIndex = state.products.findIndex((item) => item.id === itemId);
-      if (itemIndex >= 0) {
+      if (itemIndex >= 0 && state.products[itemIndex].quantity < 12) {
         state.products[itemIndex].quantity += 1;
       }
     },

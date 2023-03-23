@@ -272,7 +272,7 @@ const SeeAll = () => {
                   ))}
                 </div>
               ) : (
-                <div className="pt-3 sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
+                <div className="h-full pt-3 sm:w-11/12  md:mx-auto grid grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-10 sm:items-center sm:justify-center">
                   {isSuccess &&
                     data?.products.map((pro) => (
                       <Product key={pro._id} product={pro} />
@@ -284,7 +284,7 @@ const SeeAll = () => {
                   <img src={noitemGif} alt="not found" className="w-36" />
                   <p className="text-center text-gray-700">
                     We've looked real hard, but we can't find anything something
-                    wrong with this "{filterDetails?.search}"
+                     with  "{filterDetails?.search}"
                   </p>
                 </div>
               ) : null}

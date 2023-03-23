@@ -10,7 +10,7 @@ const SingleProductSkeleton = () => {
     >
       <div className="bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
         <div className="pb-2 md:p-2 relative flex h-full">
-          <div className="w-screen md:w-full h-96   bg-gray-200"></div>
+          <div className="w-screen md:w-72 mx-auto h-96   bg-gray-200"></div>
         </div>
         <div className="px-3 py-6 relative">
           <p className="h-6 rounded-sm bg-gray-300 w-8/12"></p>
@@ -35,7 +35,7 @@ const SingleProductSkeleton = () => {
 
       {/* Product review */}
       <div className=" bg-white md:grow rounded-md shadow-md h-auto">
-        <div className="h-auto pt-2  max-sm:pb-16">
+        <div className="h-auto pt-2">
           <div className="relative bg-white flex flex-col gap-2 border-b">
             <div className="relative ">
               <div className="text-lg px-6 border-b py-2 font-serif font-semibold">
@@ -52,22 +52,17 @@ const SingleProductSkeleton = () => {
                 </ul>
               </div>
             </div>
-            <div className="px-6 flex items-center justify-between  py-2 ">
-              <p className="font-medium font-serif text-xl">Rating & Reviews</p>
-              <button
-                className="bg-black/90
-              text-white
-py-2  border rounded-full text-sm px-4
-                transition duration-200 transform active:scale-95 ease-in-out"
-              >
-                Add Review
-              </button>
+            <div className="px-6 hidden md:flex items-center justify-between  py-2 ">
+              <p className="h-8 bg-gray-200 w-56 rounded-sm"></p>
+              <div
+                className="max-md:hidden bg-gray-200
+              h-10 w-32
+py-2   rounded-full text-sm
+"
+              ></div>
             </div>
-            <div className=" px-6 py-4 ">
-              <div className="border-4 px-4 flex-col border-black/90 mx-auto w-36 h-36 flex items-center justify-center rounded-full">
-                <span className="text-4xl border-b-2 w-full justify-center py-2   text-gray-800 flex items-center"></span>
-                <p className="text-sm font-semibold text-gray-600 text-center"></p>
-              </div>
+            <div className=" px-6 py-4 max-sm:hidden ">
+              <div className="flex-col bg-gray-200  mx-auto w-36 h-36  rounded-full"></div>
             </div>
           </div>
         </div>

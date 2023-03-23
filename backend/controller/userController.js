@@ -14,14 +14,14 @@ storeImage.config({
 // Register
 
 exports.registerUser = async (req, res, next) => {
-  // console.log(req.body);
   try {
     const { username, email, password } = req.body;
     const securePass = await hashPassword(password);
+    console.log(req.body);
     const newUser = await user.create({
       username,
       email,
-      securePass,
+      password: securePass,
       avatar: {
         public_id: "abc123",
         url: "profile_png",

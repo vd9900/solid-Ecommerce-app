@@ -46,17 +46,16 @@ const Enterotp = () => {
     setDisable(true);
     setTimer(20);
   }
-
   function verfiyOTP(e) {
     e.preventDefault();
-    const isEmpty = OTPinput.some((num) => num === "");
-    const convertToNumber = Number(
-      OTPinput.reduce((a, value) => {
-        return a + value;
-      }, "")
-    );
+    const otp = OTPinput.join(""); // join OTPinput array into a string
+    const isEmpty = otp === ""; // check if otp is empty
+    const isInvalidLength = otp.length !== 4; // check if otp is not 4 digits long
+    const convertToNumber = Number(otp); // convert otp string to number
     console.log(convertToNumber);
-    !isEmpty && OTPinput.length === 4 && checkOTP(convertToNumber);
+    if (!isEmpty && !isInvalidLength) {
+      checkOTP(convertToNumber);
+    }
   }
   // to reset the resend otp option
   useEffect(() => {

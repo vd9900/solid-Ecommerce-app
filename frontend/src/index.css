@@ -13,3 +13,6 @@ body {
 .imgHeightforProduct {
   /* height: 10rem; */
 }
+.z-100 {
+  z-index: 100;
+}

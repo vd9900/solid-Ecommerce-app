@@ -30,7 +30,7 @@ const ResetEmail = () => {
 
   const onSubmit = async (values) => {
     dispatch(UserEmail(values.email));
-    sendEmail(values.email);
+    sendEmail(values.email).catch((err) => console.log(err));
   };
   const formik = useFormik({
     initialValues: { email: "" },

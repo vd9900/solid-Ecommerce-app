@@ -13,6 +13,9 @@ import {
   deleteTheCartQty,
   incrementQty,
 } from "../../services/carts/cartSplice";
+// for discount percentage
+const randomDiscount = Math.floor(Math.random() * 30);
+
 const CartProduct = ({ product, refetch }) => {
   const [deleteFromCart, { error, isLoading }] = useDeleteFromCartMutation();
 
@@ -64,7 +67,7 @@ const CartProduct = ({ product, refetch }) => {
             <Rating
               name="read-only"
               size="large"
-              value={product?.ratings}
+              value={product?.rating}
               readOnly
             />
             <span className="pl-1 text-orange-800 text-sm font-medium">
@@ -72,8 +75,15 @@ const CartProduct = ({ product, refetch }) => {
             </span>
           </div>
           <div className="py-1 flex items-center gap-3">
-            <p className="font-serif text-sm text-red-600">18% off</p>
-            <span className="text-gray-500 text-sm line-through">₹899</span>
+            <p className="font-serif text-sm text-red-600">
+              {randomDiscount}% off
+            </p>
+            <span className="text-gray-500 text-sm line-through">
+              ₹
+              {Math.floor(
+                product?.price + product?.price * (randomDiscount / 100)
+              )}
+            </span>
             <span className="font-semibold text-xl">₹{product?.price}</span>
           </div>
           {/* for large device */}

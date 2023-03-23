@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import CartProductSkeleton from "../components/skeletons/CartProductSkeleton";
 import CartTotalComSkeleton from "../components/skeletons/CartTotalComSkeleton";
+
 const Mycart = () => {
   const {
     data: carts,
@@ -27,18 +28,23 @@ const Mycart = () => {
     isSuccess,
     error,
     refetch,
-  } = useCartsQuery();
+  } = useCartsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    onSuccess: (data) => {
+      console.log("halamti habbi", data); // Do something with the carts data here
+    },
+  });
   const [deleteFromCart] = useDeleteFromCartMutation();
-
+  console.log(carts);
   //storing cart in gobal store
   const dispatch = useDispatch();
   if (isError) {
-    throw new Error(JSON.stringify(error));
+    // throw new Error(JSON.stringify(error));
   }
   useEffect(() => {
     if (isSuccess && carts.length > 0) {
       dispatch(ClearTheCart());
-      const newCarts = carts.map((product) => ({
+      const newCarts = carts?.map((product) => ({
         id: product._id,
         price: product.price,
         name: product.name,
@@ -59,12 +65,13 @@ const Mycart = () => {
 
   // console.log(carts);
   //total price of the products
-  const productQty = useSelector((state) => state.cartsStore.products);
-
-  const totalAmout = productQty.reduce((a, product) => {
-    return a + product.price * product.quantity;
-  }, 0);
-  dispatch(calucalteToltal(totalAmout));
+  const { products, total } = useSelector((state) => state.cartsStore);
+  useEffect(() => {
+    const totalAmout = products.reduce((a, product) => {
+      return a + product.price * product.quantity;
+    }, 0);
+    dispatch(calucalteToltal(totalAmout));
+  }, [products, total]);
 
   return (
     <div className="max-w-screen bg-gray-50 min-h-screen">
@@ -86,18 +93,14 @@ const Mycart = () => {
                 {/* all carts here */}
                 <div className="flex flex-col pb-16 px-2 gap-2">
                   {isSuccess &&
-                    carts.map((product) => (
+                    carts?.length >= 0 &&
+                    carts?.map((product) => (
                       <CartProduct
                         key={product._id}
                         product={product}
                         refetch={refetch}
                       />
                     ))}
-                  {isError && (
-                    <div>
-                      <img src={emptyCartGif} alt="" className="w-56" />
-                    </div>
-                  )}
                   {carts?.length === 0 && (
                     <div className="bg-white rounded-md h-96 flex flex-col items-center justify-center">
                       <img src={emptyCartGif} alt="" className="w-56" />
@@ -114,14 +117,12 @@ const Mycart = () => {
                       <AiOutlineInfoCircle fontSize={28} />
                       Total :
                     </span>
-                    <p className="font-mono font-semibold text-2xl">
-                      ₹{totalAmout}
-                    </p>
+                    <p className="font-mono font-semibold text-2xl">₹{total}</p>
                   </div>
                   <Link
-                    to={`${totalAmout > 0 ? "address" : ""}`}
+                    to={`${total > 0 ? "address" : ""}`}
                     className={`${
-                      totalAmout > 0 ? "bg-black/90" : "bg-black/70"
+                      total > 0 ? "bg-black/90" : "bg-black/70"
                     } flex  gap-1 text-lg  font-medium border items-center w-5/12 py-2 px-2 justify-center  text-white  rounded-full`}
                   >
                     Check out
@@ -152,16 +153,16 @@ const Mycart = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="font-semibold">Total Amount </p>
-                    <p className="text-xl font-semibold">₹{totalAmout}</p>
+                    <p className="text-xl font-semibold">₹{total}</p>
                   </div>
                 </div>
                 {/* place order btn here */}
                 <div className="border-t py-2 md:flex mb-auto  px-4 justify-end items-center ">
                   <Link
-                    to={`${totalAmout > 0 ? "address" : ""}`}
+                    to={`${total > 0 ? "address" : ""}`}
                     className={`${
-                      totalAmout > 0 ? "bg-black/90" : "bg-black/70"
-                    } flex  gap-1   font-medium border items-center w-5/12 py-2 px-2 justify-center  text-white  rounded-full`}
+                      total > 0 ? "bg-black/90" : "bg-black/70"
+                    } flex  gap-1   font-medium border items-center w-44 py-2 px-2 justify-center  text-white  rounded-full`}
                   >
                     Check out
                     <HiOutlineCursorArrowRays fontSize={25} />

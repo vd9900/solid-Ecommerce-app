@@ -56,7 +56,7 @@ const Contact = () => {
                     <img
                       src="https://th.bing.com/th/id/OIP.ONNCugYzWU2g1GZ4suV_ugHaGl?pid=ImgDet&w=800&h=711&rs=1"
                       alt=""
-                      className="w-14"
+                      className="w-12"
                     />
                   </a>
                   <a
@@ -66,14 +66,14 @@ const Contact = () => {
                     <img
                       src="https://th.bing.com/th/id/R.5e04fd779e7607a47d0bad14976caa90?rik=MYieavaZpaXrMw&riu=http%3a%2f%2f1000logos.net%2fwp-content%2fuploads%2f2017%2f02%2fNew-Instagram-logo.jpg&ehk=kTNHOU7RNhSBC8VTl4FPXOmyjXgyJlrNtPiZ9qk03fA%3d&risl=&pid=ImgRaw&r=0"
                       alt=""
-                      className="w-14"
+                      className="w-12"
                     />
                   </a>
                   <a target={"_blank"} href="https://youtu.be/dQw4w9WgXcQ">
                     <img
                       src="https://th.bing.com/th/id/OIP.3rSTYI2unlM-9raJQJW3lwHaHa?pid=ImgDet&rs=1"
                       alt=""
-                      className="w-14 scale-110"
+                      className="w-12 scale-110"
                     />
                   </a>
                   <a
@@ -83,7 +83,7 @@ const Contact = () => {
                     <img
                       src="https://th.bing.com/th/id/OIP.w_zDkEJ9aLiWR-g0rff8hwHaHa?pid=ImgDet&rs=1"
                       alt=""
-                      className="w-14 scale-90"
+                      className="w-12 scale-90"
                     />
                   </a>
                 </div>

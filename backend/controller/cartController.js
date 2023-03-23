@@ -8,7 +8,7 @@ exports.getAllCart = async (req, res) => {
       Cart.findOne({ user: req.user._id })
         .populate(
           "cartProducts.product",
-          "_id name price productPictures ratings numberOfReviews"
+          "_id name price images[0] ratings  numberOfReviews"
         )
         .exec((error, cart) => {
           if (error) return res.status(400).json({ error });
@@ -20,10 +20,11 @@ exports.getAllCart = async (req, res) => {
                 name: item.product.name,
                 price: item.product.price,
                 qty: item.quantity,
-                rating: item.rating,
-                numberOfReviews: item.numberOfReviews,
+                rating: item.product.ratings, // corrected
+                numberOfReviews: item.product.numberOfReviews, // corrected
               });
             });
+            console.log(cartItems);
             res.status(200).json(cartItems);
           }
         });
@@ -37,42 +38,33 @@ exports.getAllCart = async (req, res) => {
 };
 
 exports.addNewCart = async (req, res) => {
-  Cart.findOne({ user: req.user._id }).exec((err, cart) => {
-    //checking already exists or not
-
+  try {
+    const cart = await Cart.findOne({ user: req.user._id });
     if (cart) {
       const isProductPresent = cart.cartProducts.some((cp) => {
         return cp.product == req.body.product;
       });
       if (isProductPresent) {
-        res.status(401).json("already added on cart");
+        return res.status(401).json("Product already added to cart");
       } else {
-        Cart.findOneAndUpdate(
-          { user: req.user._id },
-          {
-            $push: {
-              cartProducts: { product: req.body.product },
-            },
-          }
-        )
-          .then((cart) => res.json(cart))
-          .catch((err) => res.json(err));
+        cart.cartProducts.push({ product: req.body.product });
+        
+        const updatedCart = await cart.save();
+        return res.json(updatedCart);
       }
     } else {
-      //if not exists
-      const cart = new Cart({
+      console.log("debug");
+      const newCart = new Cart({
         user: req.user._id,
         cartProducts: [{ product: req.body.product }],
       });
-      cart.save((err, cart) => {
-        console.log(err);
-        if (err) return res.status(400).json({ err });
-        if (cart) {
-          return res.status(201).json({ cart });
-        }
-      });
+      const savedCart = await newCart.save();
+      return res.status(201).json(savedCart);
     }
-  });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json("Internal server error");
+  }
 };
 
 exports.deleteCart = async (req, res) => {

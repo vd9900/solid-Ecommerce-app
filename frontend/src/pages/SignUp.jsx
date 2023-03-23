@@ -32,10 +32,11 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [goNext, setGoNext] = useState(false);
   const onSubmit = async (value) => {
+    console.log(value);
     const url = "/api/vi/register";
     try {
       const { data } = await axios.post(url, { ...value });
-      // console.log(data);
+      console.log(data);
       if (data.sucess) {
         formik.resetForm();
         console.log(data);
