@@ -20,7 +20,8 @@ const Sort = ({ sortValue = "all", onSortClick, onTogglesort }) => {
           All Items{" "}
           <input
             data-id="all"
-            Checked={sortValue === "all"}
+            checked={sortValue === "all"}
+            readOnly
             type="radio"
             className="h-4 w-4"
             name="sort"
@@ -37,6 +38,7 @@ const Sort = ({ sortValue = "all", onSortClick, onTogglesort }) => {
             checked={sortValue === "l_h"}
             className="h-4 w-4"
             name="sort"
+            readOnly
           />
         </span>
         <span
@@ -50,6 +52,7 @@ const Sort = ({ sortValue = "all", onSortClick, onTogglesort }) => {
             data-id="h_l"
             className="h-4 w-4"
             name="sort"
+            readOnly
           />
         </span>
         <span
@@ -63,6 +66,7 @@ const Sort = ({ sortValue = "all", onSortClick, onTogglesort }) => {
             data-id="n_o"
             type="radio"
             name="sort"
+            readOnly
           />
         </span>
       </div>

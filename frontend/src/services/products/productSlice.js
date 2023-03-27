@@ -23,7 +23,7 @@ const productSlice = createSlice({
         SearchAndFilter: {
           search: action.payload,
           page: 1,
-          limit: 8,
+          limit: 2,
         },
       };
     },

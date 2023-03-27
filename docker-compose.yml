@@ -1,0 +1,44 @@
+version: '3'
+services:
+    react-app:
+      image: react-app
+      build: "./frontend"
+      stdin_open: true
+      ports:
+      - "3000:3000"
+      networks:
+      - ecomerce-app
+      depends_on:
+      - my-server
+      volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+      environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+    my-server:
+      image: my-server
+      build: "./backend"
+      ports:
+      - "5000:5000"
+      networks:
+      - ecomerce-app
+      env_file:
+       "./backend/config/config.env"
+      depends_on:
+      - mongo
+    mongo:
+      image: mongo:4.4-bionic
+      ports:
+      - "27017:27017"
+      networks:
+      - ecomerce-app
+      volumes:
+      - mongo-data:/data/db   
+networks:
+  ecomerce-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local

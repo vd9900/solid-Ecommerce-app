@@ -77,8 +77,6 @@ const SingleProduct = () => {
       cartRefetch();
     },
   });
-  console.log(" cart data",cartData);
-  console.log("cart error",error);
   const handleBuyProduct = () => {
     const productInfo = {
       id: data?.message._id,
@@ -106,6 +104,10 @@ const SingleProduct = () => {
     } else {
       navigate("/cart");
     }
+  };
+
+  const handleOnChangeToggle = () => {
+    setToggleReview(!toggleReview);
   };
 
   useEffect(() => {
@@ -227,7 +229,7 @@ const SingleProduct = () => {
                 <Review
                   refetch={refetch}
                   toggleReview={toggleReview}
-                  ontoggleChange={() => setToggleReview(!toggleReview)}
+                  ontoggleChange={handleOnChangeToggle}
                   productId={id}
                 />
                 <div className="px-6 flex items-center justify-between  py-2 ">

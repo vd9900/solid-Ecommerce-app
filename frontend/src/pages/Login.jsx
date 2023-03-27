@@ -38,8 +38,10 @@ const Login = () => {
 
   const onSubmit = async (values) => {
     try {
-      const { data } = await axios.post("/api/vi/login", values);
-      console.log(data);
+      const { data } = await axios.post(
+        "http://localhost:5000/api/vi/login",
+        values
+      );
       if (data.sucess) {
         dispatch(addUserImage(data.user.avatar));
         SignIn({

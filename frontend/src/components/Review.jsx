@@ -21,6 +21,8 @@ const Review = ({ toggleReview, ontoggleChange, productId, refetch }) => {
     refetch();
     setReviews({ rating: 0, comment: "" });
   };
+  // console.log(toggleReview);
+
   useEffect(() => {
     isSuccess && ontoggleChange();
   }, [isSuccess]);
@@ -83,7 +85,7 @@ const Review = ({ toggleReview, ontoggleChange, productId, refetch }) => {
             <span className="">Post</span>
           </button>
           <button
-            onClick={() => ontoggleChange()}
+            onClick={ontoggleChange}
             className="border-2 border-black px-6 rounded-full transition duration-200 transform active:scale-95 ease-in-out py-1 "
           >
             cancel
