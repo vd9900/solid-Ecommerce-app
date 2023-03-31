@@ -30,15 +30,15 @@ const AdsImg = [
     url: "https://rukminim1.flixcart.com/fk-p-flap/50/50/image/16d15dd63bfa885a.jpg?q=50",
   },
 ];
-
 const Home = () => {
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useProductsQuery();
+  console.log(data);
 
   // error handling with  errorboundary
   if (isError) {
     console.log(error);
-    // throw new Error(JSON.stringify(error));
+    throw new Error(error);
   }
 
   return (
@@ -88,11 +88,11 @@ const Home = () => {
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "fashion")
-                    .map((product) => (
-                      // <div key={product._id} className="bg-pink-100">
-                      <Product key={product._id} product={product} />
-                      // </div>
-                    ))}
+                    .map((cate) =>
+                      cate.products.map((product) => (
+                        <Product key={product._id} product={product} />
+                      ))
+                    )}
                 {/* {isError && <div>{error}</div>} */}
               </div>
             </div>
@@ -103,41 +103,47 @@ const Home = () => {
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "mobile")
-                    .map((product) => (
-                      // <div key={product._id} className="bg-pink-100">
-                      <Product key={product._id} product={product} />
-                      // </div>
-                    ))}
+                    .map((cate) =>
+                      cate.products.map((product) => (
+                        // <div key={product._id} className="bg-pink-100">
+                        <Product key={product._id} product={product} />
+                        // </div>
+                      ))
+                    )}
                 {/* {isError && <div>{error}</div>} */}
               </div>
             </div>
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Grocery</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "grocery")
-                    .map((product) => (
-                      // <div key={product._id} className="bg-pink-100">
-                      <Product key={product._id} product={product} />
-                      // </div>
-                    ))}
+                    .map((cate) =>
+                      cate.products.map((product) => (
+                        // <div key={product._id} className="bg-pink-100">
+                        <Product key={product._id} product={product} />
+                        // </div>
+                      ))
+                    )}
+                {/* <ProductViewMore img="Special" /> */}
                 {/* {isError && <div>{error}</div>} */}
               </div>
             </div>
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Electronics</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
-                {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "electronics")
-                    .map((product) => (
-                      // <div key={product._id} className="bg-pink-100">
-                      <Product key={product._id} product={product} />
-                      // </div>
-                    ))}
+                    .map((cate) =>
+                      cate.products.map((product) => (
+                        // <div key={product._id} className="bg-pink-100">
+                        <Product key={product._id} product={product} />
+                        // </div>
+                      ))
+                    )}
+                {/* <ProductViewMore img="Special" /> */}
                 {/* {isError && <div>{error}</div>} */}
               </div>
             </div>
@@ -148,11 +154,13 @@ const Home = () => {
                 {isSuccess &&
                   data.products
                     .filter((pro) => pro.category === "toys_more")
-                    .map((product) => (
-                      // <div key={product._id} className="bg-pink-100">
-                      <Product key={product._id} product={product} />
-                      // </div>
-                    ))}
+                    .map((cate) =>
+                      cate.products.map((product) => (
+                        // <div key={product._id} className="bg-pink-100">
+                        <Product key={product._id} product={product} />
+                        // </div>
+                      ))
+                    )}
                 {/* {isError && <div>{error}</div>} */}
               </div>
             </div>

@@ -62,6 +62,7 @@ const SingleProduct = () => {
       refetchOnMountOrArgChange: true,
     }
   );
+  console.log(data);
   const [
     addToCart,
     {
@@ -215,14 +216,11 @@ const SingleProduct = () => {
                   <div className="text-lg px-6 border-b py-2 font-serif font-semibold">
                     <p>Product Deatils</p>
                   </div>
-                  <div className=" px-6 py-6">
+                  <div className=" px-6 py-4">
                     <ul className="list-disc  list-inside text-gray-800 flex flex-col gap-1">
-                      <li>long time battery</li>
-                      <li>long time battery</li>
-                      <li>long time battery</li>
-                      <li>long time battery</li>
-                      <li>long time battery</li>
-                      <li>long time battery</li>
+                      {data?.message?.productDetails.map((list) => (
+                        <li>{list}</li>
+                      ))}
                     </ul>
                   </div>
                 </div>

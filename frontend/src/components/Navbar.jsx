@@ -163,9 +163,9 @@ items-center gap-1 px-5 py-2  border rounded-full
             </span>
             {/* <CgProfile className="hidden max-md:block" fontSize={22} /> */}
           </Link>
-          <Link onClick={() => signOut()}>
+          <button onClick={() => signOut()}>
             <MdLogout fontSize={22} />
-          </Link>
+          </button>
         </div>
       </div>
     </div>

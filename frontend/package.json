@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -41,6 +42,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "devServer": {
+    "allowedHosts": [
+      "localhost"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -58,6 +64,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:5000/"
+  }
 }

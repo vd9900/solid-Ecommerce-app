@@ -88,7 +88,7 @@ exports.getAllProducts = async (req, res) => {
           $project: {
             _id: 0,
             category: "$_id",
-            docs: { $slice: ["$docs", 10] },
+            products: { $slice: ["$docs", 2] },
           },
         },
       ]);
