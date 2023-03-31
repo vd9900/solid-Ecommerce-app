@@ -37,7 +37,8 @@ const Home = () => {
 
   // error handling with  errorboundary
   if (isError) {
-    throw new Error(JSON.stringify(error));
+    console.log(error);
+    // throw new Error(JSON.stringify(error));
   }
 
   return (

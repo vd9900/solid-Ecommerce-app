@@ -42,6 +42,7 @@ const Login = () => {
         "http://localhost:5000/api/vi/login",
         values
       );
+      console.log(data.token)
       if (data.sucess) {
         dispatch(addUserImage(data.user.avatar));
         SignIn({

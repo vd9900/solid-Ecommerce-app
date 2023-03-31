@@ -50,7 +50,7 @@ const Profile = () => {
   if (isError) {
     throw new Error(JSON.stringify(userInfoDetailError));
   }
-
+console.log(userInfoDetailError)
   //update user info
   const [
     updateUserInfo,

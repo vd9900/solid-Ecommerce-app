@@ -40,7 +40,7 @@ const SignUp = () => {
       if (data.sucess) {
         formik.resetForm();
         console.log(data);
-        navigate("/home");
+        navigate("/login");
       } else {
         formik.setErrors({ email: "email already exist" });
       }

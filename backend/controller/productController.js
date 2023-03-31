@@ -77,7 +77,22 @@ exports.getAllProducts = async (req, res) => {
         Checksort[requestForSort[0].by] = requestForSort[0].value;
       }
     }
-    let query = Product.find(match).sort(Checksort);
+    let query;
+    //when fetch all products send the data with category and limited 10
+    if (req.query.search) {
+      query = Product.find(match).sort(Checksort);
+    } else {
+      query = Product.aggregate([
+        { $group: { _id: "$category", docs: { $push: "$$ROOT" } } },
+        {
+          $project: {
+            _id: 0,
+            category: "$_id",
+            docs: { $slice: ["$docs", 10] },
+          },
+        },
+      ]);
+    }
 
     if (req.query.page && req.query.limit) {
       productCount = await Product.countDocuments(match);
@@ -87,7 +102,7 @@ exports.getAllProducts = async (req, res) => {
       paginationCount = Math.ceil(productCount / req.query.limit);
     }
     const products = await query;
-
+    console.log(products);
     res.status(200).json({
       products: products,
       minPriceValue: minPriceValue[0]?.price || 10,
