@@ -202,7 +202,7 @@ const SingleProduct = () => {
                  transition duration-200 transform active:scale-95 ease-in-out
                   "
                 >
-                  Buy now
+                  Buy 
                 </button>
               </div>
             </div>
