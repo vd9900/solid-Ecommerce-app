@@ -1,9 +1,9 @@
 {
     "version": 2,
-    "name": "RENT-APP",
+    "name": "my-ecomerce",
   
     "env": {
-      "DATABASE_URL": "mongodb+srv://new-user_99:9900787798@cluster0.koih8os.mongodb.net/RENT-APP?retryWrites=true&w=majority"
+      "DATABASE_URL": "mongodb+srv://new-user_99:9900787798@cluster0.koih8os.mongodb.net/Eecomerce-APP?retryWrites=true&w=majority"
       
     },
     "builds": [{ "src": "./index.js", "use": "@vercel/node" }],
