@@ -41,7 +41,8 @@ const SeeAll = () => {
 
   // error handling with  errorboundary
   if (isError) {
-    throw new Error(JSON.stringify(error));
+    console.log(error)
+
   }
 
   //sort & filter btn for small device

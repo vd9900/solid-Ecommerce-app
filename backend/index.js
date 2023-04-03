@@ -1,9 +1,10 @@
 const app = require("./app");
 const os = require("os");
 const cluster = require("cluster");
-const dotenv = require("dotenv");
 
-dotenv.config({ path: `../backend/config/config.env` });
+if (process.env.NODE_ENV !== "PROD") {
+  require("dotenv").config({ path: `../backend/config/config.env` });
+}
 const connectDB = require("./config/database");
 
 //configration
