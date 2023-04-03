@@ -48,9 +48,9 @@ const Profile = () => {
 
   // error handling with  errorboundary
   if (isError) {
-    throw new Error(JSON.stringify(userInfoDetailError));
+    console.log(error);
   }
-console.log(userInfoDetailError)
+  console.log(userInfoDetailError);
   //update user info
   const [
     updateUserInfo,

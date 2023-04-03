@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 const session = require("express-session");
 const errorHandler = require("./middleware/error");
 const productRoutes = require("./routes/productRoute");
@@ -32,5 +33,11 @@ app.use("/api/vi", productRoutes, userRoutes, orderRoutes, cartRoutes);
 
 // Error middleware
 app.use(errorHandler);
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve());
+});
 
 module.exports = app;
