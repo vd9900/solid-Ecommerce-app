@@ -26,7 +26,6 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore(),
   })
 );
 
