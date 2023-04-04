@@ -9,6 +9,7 @@ const productRoutes = require("./routes/productRoute");
 const userRoutes = require("./routes/userRoute");
 const orderRoutes = require("./routes/orderRoute");
 const cartRoutes = require("./routes/cartRoute");
+const MongoStore = require("connect-mongo");
 const logger = require("morgan");
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
+    store: new MongoStore(),
   })
 );
 
