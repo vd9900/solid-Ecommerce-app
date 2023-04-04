@@ -33,7 +33,7 @@ const SignUp = () => {
   const [goNext, setGoNext] = useState(false);
   const onSubmit = async (value) => {
     console.log(value);
-    const url = "http://localhost:5000/api/vi/register";
+    const url = "https://solid-ecommerce.onrender.com/api/vi/register";
     try {
       const { data } = await axios.post(url, { ...value });
       console.log(data);
