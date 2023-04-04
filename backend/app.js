@@ -14,6 +14,13 @@ const logger = require("morgan");
 
 const app = express();
 
+// Allow requests from all domains
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://vd9900.github.io/solid-Ecommerce-app/");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Middleware
 app.use(logger("dev"));
 app.use(cors());
