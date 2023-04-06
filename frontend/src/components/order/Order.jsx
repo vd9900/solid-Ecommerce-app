@@ -7,14 +7,14 @@ import moment from "moment";
 import { BsChevronDoubleRight } from "react-icons/bs";
 import { HiOutlineChevronDoubleRight } from "react-icons/hi";
 const Order = () => {
-  const { isLoading, data, error } = useGetOrderDetailsQuery();
+  const { isLoading, data, error,isFetching } = useGetOrderDetailsQuery();
   console.log(data);
   console.log("error", error);
 
   return (
     <div className="max-w-screen h-screen bg-gray-100">
       <Navbar />
-      {isLoading ? (
+      {isFetching ? (
         <Loader />
       ) : (
         <div className="pt-16 md:w-8/12 md:mx-auto">
@@ -22,7 +22,7 @@ const Order = () => {
             <p className="text-2xl font-serif font-medium">My orders</p>
           </div>
           <div className="px-3 py-2 flex flex-col gap-3 ">
-            {data.message.map((order) => (
+            {data.message?.map((order) => (
               <div
                 key={order._id}
                 className="flex flex-col gap-3 rounded-md  p-3 border bg-white"
