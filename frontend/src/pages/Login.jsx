@@ -39,7 +39,7 @@ const Login = () => {
   const onSubmit = async (values) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/api/vi/login",
+        "https://solid-ecommerce.onrender.com/api/vi/login",
         values
       );
       console.log(data.token)

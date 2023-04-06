@@ -46,10 +46,6 @@ const Profile = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  // error handling with  errorboundary
-  if (isError) {
-    console.log(error);
-  }
   console.log(userInfoDetailError);
   //update user info
   const [
@@ -61,6 +57,11 @@ const Profile = () => {
       isSuccess: updateUserProfileSuccess,
     },
   ] = useUpdateUserInfoMutation();
+
+  // error handling with  errorboundary
+  if (isError) {
+    console.log(error);
+  }
 
   // update user profile image
   const [

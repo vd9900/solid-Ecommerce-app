@@ -1,8 +1,7 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware,combineReducers } from "@reduxjs/toolkit";
 import { emptySplitApi } from "./api/emptySplitApi";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { combineReducers } from "redux";
 import productSlice from "./services/products/productSlice";
 import cartSplice from "./services/carts/cartSplice";
 const rootPersistConfig = {
@@ -25,6 +24,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false, // disable the default serializableCheck middleware
     }).concat(emptySplitApi.middleware),
+  devTools: false,
 });
 
 export const persistor = persistStore(store);
