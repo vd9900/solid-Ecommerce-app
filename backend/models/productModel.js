@@ -19,18 +19,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    images: [
-      {
-        publicNumber: {
-          type: String,
-          // required: true
-        },
-        url: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    images: [],
     category: {
       type: String,
       required: [true, "Enter the product category"],
@@ -72,11 +61,6 @@ const productSchema = new mongoose.Schema(
       },
     ],
     searchKeywords: [{ type: String }],
-    user: {
-      type: mongoose.Schema.ObjectId,
-      ref: "User",
-      required: true,
-    },
   },
   { timestamps: true }
 );

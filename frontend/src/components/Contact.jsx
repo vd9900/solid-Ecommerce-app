@@ -1,13 +1,40 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
+import emailjs from "emailjs-com";
+import { useAuthUser } from "react-auth-kit";
 
 const Contact = () => {
-  const [isFeildEmpty, setIsFelidEmpty] = useState(true);
+  // const [isFeildEmpty, setIsFelidEmpty] = useState(true);
+  const [isSubmited, setIsSubmited] = useState(false);
+  const auth = useAuthUser();
   const message = useRef();
   const handleMessage = (e) => {
+    console.log(auth().email);
     e.preventDefault();
     if (!message.current.value) return;
-    alert(message.current.value);
+    const formData = {
+      message: message.current.value,
+      name: auth().email,
+    };
+
+    emailjs
+      .sendForm(
+        "service_7gyzy3e",
+        "template_lsngrat",
+        e.target,
+        "qzN_SXAXG0bU6ifJu"
+      )
+      .then(
+        (result) => {
+          setIsSubmited(true);
+          console.log(result.text);
+          e.target.reset();
+        },
+        (error) => {
+          setIsSubmited(false);
+          console.log(error.text);
+        }
+      );
   };
   return (
     <div className="w-screen h-screen bg-gray-100">
@@ -19,12 +46,18 @@ const Contact = () => {
               <p className=" font-serif  text-2xl">Contact Us</p>
             </div>
             <div className="flex flex-col gap-0 bg-white rounded-md ">
-              <form action="">
+              <form action="" onSubmit={handleMessage}>
                 <div className=" w-full">
                   <div className="py-2 px-3 bg-black rounded-md text-white">
                     <p className="text-lg  ">We'd love to hear from you</p>
                   </div>
                   <div className="p-2">
+                    <input
+                      type="text"
+                      name="name"
+                      defaultValue={auth().email}
+                      className="hidden"
+                    />
                     <textarea
                       rows={6}
                       type="text"
@@ -37,12 +70,13 @@ const Contact = () => {
                   </div>
                 </div>
                 <button
-                  onClick={handleMessage}
+                  type="submit"
+                  disabled={isSubmited}
                   className="disabled:opacity-70 bg-black m-2 text-white px-8 rounded-full py-2
             transition duration-200 transform active:scale-95 ease-in-out
                flex items-center gap-1 "
                 >
-                  Submit
+                  {isSubmited ? "Submited" : "Submit"}
                 </button>
               </form>
             </div>

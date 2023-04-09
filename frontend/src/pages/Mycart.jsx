@@ -47,6 +47,7 @@ const Mycart = () => {
       const newCarts = carts?.map((product) => ({
         id: product._id,
         price: product.price,
+        image: product.image,
         name: product.name,
         quantity: 1,
       }));
@@ -63,7 +64,8 @@ const Mycart = () => {
     }
   }, [carts, dispatch, isSuccess]);
 
-  // console.log(carts);
+  console.log(carts);
+  console.log(error);
   //total price of the products
   const { products, total } = useSelector((state) => state.cartsStore);
   useEffect(() => {
@@ -101,14 +103,14 @@ const Mycart = () => {
                         refetch={refetch}
                       />
                     ))}
-                  {carts?.length === 0 && (
+                  {isError || carts?.length === 0 ? (
                     <div className="bg-white rounded-md h-96 flex flex-col items-center justify-center">
                       <img src={emptyCartGif} alt="" className="w-56" />
                       <p className="text-gray-700 font-medium">
                         Life would be empty without a item in cart
                       </p>
                     </div>
-                  )}
+                  ) : null}
                 </div>
                 {/* place order btn here */}
                 <div className="w-full fixed bottom-0 flex md:hidden  border-black/80 py-2 px-2 bg-gray-200 justify-between items-center">

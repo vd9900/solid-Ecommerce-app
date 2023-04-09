@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { CgProfile } from "react-icons/cg";
 import { BiLock } from "react-icons/bi";
+import loadprofile from "../assets/imgs/loadprofile.gif";
 
 //components
 import Loader from "../components/Loder";
-
 // for form
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -14,8 +14,10 @@ import { useFormik } from "formik";
 // from redux
 import { useDispatch, useSelector } from "react-redux";
 import { useSignIn } from "react-auth-kit";
+import { UserEmail } from "../services/products/productSlice";
 import axios from "axios";
 import { addUserImage } from "../services/products/productSlice";
+import { useLoginMutation } from "../services/Auth/loginApi";
 
 // input schema validation with YUP
 
@@ -31,46 +33,45 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
+  const [login, { isLoading, isError, data, error }] = useLoginMutation();
   const SignIn = useSignIn();
   const navigate = useNavigate();
   // handle submit
   const dispatch = useDispatch();
 
-  const onSubmit = async (values) => {
-    try {
-      const { data } = await axios.post(
-        "https://solid-ecommerce.onrender.com/api/vi/login",
-        values
-      );
-      console.log(data.token)
-      if (data.sucess) {
-        dispatch(addUserImage(data.user.avatar));
-        SignIn({
-          token: data.token,
-          expiresIn: 5 * 24 * 60 * 60 * 10000,
-          authState: { email: data.user.email },
-          tokenType: "Bearer",
-        });
-      }
-      data.sucess && navigate("/");
-      data.error &&
-        formik.setErrors({
-          email: [data.error?.email],
-          password: [data.error?.password],
-        });
-    } catch (error) {
-      formik.setErrors({ email: "user not exist" });
-      console.log(error);
-    }
-  };
+  const onSubmit = async (values) => {};
+
+  console.log("data", data);
+  console.log("error", error);
+  console.log("loading", isLoading);
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validateOnBlur: true,
-    onSubmit,
+    onSubmit: async (values) => {
+      login(values);
+    },
     validationSchema: validationSchema,
   });
   // console.log(formik);
+
+  useEffect(() => {
+    data?.error &&
+      formik.setErrors({
+        email: [data.error?.email],
+        password: [data.error?.password],
+      });
+    if (data?.sucess) {
+      dispatch(addUserImage(data.user.avatar));
+      SignIn({
+        token: data.token,
+        expiresIn: 5 * 24 * 60 * 60 * 10000,
+        authState: { email: data.user.email },
+        tokenType: "Bearer",
+      });
+      navigate("/");
+    }
+  }, [data]);
 
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
@@ -97,13 +98,16 @@ const Login = () => {
                     type="text"
                     name="email"
                     value={formik.values.email}
-                    onChange={formik.handleChange}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      dispatch(UserEmail(e.target.value));
+                    }}
                     onBlur={formik.handleBlur}
                     placeholder="Type your email"
                     className="outline-none w-full bg-transparent"
                   />
                 </div>
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-xs h-4">
                   {formik.touched.email && formik.errors.email
                     ? formik.errors.email
                     : ""}
@@ -125,12 +129,12 @@ const Login = () => {
                     className="outline-none w-full"
                   />
                 </div>
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-xs h-3">
                   {formik.touched.password && formik.errors.password
                     ? formik.errors.password
                     : ""}
                 </p>
-                <div className="py-1 text-gray-700 text-right text-sm">
+                <div className="text-gray-700 text-right text-sm">
                   <Link to={"/forgot_password"}>Forgot password?</Link>
                 </div>
               </div>
@@ -144,7 +148,17 @@ const Login = () => {
                  py-2  font-bold border-black
                   transition duration-200 transform active:scale-95 ease-in-out"
               >
-                Login
+                {isLoading ? (
+                  <span>
+                    <img
+                      src={loadprofile}
+                      alt="load"
+                      className="w-6 filter brightness-0 invert  mx-auto h-6"
+                    />
+                  </span>
+                ) : (
+                  <span>Login</span>
+                )}
               </button>
             </form>
             <div className="text-center">

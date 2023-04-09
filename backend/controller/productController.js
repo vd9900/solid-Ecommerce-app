@@ -88,7 +88,7 @@ exports.getAllProducts = async (req, res) => {
           $project: {
             _id: 0,
             category: "$_id",
-            products: { $slice: ["$docs", 2] },
+            products: { $slice: ["$docs", 4] },
           },
         },
       ]);
@@ -132,7 +132,6 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 // Create Product
 
 exports.createProduct = catchAsyncError(async (req, res, next) => {
-  req.body.user = req.user._id;
   console.log(req.body);
   const product = await Product.create(req.body);
   res.status(201).json({

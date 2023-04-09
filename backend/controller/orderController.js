@@ -14,6 +14,7 @@ exports.newOrder = async (req, res) => {
       country: req.body.country,
     },
     orderItems: req.body.products,
+    image: req.body.image,
     user: req.user._id,
     totalPaid: req.body.total,
   });
@@ -33,6 +34,7 @@ exports.getOneOrder = async (req, res) => {
     if (!order)
       return res.status(404).json({ success: false, error: "Order not exist" });
 
+    console.log(order,"here");
     res.status(200).json({
       sucess: true,
       message: order,
@@ -48,6 +50,7 @@ exports.getOneOrder = async (req, res) => {
 
 //get login user order
 exports.myOrders = async (req, res) => {
+  console.log(req.user);
   try {
     const order = await Order.find({ user: req.user._id }).select([
       "fullname",
@@ -58,7 +61,7 @@ exports.myOrders = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "Order not exist" });
-
+    console.log(order);
     res.status(200).json({
       sucess: true,
       message: order,

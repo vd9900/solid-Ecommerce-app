@@ -14,7 +14,7 @@ const validationSchema = yup.object({
   fullname: yup.string().required("fullname is required"),
   address: yup
     .string()
-    .min(35, "Enter valid address")
+    .min(20, "Enter valid address")
     .required("address is required"),
   city: yup.string().required("city is required"),
   country: yup.string().required("country is required"),

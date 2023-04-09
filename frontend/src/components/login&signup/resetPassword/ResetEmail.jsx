@@ -1,19 +1,19 @@
 import React from "react";
 //components
-import Loader from "../../login&signup/LoginCom";
+import loaderGif from "../../../assets/imgs/loadprofile.gif";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 
-import { BiLock } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
 import { useSendEmailMutation } from "../../../services/updatePassword/forgotPasswordApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserEmail } from "../../../services/products/productSlice";
-
+import { useEffect } from "react";
+import { Loader } from "../../Loder";
 // input schema validation with YUP
 
 const validationSchema = yup.object({
@@ -24,6 +24,10 @@ const validationSchema = yup.object({
 });
 
 const ResetEmail = () => {
+  const initalEmailValue = useSelector(
+    (state) => state?.productsStore?.UserEmail
+  );
+  console.log(initalEmailValue);
   const SignIn = useSignIn();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,21 +37,28 @@ const ResetEmail = () => {
     sendEmail(values.email).catch((err) => console.log(err));
   };
   const formik = useFormik({
-    initialValues: { email: "" },
+    initialValues: { email: initalEmailValue },
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
   });
 
-  const [sendEmail, { isSuccess, isError, error, data: emailData }] =
+  const [sendEmail, { isSuccess, isError, isLoading, error, data: emailData }] =
     useSendEmailMutation();
   console.log(emailData);
-
   //   !error?.data?.sucess && formik.setErrors({ email: "user not exist" });
 
-  if (isSuccess) {
-    navigate("/forgot_password/otp");
-  }
+  useEffect(() => {
+    if (isError) {
+      formik.setErrors({
+        email:
+          error?.data?.error?.email || "Something went wrong, Try again later",
+      });
+    }
+    if (isSuccess) {
+      navigate("/forgot_password/otp");
+    }
+  }, [emailData, error]);
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
       {false ? (
@@ -83,7 +94,7 @@ const ResetEmail = () => {
                     className="outline-none w-full bg-transparent"
                   />
                 </div>
-                <p className="text-red-600 text-sm">
+                <p className="text-red-600 text-xs">
                   {formik.touched.email && formik.errors.email
                     ? formik.errors.email
                     : ""}
@@ -97,7 +108,17 @@ const ResetEmail = () => {
                   w-11/12 mx-auto py-2  border-black
                   transition duration-200 transform active:scale-95 ease-in-out"
               >
-                Next
+                {isLoading ? (
+                  <span>
+                    <img
+                      src={loaderGif}
+                      alt="load"
+                      className="w-6 filter brightness-0 invert  mx-auto h-6"
+                    />
+                  </span>
+                ) : (
+                  <span>Next</span>
+                )}
               </button>
             </form>
             <div className="text-center">

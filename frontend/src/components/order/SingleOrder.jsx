@@ -43,11 +43,11 @@ const SingleOrder = () => {
                     {data?.message?.orderItems.map((item, i) => (
                       <tr key={i} class="w-full">
                         <th class="flex gap-3 px-2 py-4 font-normal items-center text-gray-900">
-                          <div class="relative w-24 sm:w-28 md:w-36 lg:w-44 xl:w-56  ">
+                          <div class="relative w-20 sm:w-28 ">
                             <img
                               class="h-full w-full  object-cover object-center"
-                              src="https://rukminim1.flixcart.com/image/416/416/xif0q/mobile/b/p/s/-original-imaggsuemmztbghp.jpeg?q=70"
-                              alt=""
+                              src={item?.image}
+                              alt="pro"
                             />
                           </div>
                           <div class="max-sm:text-xs">

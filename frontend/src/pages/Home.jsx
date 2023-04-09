@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Navbar from "../components/Navbar";
 import Product from "../components/Product.jsx";
@@ -7,7 +7,10 @@ import Carousel from "../components/Slider";
 import { SmCat } from "../components/SmallDevicecom";
 
 // apis
-import { useProductsQuery } from "../services/products/productApi";
+import {
+  useLazyProductsQuery,
+  useProductsQuery,
+} from "../services/products/productApi";
 
 // loader
 import ProudctSkeleton from "../components/skeletons/ProudctSkeleton";
@@ -31,14 +34,21 @@ const AdsImg = [
   },
 ];
 const Home = () => {
-  const { data, isLoading, isFetching, isSuccess, isError, error } =
-    useProductsQuery();
-  console.log(data);
+  const categoryList = [
+    "fashion",
+    "mobile",
+    "grocery",
+    "electronics",
+    "toys_more",
+  ];
 
-  // error handling with  errorboundary
-  if (isError) {
-    console.log(error);
-  }
+  const [count, setCount] = useState(0);
+  const [category, setCategory] = useState(categoryList[count]);
+  const elementRef = useRef();
+
+  const { data, isLoading, isSuccess } = useProductsQuery({
+    keepUnusedData: true,
+  });
 
   return (
     <div className="max-w-screen ">
@@ -79,7 +89,7 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="w-full bg-gray-50  ">
+          <div ref={elementRef} className="w-full bg-gray-50 h-auto ">
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
               <p className="font-medium font-serif text-3xl p-2">Fashion</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">

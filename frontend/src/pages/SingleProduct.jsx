@@ -5,9 +5,9 @@ import Navbar from "../components/Navbar";
 import Carousel from "../components/Slider";
 
 import post1 from "../assets/imgs/post1.jpg";
-import post2 from "../assets/imgs/post2.jpg";
+import post2 from "../assets/imgs/post2.webp";
 import post3 from "../assets/imgs/post3.jpg";
-import post4 from "../assets/imgs/post4.jpg";
+import post4 from "../assets/imgs/post4.webp";
 import { AiFillStar, AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { TfiControlStop } from "react-icons/tfi";
@@ -63,6 +63,7 @@ const SingleProduct = () => {
     }
   );
   console.log(data);
+  console.log(data?.message?.images);
   const [
     addToCart,
     {
@@ -120,7 +121,7 @@ const SingleProduct = () => {
     }
     return () => clearTimeout(timer);
   }, [toggleAddToCart]);
-
+  const images = [...data?.message?.images||""];
   return (
     <div className="max-w-screen  bg-gray-50 min-h-screen relative">
       <Navbar />
@@ -144,18 +145,18 @@ const SingleProduct = () => {
              lg:w-11/12 xl:w-10/12 md:pt-20 md:justify-center md:mx-auto"
         >
           <div className="bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
-            <div className="pb-2 md:p-2 relative flex ">
+            <div className="p-2 md:p-2 relative flex ">
               <Carousel
                 dotColor="bg-white md:bg-black"
-                style={["md:w-4/6 w-full  mx-auto max-md:my-auto"]}
+                style={["md: w-72  mx-auto max-md:my-auto"]}
               >
-                {posts.map(({ id, img }) => {
+                {images.map((img,id) => {
                   return (
                     <img
                       src={img}
                       alt=""
                       onLoad={() => setLoaded(true)}
-                      className="w-screen t md:w-full"
+                      className=" object-cover h-80"
                       key={id}
                     />
                   );
@@ -164,7 +165,7 @@ const SingleProduct = () => {
             </div>
             <div className="px-3 py-6 relative">
               <p className="font-semibold text-2xl">{data?.message?.name}</p>
-              <p className="text-sm">{data?.message?.description}</p>
+              <p className="text-sm text-gray-600 indent-4">{data?.message?.description}</p>
               <div className="py-1 flex items-center">
                 <div className="flex  items-center gap-1 pl-1 text-gray-600 text-sm font-medium">
                   <Rating
@@ -202,7 +203,7 @@ const SingleProduct = () => {
                  transition duration-200 transform active:scale-95 ease-in-out
                   "
                 >
-                  Buy 
+                  Buy
                 </button>
               </div>
             </div>
@@ -210,10 +211,10 @@ const SingleProduct = () => {
 
           {/* Product review */}
           <div className=" bg-white md:grow rounded-md shadow-md h-auto">
-            <div className="h-auto pt-2  max-sm:pb-16">
+            <div className="h-auto md:pt-2  max-sm:pb-16">
               <div className="relative bg-white flex flex-col gap-2 border-b">
                 <div className="relative ">
-                  <div className="text-lg px-6 border-b py-2 font-serif font-semibold">
+                  <div className="text-lg px-6 border-b md:py-2 font-serif font-semibold">
                     <p>Product Deatils</p>
                   </div>
                   <div className=" px-6 py-4">
