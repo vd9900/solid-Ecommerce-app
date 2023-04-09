@@ -12,6 +12,9 @@ import { RequireAuth } from "react-auth-kit";
 import { useIsAuthenticated } from "react-auth-kit";
 
 // pages
+import { Helmet } from "react-helmet";
+import Loder from "./components/Loder";
+import Offline from "./components/Offline";
 const Starter = lazy(() => import("./pages/start"));
 const Home = lazy(() => import("./pages/Home"));
 const SeeAll = lazy(() => import("./pages/SeeAll"));
@@ -38,9 +41,6 @@ const PaymentConform = lazy(() =>
   import("./components/order/PaymentConform.jsx")
 );
 const SingleOrder = lazy(() => import("./components/order/SingleOrder"));
-import { Helmet } from "react-helmet";
-import Loder from "./components/Loder";
-import Offline from "./components/Offline";
 
 function App() {
   const isAuth = useIsAuthenticated();
