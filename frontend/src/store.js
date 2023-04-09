@@ -24,7 +24,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false, // disable the default serializableCheck middleware
     }).concat(emptySplitApi.middleware),
-  devTools: false,
+  devTools: true,
 });
 
 export const persistor = persistStore(store);

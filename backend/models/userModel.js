@@ -53,6 +53,8 @@ const userSchema = new mongoose.Schema(
 
 // adding bcrypt
 
+// Define a pre-save middleware function to make myField lowercase
+
 //JWT  TOKEN
 
 userSchema.methods.getJWTToken = function () {

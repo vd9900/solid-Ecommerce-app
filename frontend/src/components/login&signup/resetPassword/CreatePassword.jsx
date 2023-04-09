@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSignIn } from "react-auth-kit";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { BiLock } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useCreatePasswordMutation } from "../../../services/updatePassword/forgotPasswordApi";
+import loaderGif from "../../../assets/imgs/loadprofile.gif";
 
 // input schema validation with YUP
 
@@ -14,8 +15,11 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .min(8, "Your password is too short.")
-    .required("password is required"),
-  confirmpassword: yup.string(),
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Please confirm new password"),
   // .([yup.ref("password"), null], "Passwords must match"),
 });
 
@@ -24,9 +28,10 @@ const CreatePassword = () => {
   const navigate = useNavigate();
   const { UserEmail: email } = useSelector((state) => state.productsStore);
 
-  const [createPassword, { error, data }] = useCreatePasswordMutation();
+  const [createPassword, { error, data, isLoading, isError, isSuccess }] =
+    useCreatePasswordMutation();
   const onSubmit = async (values) => {
-    alert(JSON.stringify(values));
+    // alert(JSON.stringify(values));
     const userInfo = {
       email,
       password: values.confirmPassword,
@@ -36,20 +41,27 @@ const CreatePassword = () => {
   console.log("succes", data);
   console.log("error", error);
 
-  if (data?.success) {
-    navigate("/login");
-  }
   const formik = useFormik({
     initialValues: { password: "", confirmPassword: "" },
     validateOnBlur: true,
     onSubmit,
     validationSchema: validationSchema,
   });
+  useEffect(() => {
+    if (isError || error) {
+      formik.setErrors({
+        password: error?.data.data || "Something went wrong, Try again later",
+      });
+    }
+    if (isSuccess) {
+      navigate("/login");
+    }
+  }, [isError, isSuccess]);
   return (
-    <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
+    <div className="w-screen h-screen bg-gray-50 flex justify-center items-center overflow-hidden">
       <div className=" w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200 h-full sm:h-5/6  flex flex-col justify-around">
         <div className="w-10/12  mx-auto flex flex-col gap-14">
-          <div className="flex flex-col  gap-1">
+          <div className="flex flex-col  gap-1  ">
             <div className=" mx-auto">
               <p className="text-2xl font-medium text-gray-800 font-serif mx-auto">
                 Confirm password
@@ -77,7 +89,7 @@ const CreatePassword = () => {
                   className="outline-none w-full bg-transparent"
                 />
               </div>
-              <p className="text-red-600 text-sm">
+              <p className="text-red-600 text-xs h-4">
                 {formik.touched.password && formik.errors.password
                   ? formik.errors.password
                   : ""}
@@ -95,11 +107,11 @@ const CreatePassword = () => {
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  placeholder="enter the password again"
+                  placeholder="Enter the password again"
                   className="outline-none w-full bg-transparent"
                 />
               </div>
-              <p className="text-red-600 text-sm">
+              <p className="text-red-600 text-xs h-4">
                 {formik.touched.confirmPassword && formik.errors.confirmPassword
                   ? formik.errors.confirmPassword
                   : ""}
@@ -113,7 +125,17 @@ const CreatePassword = () => {
                 w-11/12 mx-auto py-2  border-black
                 transition duration-200 transform active:scale-95 ease-in-out"
             >
-              Done
+              {isLoading ? (
+                <span>
+                  <img
+                    src={loaderGif}
+                    alt="load"
+                    className="w-6 filter brightness-0 invert  mx-auto h-6"
+                  />
+                </span>
+              ) : (
+                <span>Confirm</span>
+              )}
             </button>
           </form>
           <div className="text-center">

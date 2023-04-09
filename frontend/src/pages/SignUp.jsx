@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom"
-import { json, Link, useNavigate } from "react-router-dom";
-import { FormikContext, useFormik } from "formik";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
 import axios from "axios";
 
 import { CgProfile } from "react-icons/cg";
 import { BiLock } from "react-icons/bi";
 import { HiOutlineChevronDoubleRight, HiOutlineMail } from "react-icons/hi";
-import { BsChevronDoubleRight } from "react-icons/bs";
-import FullName from "../components/login&signup/FullName";
-import { Avatar, Input } from "@mui/material";
+import { useSignUpMutation } from "../services/Auth/loginApi";
+import loaderGif from "../assets/imgs/loadprofile.gif";
+
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
   username: yup
@@ -30,33 +31,34 @@ const validationSchema = yup.object({
 const SignUp = () => {
   // const histroy = useHistory();
   const navigate = useNavigate();
-  const [goNext, setGoNext] = useState(false);
-  const onSubmit = async (value) => {
-    console.log(value);
-    const url = "https://solid-ecommerce.onrender.com/api/vi/register";
-    try {
-      const { data } = await axios.post(url, { ...value });
-      console.log(data);
-      if (data.sucess) {
-        formik.resetForm();
-        console.log(data);
-        navigate("/login");
-      } else {
-        formik.setErrors({ email: "email already exist" });
-      }
-    } catch (error) {
-      console.log(error);
-      formik.setErrors({ email: "email already exist" });
-      // console.log(formik.errors);
-    }
-  };
+  const dispath = useDispatch();
+
+  const [signup, { data, isLoading, error, isSuccess, isError }] =
+    useSignUpMutation();
+  // console.log("error", error);
+  // console.log("data", data);
 
   const formik = useFormik({
     initialValues: { username: "", email: "", password: "" },
     validateOnBlur: true,
-    onSubmit,
+    onSubmit: (value) => {
+      dispath(signup({ ...value }));
+      // formik.setErrors({ email: "email already exist" });
+      // console.log(formik.errors);
+    },
     validationSchema: validationSchema,
   });
+  useEffect(() => {
+    isSuccess && navigate("/login");
+    if (isError) {
+      error?.data?.error?.email
+        ? formik.setErrors({ email: error?.data?.error?.email })
+        : formik.setErrors({
+            username: error?.data?.error || "something went worng!",
+          });
+    }
+  }, [isError, isSuccess]);
+
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
       <div className="w-full md:w-5/12 rounded-md lg:w-4/12 xl:w-3/12 shadow-lg bg-white border border-gray-200  sm:h-5/6 h-full  flex flex-col justify-around">
@@ -86,7 +88,7 @@ const SignUp = () => {
                     className="outline-none w-full"
                   />
                 </div>
-                <p className="text-red-600 text-sm">{inputError?.fullname}</p>
+                <p className="text-red-600 text-sm h-4">{inputError?.fullname}</p>
               </div>
             </div> */}
             {/* username and password and avatar */}
@@ -107,7 +109,7 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                   />
                 </div>
-                <p className="text-red-600 text-xs">
+                <p className="text-red-600 text-xs h-4">
                   {formik.touched.username && formik.errors.username
                     ? formik.errors.username
                     : ""}
@@ -130,7 +132,7 @@ const SignUp = () => {
                       onBlur={formik.handleBlur}
                     />
                   </div>
-                  <p className="text-red-600 text-xs">
+                  <p className="text-red-600 text-xs h-4">
                     {formik.touched.email && formik.errors.email
                       ? formik.errors.email
                       : ""}
@@ -154,34 +156,33 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                   />
                 </div>
-                <p className="text-red-600 text-xs">
+                <p className="text-red-600 text-xs h-4">
                   {formik.touched.password && formik.errors.password
                     ? formik.errors.password
                     : ""}
                 </p>
               </div>
             </div>
-            {goNext ? (
-              <button
-                // onClick={handleFormSubmit}
-                type="button"
-                className="flex items-center justify-center gap-1 font-sans bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 cursor-pointer rounded-md text-white hover:bg-black w-full py-2  font-bold border-black"
-              >
-                SignUp
-                <HiOutlineChevronDoubleRight />
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="
+            <button
+              type="submit"
+              className="
  font-serif shadow-md bg-black text-white
                  cursor-pointer rounded-full 
                   w-11/12 mx-auto py-2  font-medium border-black
                   transition duration-200 transform active:scale-95 ease-in-out"
-              >
-                SignUp
-              </button>
-            )}
+            >
+              {isLoading ? (
+                <span>
+                  <img
+                    src={loaderGif}
+                    alt="load"
+                    className="w-6 filter brightness-0 invert  mx-auto h-6"
+                  />
+                </span>
+              ) : (
+                <span>SignUp</span>
+              )}
+            </button>
           </form>
         </div>
         <div className="text-center">

@@ -60,7 +60,7 @@ const Profile = () => {
 
   // error handling with  errorboundary
   if (isError) {
-    console.log(error);
+    throw new Error(error);
   }
 
   // update user profile image
@@ -152,7 +152,7 @@ const Profile = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                      <p className="text-red-600 text-sm">
+                      <p className="text-red-600 text-xs">
                         {formik.touched.username && formik.errors.username
                           ? formik.errors.username
                           : ""}
@@ -168,7 +168,7 @@ const Profile = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                      <p className="text-red-600 text-sm">
+                      <p className="text-red-600 text-xs">
                         {formik.touched.email && formik.errors.email
                           ? formik.errors.email
                           : ""}
@@ -207,7 +207,7 @@ const Profile = () => {
             </MyModal>
             <div className="sm:w-4/12 px-6 flex flex-col  items-center justify-evenly">
               <div className="flex flex-col gap-5 w-full">
-                {isFetching || isuploadProfileFetching ? (
+                {isuploadProfileFetching ? (
                   <div className="overflow-hidden mx-auto  w-52 h-52 sm:w-40 sm:h-40 md:w-48 md:h-48 xl:h-64 xl:w-64 rounded-full animate-pulse bg-gray-100 flex items-center justify-center">
                     <img src={loadprofile} alt="" className="w-10" />
                   </div>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import post1 from "../assets/imgs/post1.jpg";
-import post2 from "../assets/imgs/post2.jpg";
+import post2 from "../assets/imgs/post2.webp";
 import post3 from "../assets/imgs/post3.jpg";
-import post4 from "../assets/imgs/post4.jpg";
+import post4 from "../assets/imgs/post4.webp";
 import Carousel from "../components/Slider";
 
 const posts = [
@@ -37,7 +37,7 @@ const Starter = () => {
             >
               {posts.map(({ id, img }) => {
                 return (
-                  <img src={img} alt="" className="object-contain" key={id} />
+                  <img src={img} alt="" className="object-cover" key={id} />
                 );
               })}
             </Carousel>
@@ -79,7 +79,8 @@ const Starter = () => {
             start your E-commerce shopping with our best user experience,
             Amazing things will happen when you click get started.
           </p>
-          <Link to={"/login"}
+          <Link
+            to={"/login"}
             className="border-2 bg-black text-white  hover:border-black hover:bg-white hover:text-black  
           duration-1000 rounded-md py-2 font-semibold px-4 text-sm"
           >

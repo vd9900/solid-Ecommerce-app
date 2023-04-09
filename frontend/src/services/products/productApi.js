@@ -3,7 +3,7 @@ import { emptySplitApi } from "../../api/emptySplitApi";
 export const getAllProductsApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     products: builder.query({
-      query: () => "/api/vi/products",
+      query: (cate) => `/api/vi/products?category=${cate}`,
     }),
     product: builder.query({
       query: (id) => `/api/vi/product?id=${id}`,
@@ -13,7 +13,7 @@ export const getAllProductsApi = emptySplitApi.injectEndpoints({
     }),
     addToCart: builder.mutation({
       query: (details) => ({
-        url: `api/vi//mycarts`,
+        url: `api/vi/mycarts`,
         method: "POST",
         body: details,
       }),
@@ -23,6 +23,7 @@ export const getAllProductsApi = emptySplitApi.injectEndpoints({
 
 export const {
   useProductsQuery,
+  useLazyProductsQuery,
   useProductQuery,
   useProductByCategoryQuery,
   useAddToCartMutation,

@@ -1,20 +1,37 @@
 import { optionGroupUnstyledClasses } from "@mui/base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   useCheckOTPMutation,
   useSendEmailMutation,
 } from "../../../services/updatePassword/forgotPasswordApi";
+import loaderGif from "../../../assets/imgs/loadprofile.gif";
+
 //components
 // import Loader from "../../components/Loder";
 
 const Enterotp = () => {
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
+  const inputRef3 = useRef(null);
+  const inputRef4 = useRef(null);
+
   const navigate = useNavigate();
   const [timerCount, setTimer] = useState(10);
   const [OTPinput, setOTPinput] = useState([]);
   const [disable, setDisable] = useState(true);
   const [isInputField, setIsInputField] = useState(true);
+  const [error, SetError] = useState("");
+
+  const handleInputOtp = (e, inputRef) => {
+    SetError("");
+    const input = e.target;
+    if (input.value.length >= 1) {
+      e.target.value.slice(0, 1);
+      inputRef.current.focus();
+    }
+  };
 
   //geting user email address
   const { UserEmail: email } = useSelector((state) => state.productsStore);
@@ -22,19 +39,16 @@ const Enterotp = () => {
 
   const [
     sendEmail,
-    {
-      isSuccess: isSuccessRestEmail,
-      isError,
-      error: errorRestEmail,
-      data: emailData,
-    },
+    { isSuccess: isSuccessRestEmail, error: errorRestEmail, data: emailData },
   ] = useSendEmailMutation();
   console.log("reset error", errorRestEmail);
   console.log("Success", emailData);
   // const [sendEmail, { isSuccess, isError, error, data: emailData }] =
   //   useSendEmailMutation();
-  const [checkOTP, { error, data: otpResult, isSuccess }] =
-    useCheckOTPMutation();
+  const [
+    checkOTP,
+    { error: CheckOtpError, data: otpResult, isSuccess, isLoading, isError },
+  ] = useCheckOTPMutation();
 
   if (otpResult?.success) {
     navigate("/forgot_password/newPassword");
@@ -51,6 +65,7 @@ const Enterotp = () => {
     const otp = OTPinput.join(""); // join OTPinput array into a string
     const isEmpty = otp === ""; // check if otp is empty
     const isInvalidLength = otp.length !== 4; // check if otp is not 4 digits long
+    isInvalidLength && SetError("Please fill the input");
     const convertToNumber = Number(otp); // convert otp string to number
     console.log(convertToNumber);
     if (!isEmpty && !isInvalidLength) {
@@ -70,10 +85,15 @@ const Enterotp = () => {
     //cleanup the interval on complete
     return () => clearInterval(interval);
   }, [disable]);
-  console.log(otpResult);
-  if (isSuccess?.success) {
-    navigate("/forgot_password/newPassword");
-  }
+
+  useEffect(() => {
+    if (isSuccess?.success) {
+      navigate("/forgot_password/newPassword");
+    }
+    if (otpResult?.error) {
+      SetError(otpResult?.error);
+    }
+  }, [isSuccess, otpResult]);
 
   return (
     <div className="w-screen h-screen bg-gray-50 flex justify-center items-center ">
@@ -97,24 +117,28 @@ const Enterotp = () => {
                       <input
                         maxLength="1"
                         className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-200 text-2xl bg-white focus:bg-gray-50 focus:ring-2 ring-black"
-                        type="text"
+                        type="number"
+                        onInput={(e) => handleInputOtp(e, inputRef2)}
+                        ref={inputRef1}
                         name=""
                         id=""
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setOTPinput([
                             e.target.value,
                             OTPinput[1],
                             OTPinput[2],
                             OTPinput[3],
-                          ])
-                        }
+                          ]);
+                        }}
                       ></input>
                     </div>
                     <div className="w-16 h-16 ">
                       <input
                         maxLength="1"
                         className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-200 text-2xl bg-white focus:bg-gray-50 focus:ring-2 ring-black"
-                        type="text"
+                        type="number"
+                        onInput={(e) => handleInputOtp(e, inputRef3)}
+                        ref={inputRef2}
                         name=""
                         id=""
                         onChange={(e) =>
@@ -131,7 +155,9 @@ const Enterotp = () => {
                       <input
                         maxLength="1"
                         className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-200 text-2xl bg-white focus:bg-gray-50 focus:ring-2 ring-black"
-                        type="text"
+                        type="number"
+                        onInput={(e) => handleInputOtp(e, inputRef4)}
+                        ref={inputRef3}
                         name=""
                         id=""
                         onChange={(e) =>
@@ -144,11 +170,12 @@ const Enterotp = () => {
                         }
                       ></input>
                     </div>
-                    <div className="w-16 h-16  overflow-hidden">
+                    <div className="w-16 h-16">
                       <input
                         maxLength="1"
-                        className="border-2  w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl  text-2xl bg-white focus:bg-gray-50 focus:ring-2 ring-black"
-                        type="text"
+                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-2 border-gray-200 text-2xl bg-white focus:bg-gray-50 focus:ring-2 ring-black"
+                        type="number"
+                        ref={inputRef4}
                         name=""
                         id=""
                         onChange={(e) =>
@@ -164,9 +191,9 @@ const Enterotp = () => {
                   </div>
                   <div className="flex flex-col space-y-5">
                     <div className="text-center">
-                      {!isInputField ? (
-                        <p className="text-red-700">Please fill the inputs</p>
-                      ) : null}
+                      <p className="text-red-700 text-xs h-4">
+                        {error && error}
+                      </p>
                     </div>
                     <div className="text-center">
                       <button
@@ -177,7 +204,17 @@ const Enterotp = () => {
                           w-11/12 mx-auto py-2  border-black
                           transition duration-200 transform active:scale-95 ease-in-out"
                       >
-                        Verify Account
+                        {isLoading ? (
+                          <span>
+                            <img
+                              src={loaderGif}
+                              alt="load"
+                              className="w-6 filter brightness-0 invert  mx-auto h-6"
+                            />
+                          </span>
+                        ) : (
+                          <span>Verify OTP</span>
+                        )}
                       </button>
                     </div>
 

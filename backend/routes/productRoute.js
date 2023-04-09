@@ -12,12 +12,7 @@ const router = Express.Router();
 
 router.route("/products").get(isAuthenticatedUser, getAllProducts);
 
-router
-  .route("/admin/product/new")
-  .post(
-    isAuthenticatedUser,
-    createProduct
-  );
+router.route("/admin/product/new").post(createProduct);
 
 router
   .route("/admin/product/")

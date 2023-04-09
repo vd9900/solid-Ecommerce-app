@@ -8,16 +8,18 @@ exports.getAllCart = async (req, res) => {
       Cart.findOne({ user: req.user._id })
         .populate(
           "cartProducts.product",
-          "_id name price images[0] ratings  numberOfReviews"
+          "_id name price images ratings  numberOfReviews"
         )
         .exec((error, cart) => {
           if (error) return res.status(400).json({ error });
           if (cart) {
             let cartItems = [];
             cart.cartProducts.forEach((item, index) => {
+              console.log(item);
               cartItems.push({
                 _id: item.product._id.toString(),
                 name: item.product.name,
+                image: item.product.images[0],
                 price: item.product.price,
                 qty: item.quantity,
                 rating: item.product.ratings, // corrected

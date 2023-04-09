@@ -12,26 +12,35 @@ import { RequireAuth } from "react-auth-kit";
 import { useIsAuthenticated } from "react-auth-kit";
 
 // pages
-import Starter from "./pages/start";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import ResetEmail from "./components/login&signup/resetPassword/ResetEmail";
-import Enterotp from "./components/login&signup/resetPassword/Enterotp";
-import CreatePassword from "./components/login&signup/resetPassword/CreatePassword";
-import Address from "./components/order/Address";
-import Payment from "./components/order/Payment";
-import Order from "./components/order/Order";
-import PaymentConform from "./components/order/PaymentConform.jsx";
-import SingleOrder from "./components/order/SingleOrder";
-import Contact from "./components/Contact.jsx";
-import { Helmet } from "react-helmet";
-import Loder from "./components/Loder";
-import Offline from "./components/Offline";
+const Starter = lazy(() => import("./pages/start"));
 const Home = lazy(() => import("./pages/Home"));
 const SeeAll = lazy(() => import("./pages/SeeAll"));
 const Cart = lazy(() => import("./pages/Mycart"));
 const Profile = lazy(() => import("./pages/Profile"));
 const SingleProduct = lazy(() => import("./pages/SingleProduct"));
+const Order = lazy(() => import("./components/order/Order"));
+const Contact = lazy(() => import("./components/Contact.jsx"));
+const Login = lazy(() => import("./pages/Login"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const Address = lazy(() => import("./components/order/Address"));
+const Payment = lazy(() => import("./components/order/Payment"));
+const ResetEmail = lazy(() =>
+  import("./components/login&signup/resetPassword/ResetEmail")
+);
+const Enterotp = lazy(() =>
+  import("./components/login&signup/resetPassword/Enterotp")
+);
+const CreatePassword = lazy(() =>
+  import("./components/login&signup/resetPassword/CreatePassword")
+);
+
+const PaymentConform = lazy(() =>
+  import("./components/order/PaymentConform.jsx")
+);
+const SingleOrder = lazy(() => import("./components/order/SingleOrder"));
+import { Helmet } from "react-helmet";
+import Loder from "./components/Loder";
+import Offline from "./components/Offline";
 
 function App() {
   const isAuth = useIsAuthenticated();

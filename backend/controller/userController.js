@@ -15,23 +15,39 @@ storeImage.config({
 
 exports.registerUser = async (req, res, next) => {
   try {
+    const checkUser = await user.findOne({ email: req.body.email });
+
+    if (checkUser)
+      return res
+        .status(500)
+        .json({ sucess: false, error: { email: "User already exist" } });
+
     const { username, email, password } = req.body;
     const securePass = await hashPassword(password);
     console.log(req.body);
     const newUser = await user.create({
       username,
-      email,
+      email: String(email).toLowerCase(),
       password: securePass,
       avatar: {
-        public_id: "abc123",
-        url: "profile_png",
+        public_id: "me",
+        url: "https://res.cloudinary.com/dtsxq1mlu/image/upload/v1680778633/user_Profiles/OIP_pp3vr0.jpg",
       },
     });
 
     console.log(newUser);
+    newUser.save((err) => {
+      if (err)
+        return res
+          .status(500)
+          .json({ sucess: false, error: "Something went wrong" });
+      res.status(201).json({ sucess: true, data: "new account created" });
+    });
     sendToken(res, newUser, 201);
   } catch (error) {
-    res.status(500).json({ sucess: false, error: error.message });
+    res
+      .status(500)
+      .json({ sucess: false, error: "Something went wrong,Try agian later" });
     // console.log(error.message);
   }
 };
@@ -42,19 +58,26 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
   //   check exist & correct password
-  if (!email || !password) {
-    return res.json({ error: "please enter email and password" });
-  }
-  const User = await user.findOne({ email }).select("+password");
-  if (!User) {
-    return res.json({ error: { email: "user not exist" } });
-  }
-  const isPasswordMatched = await User.comparePassword(password);
+  try {
+    if (!email || !password) {
+      return res.json({ error: "please enter email and password" });
+    }
+    const User = await user.findOne({ email }).select("+password");
+    if (!User) {
+      return res.json({ error: { email: "user not exist" } });
+    }
+    const isPasswordMatched = await User.comparePassword(password);
 
-  if (!isPasswordMatched) {
-    return res.json({ error: { password: "wrong password" } });
-  } else {
-    sendToken(res, User, 200);
+    if (!isPasswordMatched) {
+      return res.json({ error: { password: "wrong password" } });
+    } else {
+      sendToken(res, User, 200);
+    }
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      error: { email: "Something went wrong, Try again later" },
+    });
   }
 };
 
@@ -74,19 +97,18 @@ exports.logout = async (req, res, next) => {
 // forgot password
 
 exports.forgotPassword = async (req, res, next) => {
-  console.log(req.body);
-  const User = await user.findOne({ email: req.query.email });
-  if (!User) {
-    res.status(404).json({
-      success: false,
-      error: "user not found",
-    });
-  } else {
-    try {
+  const email = String(req?.query?.email).toLowerCase();
+  console.log(email);
+  try {
+    const User = await user.findOne({ email: email });
+    if (!User) {
+      res.status(404).json({
+        success: false,
+        error: { email: "User not found" },
+      });
+    } else {
       // generate random 4 digit otp
-      let randomNum = Math.floor(Math.random() * 10000)
-        .toString()
-        .padStart(4, "0");
+      let randomNum = (Math.floor(Math.random() * 9000) + 1000).toString();
       console.log(randomNum);
 
       sendEmail(req.body.email, randomNum)
@@ -101,10 +123,10 @@ exports.forgotPassword = async (req, res, next) => {
           console.log(error);
           res.status(500).json(error.message);
         });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json(error.message);
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error.message);
   }
 };
 
@@ -164,25 +186,32 @@ exports.getuserDetail = async (req, res, next) => {
 exports.checkOTP = async (req, res) => {
   console.log(req.query.otp);
   console.log(req.session.otp);
-
-  if (req.query.otp === req.session.otp) {
-    req.session.isMatched = true;
-    res.status(200).json({
-      success: true,
-      data: "otp matched!",
-    });
-  } else {
-    if (!req.session.otp) {
+  try {
+    if (req.query.otp === req.session.otp) {
+      req.session.isMatched = true;
       res.status(200).json({
-        success: false,
-        error: "otp exipred",
+        success: true,
+        data: "OTP matched!",
       });
     } else {
-      res.status(200).json({
-        success: false,
-        error: "otp does not match!",
-      });
+      if (!req.session.otp) {
+        res.status(200).json({
+          success: false,
+          error: "OTP exipred",
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          error: "OTP does not match!",
+        });
+      }
     }
+  } catch (error) {
+    console.log(error);
+    res.status(200).json({
+      success: false,
+      error: "Something went wrong!",
+    });
   }
   // sendToken(res, User, 201);
 };
@@ -214,7 +243,7 @@ exports.createNewPassword = async (req, res) => {
           data: "password has been changed",
         });
       } else {
-        res.status(200).json({
+        res.status(404).json({
           success: false,
           data: "something went worng!",
         });
@@ -222,7 +251,10 @@ exports.createNewPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.json(error);
+    res.status(500).json({
+      success: false,
+      data: "something went worng!",
+    });
   }
 };
 
