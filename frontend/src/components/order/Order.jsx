@@ -23,8 +23,8 @@ const Order = () => {
             <p className="text-2xl font-serif font-medium">My orders</p>
           </div>
           <div className="px-3 py-2 flex flex-col gap-3 ">
-            {data.message.length > 0 ? (
-              data.message?.map((order) => (
+            {data?.message?.length > 0 ? (
+              data?.message?.map((order) => (
                 <div
                   key={order._id}
                   className="flex flex-col gap-3 rounded-md  p-3 border bg-white"

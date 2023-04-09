@@ -31,7 +31,7 @@ exports.registerUser = async (req, res, next) => {
       password: securePass,
       avatar: {
         public_id: "me",
-        url: "https://res.cloudinary.com/dtsxq1mlu/image/upload/v1680778633/user_Profiles/OIP_pp3vr0.jpg",
+        url: "https://res.cloudinary.com/dtsxq1mlu/image/upload/v1681038720/user_Profiles/jgcd594knxu01_kf2yzy.webp",
       },
     });
 
