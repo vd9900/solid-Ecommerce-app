@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://vd9900.github.io/E-commerce/",
+  "homepage": "https://vd9900.github.io/solid-Ecommerce-app",
   "private": false,
   "dependencies": {
     "@emotion/react": "^11.10.6",
