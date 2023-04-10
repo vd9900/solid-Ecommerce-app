@@ -19,6 +19,7 @@ app.use(logger("dev"));
 app.use(
   cors({
     origin: "https://vd9900.github.io",
+    credentials: true,
   })
 );
 app.use(express.json({ limit: "50mb" }));
