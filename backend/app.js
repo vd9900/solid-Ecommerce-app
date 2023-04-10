@@ -35,10 +35,10 @@ app.use("/api/vi", productRoutes, userRoutes, orderRoutes, cartRoutes);
 // Error middleware
 app.use(errorHandler);
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+// app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve());
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve());
+// });
 
 module.exports = app;

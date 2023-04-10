@@ -5,14 +5,14 @@ export const loginApi = emptySplitApi.injectEndpoints({
     login: builder.mutation({
       query: (details) => ({
         url: `api/vi/login`,
-        method: "POST",
+        method: "post",
         body: details,
       }),
     }),
     signUp: builder.mutation({
       query: (details) => ({
-        url: `api/vi/register`,
-        method: "POST",
+        url: `/api/vi/register`,
+        method: "post",
         body: details,
       }),
     }),
