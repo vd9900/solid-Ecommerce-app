@@ -18,13 +18,25 @@ const axiosBaseQuery =
     }
   };
 
+const getCookie = (cookie) => {
+  const cookies = document.cookie.split("; ");
+  const myCookie = cookies.find((cookie) => cookie.startsWith(`${cookie}`));
+  if (myCookie) return myCookie.split("=")[1];
+};
+
+console.log("tikeo", getCookie("_auth"));
 export const emptySplitApi = createApi({
   reducerPath: "apisInfo",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000",
     // baseUrl: "https://solid-ecommerce.onrender.com/",
-    credentials:"include",
-    headers: {'Content-Type': 'application/json'}
+    credentials: "include",
+    prepareHeaders: (headers, { getState }) => {
+      // const token = getState().auth.access?.token;
+      headers.set("authorization", getCookie("_auth"));
+      return headers;
+    },
+    headers: { "Content-Type": "application/json" },
   }),
   endpoints: () => ({}),
   tagTypes: ["USER"],
