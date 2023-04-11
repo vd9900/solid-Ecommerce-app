@@ -175,7 +175,7 @@ const Home = () => {
               </div>
             </div>
             <div className="sm:w-10/12  sm:mx-auto  p-2 sm:p-6 flex flex-col">
-              <p className="font-medium font-serif text-3xl p-2">Toys & more</p>
+              <p className="font-medium font-serif text-3xl p-2">Books</p>
               <div className="w-full  p-2  grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1 justify-around ">
                 {/* <ProductViewMore img="Special" /> */}
                 {isSuccess &&

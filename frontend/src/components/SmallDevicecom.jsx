@@ -94,15 +94,15 @@ export const SmCat = () => {
         </button>
         <button
           name="toys_more"
-          className="grow flex flex-col items-center justify-center"
+          className="grow flex flex-col items-center pt-4"
           onClick={handleClickCategory}
         >
           <img
-            src="https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100"
+            src="https://www.bookpulp.com/wp-content/uploads/2020/09/bestseller-books-india-2020.jpg"
             alt=""
-            className="object-cover w-24"
+            className="object-cover w-20"
           />
-          <p className="text-sm font-medium">Toys & More</p>
+          <p className="text-sm font-medium pt-5">Toys & More</p>
         </button>
       </div>
     </div>
