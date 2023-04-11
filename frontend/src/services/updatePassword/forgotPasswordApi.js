@@ -12,9 +12,8 @@ const forgotPassword = emptySplitApi.injectEndpoints({
     }),
     checkOTP: build.mutation({
       query: (userOTP) => ({
-        url: `api/vi/password/forgot/checkotp?otp=${userOTP}`,
-        method: "PUT",
-        body: userOTP,
+        url: `/api/vi/password/forgot/checkotp?otp=${userOTP}`,
+        method: "POST",
       }),
     }),
     createPassword: build.mutation({

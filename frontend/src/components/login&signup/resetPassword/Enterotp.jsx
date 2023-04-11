@@ -53,7 +53,8 @@ const Enterotp = () => {
   if (otpResult?.success) {
     navigate("/forgot_password/newPassword");
   }
-
+  console.log("checkotp", CheckOtpError);
+  console.log("checkotp", otpResult);
   function resendOTP() {
     if (disable) return;
     sendEmail(email);
@@ -66,7 +67,7 @@ const Enterotp = () => {
     const isEmpty = otp === ""; // check if otp is empty
     const isInvalidLength = otp.length !== 4; // check if otp is not 4 digits long
     isInvalidLength && SetError("Please fill the input");
-    const convertToNumber = Number(otp); // convert otp string to number
+    const convertToNumber = otp; // convert otp string to number
     console.log(convertToNumber);
     if (!isEmpty && !isInvalidLength) {
       checkOTP(convertToNumber);

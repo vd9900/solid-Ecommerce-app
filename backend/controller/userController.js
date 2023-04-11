@@ -184,8 +184,8 @@ exports.getuserDetail = async (req, res, next) => {
 };
 
 exports.checkOTP = async (req, res) => {
-  console.log(req.query.otp);
-  console.log(req.session.otp);
+  console.log("hello", req.query.otp);
+  console.log("me", req.session.otp);
   try {
     if (req.query.otp === req.session.otp) {
       req.session.isMatched = true;
@@ -213,7 +213,6 @@ exports.checkOTP = async (req, res) => {
       error: "Something went wrong!",
     });
   }
-  // sendToken(res, User, 201);
 };
 
 exports.createNewPassword = async (req, res) => {

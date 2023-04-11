@@ -18,7 +18,7 @@ const app = express();
 app.use(logger("dev"));
 app.use(
   cors({
-    origin: "https://vd9900.github.io",
+    origin: ["https://vd9900.github.io", "http://localhost:3000"],
     credentials: true,
   })
 );

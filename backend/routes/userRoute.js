@@ -27,7 +27,7 @@ router.route("/logout").get(logout);
 router.route("/me").get(isAuthenticatedUser, getuserDetail);
 router.route("/upload/profile").put(isAuthenticatedUser, addUserProfileImage);
 
-router.route("/password/forgot/checkotp").put(checkOTP);
+router.route("/password/forgot/checkotp").post(checkOTP);
 
 router.route("/password/forgot/createNewPassword").post(createNewPassword);
 
