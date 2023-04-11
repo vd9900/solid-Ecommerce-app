@@ -1,0 +1,21 @@
+{
+  "name": "E-commerce",
+  "short_name": "VD",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dtsxq1mlu/image/upload/v1681038720/user_Profiles/jgcd594knxu01_kf2yzy.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "https://res.cloudinary.com/dtsxq1mlu/image/upload/v1680778633/user_Profiles/OIP_pp3vr0.jpg",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "offline": true
+}
