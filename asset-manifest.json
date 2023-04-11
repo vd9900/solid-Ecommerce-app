@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/solid-Ecommerce-app/static/css/main.ebce64a1.css",
-    "main.js": "/solid-Ecommerce-app/static/js/main.6002da75.js",
+    "main.css": "/solid-Ecommerce-app/static/css/main.795458b8.css",
+    "main.js": "/solid-Ecommerce-app/static/js/main.ea423f81.js",
     "static/js/574.a8f3ec9d.chunk.js": "/solid-Ecommerce-app/static/js/574.a8f3ec9d.chunk.js",
     "static/css/457.ae17a619.chunk.css": "/solid-Ecommerce-app/static/css/457.ae17a619.chunk.css",
-    "static/js/457.613602b9.chunk.js": "/solid-Ecommerce-app/static/js/457.613602b9.chunk.js",
+    "static/js/457.af6a8cb1.chunk.js": "/solid-Ecommerce-app/static/js/457.af6a8cb1.chunk.js",
     "static/css/829.ae17a619.chunk.css": "/solid-Ecommerce-app/static/css/829.ae17a619.chunk.css",
     "static/js/829.4c7c0413.chunk.js": "/solid-Ecommerce-app/static/js/829.4c7c0413.chunk.js",
     "static/css/462.ae17a619.chunk.css": "/solid-Ecommerce-app/static/css/462.ae17a619.chunk.css",
@@ -55,11 +55,11 @@
     "static/media/loadprofile.gif": "/solid-Ecommerce-app/static/media/loadprofile.ce3fd696d5e991dd4056.gif",
     "static/media/post4.webp": "/solid-Ecommerce-app/static/media/post4.5bd0fba345c65b38eb99.webp",
     "index.html": "/solid-Ecommerce-app/index.html",
-    "main.ebce64a1.css.map": "/solid-Ecommerce-app/static/css/main.ebce64a1.css.map",
-    "main.6002da75.js.map": "/solid-Ecommerce-app/static/js/main.6002da75.js.map",
+    "main.795458b8.css.map": "/solid-Ecommerce-app/static/css/main.795458b8.css.map",
+    "main.ea423f81.js.map": "/solid-Ecommerce-app/static/js/main.ea423f81.js.map",
     "574.a8f3ec9d.chunk.js.map": "/solid-Ecommerce-app/static/js/574.a8f3ec9d.chunk.js.map",
     "457.ae17a619.chunk.css.map": "/solid-Ecommerce-app/static/css/457.ae17a619.chunk.css.map",
-    "457.613602b9.chunk.js.map": "/solid-Ecommerce-app/static/js/457.613602b9.chunk.js.map",
+    "457.af6a8cb1.chunk.js.map": "/solid-Ecommerce-app/static/js/457.af6a8cb1.chunk.js.map",
     "829.ae17a619.chunk.css.map": "/solid-Ecommerce-app/static/css/829.ae17a619.chunk.css.map",
     "829.4c7c0413.chunk.js.map": "/solid-Ecommerce-app/static/js/829.4c7c0413.chunk.js.map",
     "462.ae17a619.chunk.css.map": "/solid-Ecommerce-app/static/css/462.ae17a619.chunk.css.map",
@@ -100,7 +100,7 @@
     "425.61602152.chunk.js.map": "/solid-Ecommerce-app/static/js/425.61602152.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ebce64a1.css",
-    "static/js/main.6002da75.js"
+    "static/css/main.795458b8.css",
+    "static/js/main.ea423f81.js"
   ]
 }
