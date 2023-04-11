@@ -102,7 +102,7 @@ export const SmCat = () => {
             alt=""
             className="object-cover w-20"
           />
-          <p className="text-sm font-medium pt-5">Toys & More</p>
+          <p className="text-sm font-medium pt-5">Books</p>
         </button>
       </div>
     </div>
