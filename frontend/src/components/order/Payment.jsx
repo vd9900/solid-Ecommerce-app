@@ -66,11 +66,11 @@ const Payment = () => {
               className="flex flex-col gap-2"
               onSubmit={formik.handleSubmit}
             >
-              <div class="py-2">
-                <label class="font-medium text-sm mb-2 ml-1">Card number</label>
+              <div className="py-2">
+                <label className="font-medium text-sm mb-2 ml-1">Card number</label>
                 <div>
                   <input
-                    class="w-full px-2 py-2  border-2 focus-within:outline-none border-gray-200 rounded-md focus-within:border focus-within:border-black/80"
+                    className="w-full px-2 py-2  border-2 focus-within:outline-none border-gray-200 rounded-md focus-within:border focus-within:border-black/80"
                     placeholder="0000 0000 0000 0000"
                     type="number"
                     name="cardnumber"
@@ -85,9 +85,9 @@ const Payment = () => {
                   </p>
                 </div>
               </div>
-              <div class=" flex items-end">
-                <div class=" w-1/2">
-                  <label class="font-bold text-sm mb-2 ml-1">
+              <div className=" flex items-end">
+                <div className=" w-1/2">
+                  <label className="font-bold text-sm mb-2 ml-1">
                     Expiration date
                   </label>
                   <div>
@@ -96,7 +96,7 @@ const Payment = () => {
                       onBlur={formik.handleBlur}
                       name="expirydate"
                       value={formik.values.expirydate}
-                      class="form-select w-full text-sm px-3 py-2 mb-1 border-2 border-gray-200 rounded-md  focus-within:border focus-within:border-black/80 cursor-pointer"
+                      className="form-select w-full text-sm px-3 py-2 mb-1 border-2 border-gray-200 rounded-md  focus-within:border focus-within:border-black/80 cursor-pointer"
                     >
                       <option value="01">01 - January</option>
                       <option value="02">02 - February</option>
@@ -118,13 +118,13 @@ const Payment = () => {
                     </p>
                   </div>
                 </div>
-                <div class="px-2 w-1/2">
+                <div className="px-2 w-1/2">
                   <select
                     name="year"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.year}
-                    class="form-select w-full px-3 py-2 mb-1 border-2  rounded-md  focus-within:border focus-within:border-black/80 cursor-pointer"
+                    className="form-select w-full px-3 py-2 mb-1 border-2  rounded-md  focus-within:border focus-within:border-black/80 cursor-pointer"
                   >
                     <option value="2020">2020</option>
                     <option value="2021">2021</option>
@@ -144,11 +144,11 @@ const Payment = () => {
                   </p>
                 </div>
               </div>
-              <div class="py-2">
-                <label class="font-bold text-sm">CCV</label>
+              <div className="py-2">
+                <label className="font-bold text-sm">CCV</label>
                 <div>
                   <input
-                    class="w-32  appearance-none hover:appearance-none outline-none focus-within:appearance-none text-sm p-2 border-2 border-gray-200 rounded-md focus-within:outline-none focus-within:border focus-within:border-black/80"
+                    className="w-32  appearance-none hover:appearance-none outline-none focus-within:appearance-none text-sm p-2 border-2 border-gray-200 rounded-md focus-within:outline-none focus-within:border focus-within:border-black/80"
                     placeholder="000"
                     name="cvv"
                     type="number"

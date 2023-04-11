@@ -43,8 +43,8 @@ const CartProduct = ({ product, refetch }) => {
   };
 
   const handleCartDelete = async (id) => {
-    await deleteFromCart(id);
     dispatch(deleteTheCartQty(id));
+    await deleteFromCart(id);
     refetch();
   };
 
@@ -53,11 +53,7 @@ const CartProduct = ({ product, refetch }) => {
       <div className="flex py-4 gap-2">
         <div className="px-3 ">
           <Link to={`/product/?id=${product._id}`}>
-            <img
-              src={product?.image}
-              alt=""
-              className="w-52 object-cover"
-            />
+            <img src={product?.image} alt="" className="w-40 object-cover" />
           </Link>
         </div>
         <div className="flex flex-col w-full font-medium">
@@ -163,7 +159,7 @@ const CartProduct = ({ product, refetch }) => {
 
         <div className=" flex gap-4  w-5/12 items-center">
           <button
-            className="hover:bg-black hover:text-white duration-500 flex items-center  text-sm  font-semibold border rounded-full justify-center grow  w-5/12 py-3"
+            className="hover:bg-black hover:text-white duration-500 flex items-center  text-sm  font-semibold border rounded-full justify-center grow  w-5/12 px-4 py-2 "
             onClick={() => handleCartDelete(product?._id)}
           >
             Remove

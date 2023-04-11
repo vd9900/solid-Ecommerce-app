@@ -18,13 +18,13 @@ const Review = ({ toggleReview, ontoggleChange, productId, refetch }) => {
     if (reviews.comment === "") return;
     const reviewInfo = { ...reviews, productId };
     addReview(reviewInfo);
-    refetch();
+
     setReviews({ rating: 0, comment: "" });
   };
   // console.log(toggleReview);
 
   useEffect(() => {
-    isSuccess && ontoggleChange();
+    isSuccess && refetch() && ontoggleChange();
   }, [isSuccess]);
 
   return (

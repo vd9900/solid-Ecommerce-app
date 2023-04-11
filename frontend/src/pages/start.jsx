@@ -33,11 +33,12 @@ const Starter = () => {
           <div className=" overflow-hidden w-5/6 max-md:h-5/6  max-md:my-auto  flex flex-col mx-auto">
             <Carousel
               autoSlide={true}
-              style={["overflow-hidden md:4/6 w-full mx-auto max-md:my-auto"]}
+              hideTools={true}
+              style={["overflow-hidden md:w-4/6 mx-auto max-md:my-auto"]}
             >
               {posts.map(({ id, img }) => {
                 return (
-                  <img src={img} alt="" className="object-cover" key={id} />
+                  <img src={img} alt="" className="object-cover " key={id} />
                 );
               })}
             </Carousel>

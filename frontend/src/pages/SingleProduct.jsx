@@ -121,14 +121,14 @@ const SingleProduct = () => {
     }
     return () => clearTimeout(timer);
   }, [toggleAddToCart]);
-  const images = [...data?.message?.images||""];
+  const images = [...(data?.message?.images || "")];
   return (
     <div className="max-w-screen  bg-gray-50 min-h-screen relative">
       <Navbar />
       <div
         className={`${
           toggleAddToCart ? "" : "opacity-10 hidden"
-        } px-2 absolute md:w-3/12 md:top-0 slide-bottom md:left-1/2 w-7/12  right-0 transform -translate-x-1/2  z-10`}
+        } px-2 fixed md:w-3/12 md:top-0 slide-bottom md:left-1/2 w-7/12  right-0 transform -translate-x-1/2  z-50`}
       >
         <div className="bg-black/80 text-white rounded-md flex items-center justify-between p-2">
           Added to cart{" "}
@@ -146,11 +146,8 @@ const SingleProduct = () => {
         >
           <div className="relative bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
             <div className="p-2 md:p-2  flex  mx-auto h-96 w-56">
-              <Carousel
-                dotColor="bg-white md:bg-black"
-                style={[""]}
-              >
-                {images.map((img,id) => {
+              <Carousel dotColor="bg-white md:bg-black" style={[""]}>
+                {images.map((img, id) => {
                   return (
                     <img
                       src={img}
@@ -165,7 +162,9 @@ const SingleProduct = () => {
             </div>
             <div className="px-3 py-6 relative">
               <p className="font-semibold text-2xl">{data?.message?.name}</p>
-              <p className="text-sm text-gray-600 indent-4">{data?.message?.description}</p>
+              <p className="text-sm text-gray-600 indent-4">
+                {data?.message?.description}
+              </p>
               <div className="py-1 flex items-center">
                 <div className="flex  items-center gap-1 pl-1 text-gray-600 text-sm font-medium">
                   <Rating
@@ -219,8 +218,8 @@ const SingleProduct = () => {
                   </div>
                   <div className=" px-6 py-4">
                     <ul className="list-disc  list-inside text-gray-800 flex flex-col gap-1">
-                      {data?.message?.productDetails.map((list) => (
-                        <li>{list}</li>
+                      {data?.message?.productDetails.map((list, i) => (
+                        <li key={i}>{list}</li>
                       ))}
                     </ul>
                   </div>

@@ -105,8 +105,8 @@ const Mycart = () => {
                     ))}
                   {isError || carts?.length === 0 ? (
                     <div className="bg-white rounded-md h-96 flex flex-col items-center justify-center">
-                      <img src={emptyCartGif} alt="" className="w-56" />
-                      <p className="text-gray-700 font-medium">
+                      <img src={emptyCartGif} alt="" className="w-36" />
+                      <p className="text-gray-600 font-medium text-sm">
                         Life would be empty without a item in cart
                       </p>
                     </div>

@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import emailjs from "emailjs-com";
+import loadprofile from "../assets/imgs/loadprofile.gif";
 import { useAuthUser } from "react-auth-kit";
 
 const Contact = () => {
   // const [isFeildEmpty, setIsFelidEmpty] = useState(true);
   const [isSubmited, setIsSubmited] = useState(false);
+  const [loading, setLoading] = useState(false);
   const auth = useAuthUser();
   const message = useRef();
   const handleMessage = (e) => {
@@ -16,7 +18,7 @@ const Contact = () => {
       message: message.current.value,
       name: auth().email,
     };
-
+    setLoading(true);
     emailjs
       .sendForm(
         "service_7gyzy3e",
@@ -26,11 +28,13 @@ const Contact = () => {
       )
       .then(
         (result) => {
+          setLoading(false);
           setIsSubmited(true);
           console.log(result.text);
           e.target.reset();
         },
         (error) => {
+          setLoading(false);
           setIsSubmited(false);
           console.log(error.text);
         }
@@ -74,9 +78,21 @@ const Contact = () => {
                   disabled={isSubmited}
                   className="disabled:opacity-70 bg-black m-2 text-white px-8 rounded-full py-2
             transition duration-200 transform active:scale-95 ease-in-out
-               flex items-center gap-1 "
+               flex items-center gap-1 w-32  "
                 >
-                  {isSubmited ? "Submited" : "Submit"}
+                  {loading ? (
+                    <span className="mx-auto">
+                      <img
+                        src={loadprofile}
+                        alt="load"
+                        className="w-6 filter brightness-0 invert  mx-auto h-6"
+                      />
+                    </span>
+                  ) : (
+                    <span className="mx-auto">
+                      {isSubmited ? "Submited" : "Submit"}
+                    </span>
+                  )}
                 </button>
               </form>
             </div>
