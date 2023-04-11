@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "/solid-Ecommerce-app/static/css/main.795458b8.css",
-    "main.js": "/solid-Ecommerce-app/static/js/main.ea423f81.js",
+    "main.js": "/solid-Ecommerce-app/static/js/main.47f1f08f.js",
     "static/js/574.a8f3ec9d.chunk.js": "/solid-Ecommerce-app/static/js/574.a8f3ec9d.chunk.js",
     "static/css/457.ae17a619.chunk.css": "/solid-Ecommerce-app/static/css/457.ae17a619.chunk.css",
-    "static/js/457.af6a8cb1.chunk.js": "/solid-Ecommerce-app/static/js/457.af6a8cb1.chunk.js",
+    "static/js/457.5e2ca7fe.chunk.js": "/solid-Ecommerce-app/static/js/457.5e2ca7fe.chunk.js",
     "static/css/829.ae17a619.chunk.css": "/solid-Ecommerce-app/static/css/829.ae17a619.chunk.css",
     "static/js/829.4c7c0413.chunk.js": "/solid-Ecommerce-app/static/js/829.4c7c0413.chunk.js",
     "static/css/462.ae17a619.chunk.css": "/solid-Ecommerce-app/static/css/462.ae17a619.chunk.css",
@@ -56,10 +56,10 @@
     "static/media/post4.webp": "/solid-Ecommerce-app/static/media/post4.5bd0fba345c65b38eb99.webp",
     "index.html": "/solid-Ecommerce-app/index.html",
     "main.795458b8.css.map": "/solid-Ecommerce-app/static/css/main.795458b8.css.map",
-    "main.ea423f81.js.map": "/solid-Ecommerce-app/static/js/main.ea423f81.js.map",
+    "main.47f1f08f.js.map": "/solid-Ecommerce-app/static/js/main.47f1f08f.js.map",
     "574.a8f3ec9d.chunk.js.map": "/solid-Ecommerce-app/static/js/574.a8f3ec9d.chunk.js.map",
     "457.ae17a619.chunk.css.map": "/solid-Ecommerce-app/static/css/457.ae17a619.chunk.css.map",
-    "457.af6a8cb1.chunk.js.map": "/solid-Ecommerce-app/static/js/457.af6a8cb1.chunk.js.map",
+    "457.5e2ca7fe.chunk.js.map": "/solid-Ecommerce-app/static/js/457.5e2ca7fe.chunk.js.map",
     "829.ae17a619.chunk.css.map": "/solid-Ecommerce-app/static/css/829.ae17a619.chunk.css.map",
     "829.4c7c0413.chunk.js.map": "/solid-Ecommerce-app/static/js/829.4c7c0413.chunk.js.map",
     "462.ae17a619.chunk.css.map": "/solid-Ecommerce-app/static/css/462.ae17a619.chunk.css.map",
@@ -101,6 +101,6 @@
   },
   "entrypoints": [
     "static/css/main.795458b8.css",
-    "static/js/main.ea423f81.js"
+    "static/js/main.47f1f08f.js"
   ]
 }
