@@ -144,11 +144,11 @@ const SingleProduct = () => {
           className="  pt-14 md:px-2 flex flex-col md:flex-row gap-0 md:gap-2 md:w-12/12
              lg:w-11/12 xl:w-10/12 md:pt-20 md:justify-center md:mx-auto"
         >
-          <div className="bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
-            <div className="p-2 md:p-2 relative flex ">
+          <div className="relative bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
+            <div className="p-2 md:p-2  flex  mx-auto h-96 w-56">
               <Carousel
                 dotColor="bg-white md:bg-black"
-                style={["md: w-72  mx-auto max-md:my-auto"]}
+                style={[""]}
               >
                 {images.map((img,id) => {
                   return (
@@ -156,7 +156,7 @@ const SingleProduct = () => {
                       src={img}
                       alt=""
                       onLoad={() => setLoaded(true)}
-                      className=" object-cover h-80"
+                      className=" object-contain"
                       key={id}
                     />
                   );

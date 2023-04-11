@@ -20,7 +20,7 @@ const Product = memo(({ product }) => {
     <div className=" bg-gray-50  shadow-md rounded-md   flex flex-col   cursor-pointer">
       <Link to={`/product/?id=${product._id}`}>
         <div className="mx-auto flex flex-col">
-          <div className="p-2 mx-auto">
+          <div className="p-3 mx-auto">
             <img
               src={product.images[0]}
               alt="img"

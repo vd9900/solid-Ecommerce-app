@@ -35,20 +35,20 @@ const Carousel = ({
       </div>
       <div
         className={`${
-          hideTools ? "hidden" : "hidden md:flex"
-        }  absolute bottom-2/4   w-full justify-between p-4`}
+          hideTools ? "hidden" : "flex"
+        }  absolute bottom-3/4  w-full justify-between p-4`}
       >
         <button
           onClick={prev}
-          className="p-1 rounded-full shadow  text-gray-800 "
+          className=" p-1 rounded-full shadow  text-gray-800 "
         >
-          <TfiArrowCircleLeft size={25} />
-        </button>
+          <TfiArrowCircleLeft className="" size={30} />
+        </button> 
         <button
           onClick={next}
           className="p-1 rounded-full shadow  text-gray-800 "
         >
-          <TfiArrowCircleRight size={25} />
+          <TfiArrowCircleRight size={30} />
         </button>
       </div>
 
