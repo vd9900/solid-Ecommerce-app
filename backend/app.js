@@ -29,16 +29,17 @@ app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: "keyboardcat",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    httpOnly: true,
     store: MongoStore.create({
       mongoUrl:
         "mongodb+srv://new-user_99:9900787798@cluster0.koih8os.mongodb.net/?retryWrites=true&w=majority",
     }),
     cookie: {
-      sameSite: "lax",
-      secure: "auto",
+      sameSite: "none",
+      secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
       httpOnly: "true",
     },

@@ -111,7 +111,6 @@ exports.forgotPassword = async (req, res, next) => {
       let randomNum = (Math.floor(Math.random() * 9000) + 1000).toString();
       console.log(randomNum);
       req.session.otp = randomNum;
-      req.checkotp = randomNum;
 
       sendEmail(req.body.email, randomNum)
         .then((message) => {
@@ -186,9 +185,9 @@ exports.getuserDetail = async (req, res, next) => {
 
 exports.checkOTP = async (req, res) => {
   console.log("hello", req.query.otp);
-  console.log("me",  req.checkotp);
+  console.log("me", req.session.otp);
   try {
-    if (req.query.otp ===  req.checkotp) {
+    if (req.query.otp === req.session.otp) {
       req.session.isMatched = true;
       res.status(200).json({
         success: true,
