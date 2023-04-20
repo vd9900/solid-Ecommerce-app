@@ -15,6 +15,7 @@ const logger = require("morgan");
 const app = express();
 
 // Middleware
+
 app.use(logger("dev"));
 app.use(
   cors({
@@ -31,6 +32,10 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      secure: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
   })
 );
 
