@@ -28,7 +28,7 @@ const Main = () => {
     initialValues: { fullname: "", address: "", city: "", country: "" },
     validateOnBlur: true,
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       dispatch(UserAddress(values));
       navigate("/payment");
     },

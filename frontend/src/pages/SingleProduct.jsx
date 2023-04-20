@@ -54,7 +54,7 @@ const SingleProduct = () => {
 
   const search = useLocation().search;
   const id = new URLSearchParams(search).get("id");
-  console.log(id);
+  // console.log(id);
   // const { clickedProduct } = useSelector((state) => state.productsStore);
   const { data, isLoading, isSuccess, refetch, isFetching } = useProductQuery(
     id,
@@ -62,8 +62,8 @@ const SingleProduct = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-  console.log(data);
-  console.log(data?.message?.images);
+  // console.log(data);
+  // console.log(data?.message?.images);
   const [
     addToCart,
     {
@@ -99,7 +99,7 @@ const SingleProduct = () => {
     if (!isCartClicked) {
       setToggleAddToCart(true);
       setIsCartClicked(true);
-      console.log(data.message?._id);
+      // console.log(data.message?._id);
       addToCart({
         product: id,
       });
@@ -145,7 +145,7 @@ const SingleProduct = () => {
              lg:w-11/12 xl:w-10/12 md:pt-20 md:justify-center md:mx-auto"
         >
           <div className="relative bg-white h-full  md:w-5/12 lg:w-4/12  rounded-md shadow-md">
-            <div className="p-2 md:p-2  flex  mx-auto h-96 w-56">
+            <div className="p-2 md:p-2  flex  mx-auto md:h-96 w-52">
               <Carousel dotColor="bg-white md:bg-black" style={[""]}>
                 {images.map((img, id) => {
                   return (

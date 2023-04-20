@@ -24,12 +24,12 @@ const getCookie = (cookie) => {
   if (myCookie) return myCookie.split("=")[1];
 };
 
-console.log("tikeo", getCookie("_auth"));
+// console.log("tikeo", getCookie("_auth"));
 export const emptySplitApi = createApi({
   reducerPath: "apisInfo",
   baseQuery: fetchBaseQuery({
-    // baseUrl: "http://localhost:5000",
-    baseUrl: "https://solid-ecommerce.onrender.com/",
+    baseUrl: "http://localhost:5000",
+    // baseUrl: "https://solid-ecommerce.onrender.com/",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       // const token = getState().auth.access?.token;

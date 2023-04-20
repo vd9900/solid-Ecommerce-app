@@ -31,11 +31,11 @@ const Mycart = () => {
   } = useCartsQuery(undefined, {
     refetchOnMountOrArgChange: true,
     onSuccess: (data) => {
-      console.log("halamti habbi", data); // Do something with the carts data here
+      // console.log("halamti habbi", data); // Do something with the carts data here
     },
   });
   const [deleteFromCart] = useDeleteFromCartMutation();
-  console.log(carts);
+  // console.log(carts);
   //storing cart in gobal store
   const dispatch = useDispatch();
   if (isError) {
@@ -55,7 +55,7 @@ const Mycart = () => {
         return a + v.price;
       }, 0);
 
-      console.log(totalValue);
+      // console.log(totalValue);
       const cartInfo = {
         total: totalValue,
         products: newCarts,
@@ -64,8 +64,8 @@ const Mycart = () => {
     }
   }, [carts, dispatch, isSuccess]);
 
-  console.log(carts);
-  console.log(error);
+  // console.log(carts);
+  // console.log(error);
   //total price of the products
   const { products, total } = useSelector((state) => state.cartsStore);
   useEffect(() => {

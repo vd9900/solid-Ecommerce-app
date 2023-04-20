@@ -9,8 +9,8 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 import { HiOutlineChevronDoubleRight } from "react-icons/hi";
 const Order = () => {
   const { isLoading, data, error,isFetching } = useGetOrderDetailsQuery();
-  console.log(data);
-  console.log("error", error);
+  // console.log(data);
+  // console.log("error", error);
 
   return (
     <div className="max-w-screen h-screen bg-gray-100">

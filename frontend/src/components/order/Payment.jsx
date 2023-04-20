@@ -21,7 +21,7 @@ const Payment = () => {
   const navigate = useNavigate();
   const [createOrder, { isSuccess, data, isLoading }] =
     useCreateOrderMutation();
-  console.log(data);
+  // console.log(data);
   const formik = useFormik({
     initialValues: {
       cardnumber: "",
@@ -33,7 +33,7 @@ const Payment = () => {
     validateOnBlur: true,
     onSubmit: (values) => {
       const orderInfo = { ...cartInfo, ...userAddressInfo };
-      console.log(orderInfo);
+      // console.log(orderInfo);
       createOrder(orderInfo);
     },
     validationSchema: validationSchema,

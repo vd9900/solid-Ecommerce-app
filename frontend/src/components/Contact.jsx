@@ -11,7 +11,7 @@ const Contact = () => {
   const auth = useAuthUser();
   const message = useRef();
   const handleMessage = (e) => {
-    console.log(auth().email);
+    // console.log(auth().email);
     e.preventDefault();
     if (!message.current.value) return;
     const formData = {
@@ -30,13 +30,13 @@ const Contact = () => {
         (result) => {
           setLoading(false);
           setIsSubmited(true);
-          console.log(result.text);
+          // console.log(result.text);
           e.target.reset();
         },
         (error) => {
           setLoading(false);
           setIsSubmited(false);
-          console.log(error.text);
+          // console.log(error.text);
         }
       );
   };

@@ -41,9 +41,9 @@ const Login = () => {
 
   const onSubmit = async (values) => {};
 
-  console.log("data", data);
-  console.log("error", error);
-  console.log("loading", isLoading);
+  // console.log("data", data);
+  // console.log("error", error);
+  // console.log("loading", isLoading);
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },

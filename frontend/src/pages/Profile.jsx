@@ -46,7 +46,7 @@ const Profile = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log(userInfoDetailError);
+  // console.log(userInfoDetailError);
   //update user info
   const [
     updateUserInfo,
@@ -74,7 +74,7 @@ const Profile = () => {
   ] = useUploadProfileMutation();
 
   const userData = data?.message;
-  console.log("fetching", isuploadProfileFetching);
+  // console.log("fetching", isuploadProfileFetching);
   // input validation
   const formik = useFormik({
     initialValues: { email: "", username: "" },

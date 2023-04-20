@@ -33,7 +33,7 @@ const SeeAll = () => {
   const searchParams = new URLSearchParams({
     ...filterDetails,
   }).toString();
-  console.log(filterDetails);
+  // console.log(filterDetails);
 
   // fetch data
   const { data, isLoading, isSuccess, isFetching, isError, error } =
@@ -41,7 +41,7 @@ const SeeAll = () => {
 
   // error handling with  errorboundary
   if (isError) {
-    console.log(error)
+    // console.log(error)
 
   }
 
@@ -56,7 +56,7 @@ const SeeAll = () => {
 
   const isInitialMount = useRef(true);
   const delayedValue = useDebounce(priceValue, 600);
-  console.log(delayedValue);
+  // console.log(delayedValue);
 
   // filter input function handles
   //price

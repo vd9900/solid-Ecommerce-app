@@ -10,7 +10,7 @@ const SingleOrder = () => {
   const search = useLocation().search;
   const order = new URLSearchParams(search).get("order");
   const { data, error, isLoading } = useGetSignaleOrderDetailsQuery(order);
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="bg-gray-100 max-w-screen h-screen">

@@ -15,7 +15,7 @@ const options = {
 };
 
 const Product = memo(({ product }) => {
-  console.log(product);
+  // console.log(product);
   return (
     <div className=" bg-gray-50  shadow-md rounded-md   flex flex-col   cursor-pointer">
       <Link to={`/product/?id=${product._id}`}>

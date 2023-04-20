@@ -49,7 +49,7 @@ const Home = () => {
   const { data, isLoading, isSuccess } = useProductsQuery({
     keepUnusedData: true,
   });
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="max-w-screen ">
