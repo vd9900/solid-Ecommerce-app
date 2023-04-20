@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(
   session({
-    secret: config.domain,
+    secret: "verysecret",
     store: MongoStore.create({
       mongoUrl:
         "mongodb+srv://new-user_99:9900787798@cluster0.koih8os.mongodb.net/?retryWrites=true&w=majority",
