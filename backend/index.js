@@ -10,21 +10,24 @@ const connectDB = require("./config/database");
 //configration
 require("dotenv").config();
 connectDB();
-const CPU_cores = os.cpus().length;
+// const CPU_cores = os.cpus().length;
 
-if (cluster.isMaster) {
-  for (i = 0; i < CPU_cores; i++) {
-    cluster.fork();
-  }
-  cluster.on("exit", () => {
-    cluster.fork();
-  });
-} else {
-  app.listen(process.env.PORT, (e) => {
-    console.log(`Server running on http://localhost:${process.env.PORT}`);
-  });
-  console.log(`working cluster is ${process.pid}`);
-}
+// if (cluster.isMaster) {
+//   for (i = 0; i < CPU_cores; i++) {
+//     cluster.fork();
+//   }
+//   cluster.on("exit", () => {
+//     cluster.fork();
+//   });
+// } else {
+//   app.listen(process.env.PORT, (e) => {
+//     console.log(`Server running on http://localhost:${process.env.PORT}`);
+//   });
+//   console.log(`working cluster is ${process.pid}`);
+// }
+app.listen(process.env.PORT, (e) => {
+  console.log(`Server running on http://localhost:${process.env.PORT}`);
+});
 
 //unhandled Promise Rejection
 // process.on("unhandledRejection",
