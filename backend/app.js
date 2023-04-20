@@ -29,20 +29,16 @@ app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(
   session({
-    secret: "keyboardcat",
-    resave: false,
-    saveUninitialized: true,
-    httpOnly: true,
+    secret: config.domain,
     store: MongoStore.create({
       mongoUrl:
         "mongodb+srv://new-user_99:9900787798@cluster0.koih8os.mongodb.net/?retryWrites=true&w=majority",
+      autoRemoveInterval: 15 * 60 * 1000,
     }),
-    cookie: {
-      sameSite: "none",
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-      httpOnly: "true",
-    },
+    resave: false, // we support the touch method so per the express-session docs this should be set to false
+    proxy: true, // if you do SSL outside of node.
+    saveUninitialized: true,
+    cookie: { secure: true, sameSite: "none" },
   })
 );
 
