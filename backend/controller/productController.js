@@ -29,7 +29,7 @@ exports.getAllProducts = async (req, res) => {
       .sort({ price: -1 })
       .limit(1)
       .catch((erro) => 10000);
-    console.log(maxPriceValue, minPriceValue);
+    // console.log(maxPriceValue, minPriceValue);
     if (req.query.price) {
       match.price = {};
       match.price["$gte"] = req.query?.price?.gte;
@@ -102,7 +102,7 @@ exports.getAllProducts = async (req, res) => {
       paginationCount = Math.ceil(productCount / req.query.limit);
     }
     const products = await query;
-    console.log(products);
+    // console.log(products);
     res.status(200).json({
       products: products,
       minPriceValue: minPriceValue[0]?.price || 10,
@@ -118,7 +118,7 @@ exports.getAllProducts = async (req, res) => {
 };
 
 exports.getProductDetails = catchAsyncError(async (req, res, next) => {
-  console.log(req.query.id);
+  // console.log(req.query.id);
   const product = await Product.findById(req.query.id);
   if (!product) {
     return next(new ErrorHandler("Proudct not found", 404));
@@ -132,7 +132,7 @@ exports.getProductDetails = catchAsyncError(async (req, res, next) => {
 // Create Product
 
 exports.createProduct = catchAsyncError(async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,

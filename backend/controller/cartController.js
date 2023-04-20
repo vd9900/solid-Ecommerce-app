@@ -15,7 +15,7 @@ exports.getAllCart = async (req, res) => {
           if (cart) {
             let cartItems = [];
             cart.cartProducts.forEach((item, index) => {
-              console.log(item);
+              // console.log(item);
               cartItems.push({
                 _id: item.product._id.toString(),
                 name: item.product.name,
@@ -26,7 +26,7 @@ exports.getAllCart = async (req, res) => {
                 numberOfReviews: item.product.numberOfReviews, // corrected
               });
             });
-            console.log(cartItems);
+            // console.log(cartItems);
             res.status(200).json(cartItems);
           }
         });
@@ -55,7 +55,7 @@ exports.addNewCart = async (req, res) => {
         return res.json(updatedCart);
       }
     } else {
-      console.log("debug");
+      // console.log("debug");
       const newCart = new Cart({
         user: req.user._id,
         cartProducts: [{ product: req.body.product }],

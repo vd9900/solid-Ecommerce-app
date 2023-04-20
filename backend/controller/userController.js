@@ -24,7 +24,7 @@ exports.registerUser = async (req, res, next) => {
 
     const { username, email, password } = req.body;
     const securePass = await hashPassword(password);
-    console.log(req.body);
+    // console.log(req.body);
     const newUser = await user.create({
       username,
       email: String(email).toLowerCase(),
@@ -35,7 +35,7 @@ exports.registerUser = async (req, res, next) => {
       },
     });
 
-    console.log(newUser);
+    // console.log(newUser);
     newUser.save((err) => {
       if (err)
         return res
@@ -56,7 +56,7 @@ exports.registerUser = async (req, res, next) => {
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   //   check exist & correct password
   try {
     if (!email || !password) {
@@ -98,7 +98,7 @@ exports.logout = async (req, res, next) => {
 
 exports.forgotPassword = async (req, res, next) => {
   const email = String(req?.query?.email).toLowerCase();
-  console.log(email);
+  // console.log(email);
   try {
     const User = await user.findOne({ email: email });
     if (!User) {
@@ -111,6 +111,7 @@ exports.forgotPassword = async (req, res, next) => {
       let randomNum = (Math.floor(Math.random() * 9000) + 1000).toString();
       console.log(randomNum);
       req.session.otp = randomNum;
+      req.checkotp = randomNum;
 
       sendEmail(req.body.email, randomNum)
         .then((message) => {
@@ -133,11 +134,11 @@ exports.forgotPassword = async (req, res, next) => {
 // upload user profile image
 
 exports.addUserProfileImage = async (req, res, next) => {
-  console.log(
-    process.env.CLOUD_NAME,
-    process.env.CLOUD_API_KEY,
-    process.env.CLOUD_SECRET
-  );
+  // console.log(
+  //   process.env.CLOUD_NAME,
+  //   process.env.CLOUD_API_KEY,
+  //   process.env.CLOUD_SECRET
+  // );
   const { image } = req.body;
   try {
     const result = await storeImage.uploader.upload(image, {
@@ -185,9 +186,9 @@ exports.getuserDetail = async (req, res, next) => {
 
 exports.checkOTP = async (req, res) => {
   console.log("hello", req.query.otp);
-  console.log("me", req.session.otp);
+  console.log("me",  req.checkotp);
   try {
-    if (req.query.otp === req.session.otp) {
+    if (req.query.otp ===  req.checkotp) {
       req.session.isMatched = true;
       res.status(200).json({
         success: true,

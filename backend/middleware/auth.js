@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 exports.isAuthenticatedUser = async (req, res, next) => {
   try {
     const _auth = await req.headers.authorization;
-    console.log("token is here", _auth);
+    // console.log("token is here", _auth);
     if (!_auth) {
       res.status(401).json({ error: "Please login first" });
     } else {

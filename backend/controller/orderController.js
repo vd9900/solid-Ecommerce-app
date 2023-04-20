@@ -4,8 +4,8 @@ const Product = require("../models/productModel");
 //create new order
 
 exports.newOrder = async (req, res) => {
-  console.log(req.body);
-  console.log("lsdkfl");
+  // console.log(req.body);
+  // console.log("lsdkfl");
   const newOrder = await Order.create({
     fullname: req.body.fullname,
     shippingInfo: {
@@ -34,7 +34,7 @@ exports.getOneOrder = async (req, res) => {
     if (!order)
       return res.status(404).json({ success: false, error: "Order not exist" });
 
-    console.log(order,"here");
+    // console.log(order,"here");
     res.status(200).json({
       sucess: true,
       message: order,
@@ -50,7 +50,7 @@ exports.getOneOrder = async (req, res) => {
 
 //get login user order
 exports.myOrders = async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   try {
     const order = await Order.find({ user: req.user._id }).select([
       "fullname",
@@ -61,7 +61,7 @@ exports.myOrders = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "Order not exist" });
-    console.log(order);
+    // console.log(order);
     res.status(200).json({
       sucess: true,
       message: order,
