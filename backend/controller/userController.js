@@ -43,7 +43,7 @@ exports.registerUser = async (req, res, next) => {
           .json({ sucess: false, error: "Something went wrong" });
       res.status(201).json({ sucess: true, data: "new account created" });
     });
-    sendToken(res, newUser, 201);
+    await sendToken(res, newUser, 201);
   } catch (error) {
     res
       .status(500)
@@ -110,10 +110,10 @@ exports.forgotPassword = async (req, res, next) => {
       // generate random 4 digit otp
       let randomNum = (Math.floor(Math.random() * 9000) + 1000).toString();
       console.log(randomNum);
+      req.session.otp = randomNum;
 
       sendEmail(req.body.email, randomNum)
         .then((message) => {
-          req.session.otp = randomNum;
           res.status(200).json({
             sucess: true,
             message: message,

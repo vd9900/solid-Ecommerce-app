@@ -2,15 +2,19 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 exports.isAuthenticatedUser = async (req, res, next) => {
-  const _auth = await req.headers.authorization;
-  console.log("token is here", _auth);
-  if (!_auth) {
-    res.status(401).json({ error: "Please login first" });
-  } else {
-    const decodedData = jwt.verify(_auth, "GJ78LHUILY0HKLHKJ8T7GFHG");
-    req.user = await User.findById(decodedData.id);
+  try {
+    const _auth = await req.headers.authorization;
+    console.log("token is here", _auth);
+    if (!_auth) {
+      res.status(401).json({ error: "Please login first" });
+    } else {
+      const decodedData = await jwt.verify(_auth, "GJ78LHUILY0HKLHKJ8T7GFHG");
+      req.user = await User.findById(decodedData.id);
 
-    next();
+      next();
+    }
+  } catch (error) {
+    res.status(500).json({ error: "something went wrong!" });
   }
 };
 
